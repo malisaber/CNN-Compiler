@@ -1,0 +1,38 @@
+﻿To Do List:
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳┃
+┃╳╭─────┬───────────────────────────────────────────────────────────────────────────────────────────────┬───────────────────╮╳┃
+┃╳│ #	│	Tasks																						│	status			│╳┃
+┃╳├─────┼───────────────────────────────────────────────────────────────────────────────────────────────┼───────────────────┤╳┃
+┃╳│	1	│	Add Input Layer 																			│	DONE!			│╳┃
+┃╳│	2	│	Add Output Layer																			│	DONE!			│╳┃
+┃╳│	4	│	Add Layer Class																				│	DONE!			│╳┃
+┃╳│	7	│	Issue: the mapper does not work well when several baselines ...								│	UNNECESSARY!	│╳┃
+┃╳│	10	│	Add reserve to the vectors, it helps to improve the time consumption						│	UNNECESSARY!	│╳┃
+┃╳│	11	│	Dedicated type for:	Data blocks																│	DONE!			│╳┃
+┃╳│	12	│	Dedicated type for:	Scheduling Nodes														│	DONE!			│╳┃
+┃╳│	15	│	Threat the zero block like an input, each time that a pe Uses it, ...						│	DONE!			│╳┃
+┃╳│	17	│	Remove ID field from Data Structure of DBID, SNID											│	NOT SAFE!		│╳┃
+┃╳│	19	│	Optimizing Dependency_Logger::Set_Data_Block_Home_Vault function							│	DONE!			│╳┃
+┃╳│	20	│	Is it possible to remove the Sch_Accumulate Node?											│	NOT SAFE!		│╳┃
+┃╳│	21	│	The maloc_DATA_IN is faulty																	│	FIXED!			│╳┃
+┃╳│	22	│	Remove all Internal data types																│	NOT SAFE!		│╳┃
+┃╳│	23	│	add definition for class members															│	DONE!			│╳┃
+┃╳│	24	│	What the fuck is this shit?																	│	I DONT KNOW! 	│╳┃
+┃╳│	25	│	Mapper needs to be re-designed																│	DONE!			│╳┃
+┃╳│	26	│	Mapping might be faulty, why does it always uses the vault 0 and 8?	...						│	FIXED!			│╳┃
+┃╳│	27	│	print allocation information on vault consumption 											│	UNNECESSARY!	│╳┃
+┃╳│	30	│	Change the flow, unify the functions														│	DONE!			│╳┃
+┃╳│	31	│	Mapper is faulty																			│	FIXED!			│╳┃
+┃╳│	32	│	add the suport of other window sizes														│					│╳┃
+┃╳│	33	│	add max check to the compiler (all should be 1 except "C-W-K")								│					│╳┃
+┃╳│	34	│	Multi-level Verbose system																	│					│╳┃
+┃╳│		│																								│					│╳┃
+┃╳│		│																								│					│╳┃
+┃╳╰─────┴───────────────────────────────────────────────────────────────────────────────────────────────┴───────────────────╯╳┃
+┃╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛	
+
+
+
