@@ -1,0 +1,100 @@
+
+#ifndef _MY_EVENT_CALLBACKER_
+#define _MY_EVENT_CALLBACKER_
+
+#include "common.h"
+
+#define MaxSize   	224
+#define Margine		10
+
+struct CallBack_Info_II
+{
+    volatile unsigned int* addr;
+    int bit;
+    void (*cb)(int,int);
+    int a1, a2;
+};
+
+struct CallBack_Info_I
+{
+    volatile unsigned int* addr;
+    int bit;
+    void (*cb)(int);
+    int a1;
+};
+
+struct CallBack_Info_0
+{
+    volatile unsigned int* addr;
+    int bit;
+    void (*cb)(void);
+};
+
+
+
+
+class EventCallBacker_II
+{
+private:
+//using Func = void();
+	CallBack_Info_II 	List[MaxSize   ];
+	unsigned int		Head;
+	unsigned int		Tail;
+	unsigned int		Leng;
+
+public:
+	EventCallBacker_II();
+	~EventCallBacker_II(){};
+	void Add_CallBack(volatile unsigned int * new_add, int new_pos, void(*new_callback)(int, int), int new_arg1, int new_arg2);
+	void Chk_CallBack();
+	int  CHk_CallBack_NB();
+
+private:
+	void CHk_CallBack_NBUS();
+};
+
+class EventCallBacker_I
+{
+private:
+//using Func = void();
+	CallBack_Info_I 	List[MaxSize   ];
+	unsigned int		Head;
+	unsigned int		Tail;
+	unsigned int		Leng;
+
+public:
+	EventCallBacker_I();
+	~EventCallBacker_I(){};
+	void Add_CallBack(volatile unsigned int * new_add, int new_pos, void(*new_callback)(int), int new_arg1);
+	void Chk_CallBack();
+	int  CHk_CallBack_NB();
+
+private:
+	void CHk_CallBack_NBUS();
+};
+
+class EventCallBacker_0
+{
+private:
+//using Func = void();
+	CallBack_Info_0 	List[MaxSize   ];
+	unsigned int		Head;
+	unsigned int		Tail;
+	unsigned int		Leng;
+
+public:
+	EventCallBacker_0();
+	~EventCallBacker_0(){};
+	void Add_CallBack(volatile unsigned int * new_add, int new_pos, void(*new_callback)(void));
+	void Chk_CallBack();
+	int  CHk_CallBack_NB();
+
+private:
+	void CHk_CallBack_NBUS();
+};
+
+
+
+
+
+#endif //_MY_EVENT_CALLBACKER_

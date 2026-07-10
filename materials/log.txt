@@ -1,0 +1,15 @@
+log file to log changes 
+
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+|**************************************************************************************|
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+there is no record of what i've done before V3, that's belong to aceint history 
+there is V3 log:
+
+				1-	removing check address function becasue those are time consuming 
+				2-	change function type to void functions
+				3-	check status functions are blocking
+				4-	change some accelerator's bit position (V4.2)
+	elevated	5-	Adding pattern to the Store Agent Addressing unit 
+	

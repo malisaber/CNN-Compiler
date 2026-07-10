@@ -32,10 +32,10 @@ class Code_Generator
 public:
 
 	// Initialize empty generator state.
-	Code_Generator();
+	Code_Generator									();
 
 	// Destroy generator (no explicit resource cleanup required).
-	~Code_Generator();
+	~Code_Generator									();
 
 
 	// Import ordering from Dependency_Logger and build CG_PEs/CG_MPDRs structures.

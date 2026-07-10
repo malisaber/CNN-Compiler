@@ -1,0 +1,316 @@
+#include "EventCallBacker.h"
+
+
+
+
+EventCallBacker_II::EventCallBacker_II()
+{
+	Head = 0;
+	Tail = 0;
+	Leng = 0;
+}
+
+void EventCallBacker_II::Add_CallBack(volatile unsigned int * new_add, int new_pos, void(*new_callback)(int, int), int new_arg1, int new_arg2)
+{
+	Disable_GINT();
+	List[Head] = {new_add, new_pos, new_callback, new_arg1, new_arg2};
+	Head++;
+	Leng++;
+	if (Head == MaxSize   )
+		Head -= MaxSize   ;
+	if (Leng >= (MaxSize   -Margine))
+		CHk_CallBack_NBUS();
+	Enable_GINT();
+}
+
+void EventCallBacker_II::Chk_CallBack()
+{
+	unsigned int val;
+	int eadd;
+	while (Leng > 0)
+	{
+		Disable_GINT();
+		for (unsigned int i=0; i<Leng; i++)
+		{
+			eadd = Tail + i;
+			if (eadd >= MaxSize   )
+				eadd -= MaxSize   ;
+			val = (*(List[eadd].addr));
+			val = val & (1u << (List[eadd].bit));
+			if (val)
+			{
+				List[eadd].cb(List[eadd].a1, List[eadd].a2);
+				List[eadd] = List[Tail];
+				Tail++;
+				Leng--;
+				if (Tail == MaxSize   )
+					Tail -= MaxSize   ;
+				break;
+			}
+		}
+		Enable_GINT();
+	}
+}
+
+int  EventCallBacker_II::CHk_CallBack_NB()
+{
+	unsigned int val;
+	int eadd;
+	Disable_GINT();
+	for (unsigned int i=0; i<Leng; i++)
+	{
+		eadd = Tail + i;
+		if (eadd >= MaxSize   )
+			eadd -= MaxSize   ;
+		val = (*(List[eadd].addr));
+		val = val & (1u << (List[eadd].bit));
+		if (val)
+		{
+			List[eadd].cb(List[eadd].a1, List[eadd].a2);
+			List[eadd] = List[Tail];
+			Tail++;
+			Leng--;
+			if (Tail == MaxSize   )
+				Tail -= MaxSize   ;
+			break;
+		}
+	}
+	Enable_GINT();
+	return Leng;
+}
+
+void EventCallBacker_II::CHk_CallBack_NBUS()
+{
+	unsigned int val;
+	int eadd;
+	for (unsigned int i=0; i<Leng; i++)
+	{
+		eadd = Tail + i;
+		if (eadd >= MaxSize   )
+			eadd -= MaxSize   ;
+		val = (*(List[eadd].addr));
+		val = val & (1u << (List[eadd].bit));
+		if (val)
+		{
+			List[eadd].cb(List[eadd].a1, List[eadd].a2);
+			List[eadd] = List[Tail];
+			Tail++;
+			Leng--;
+			if (Tail == MaxSize   )
+				Tail -= MaxSize   ;
+			break;
+		}
+	}
+}
+
+
+
+
+EventCallBacker_I::EventCallBacker_I()
+{
+	Head = 0;
+	Tail = 0;
+	Leng = 0;
+}
+
+void EventCallBacker_I::Add_CallBack(volatile unsigned int * new_add, int new_pos, void(*new_callback)(int), int new_arg1)
+{
+	Disable_GINT();
+	List[Head] = {new_add, new_pos, new_callback, new_arg1};
+	Head++;
+	Leng++;
+	if (Head == MaxSize   )
+		Head -= MaxSize   ;
+	if (Leng >= (MaxSize   -Margine))
+		CHk_CallBack_NBUS();
+	Enable_GINT();
+}
+
+void EventCallBacker_I::Chk_CallBack()
+{
+	unsigned int val;
+	int eadd;
+	while (Leng > 0)
+	{
+		Disable_GINT();
+		for (unsigned int i=0; i<Leng; i++)
+		{
+			eadd = Tail + i;
+			if (eadd >= MaxSize   )
+				eadd -= MaxSize   ;
+			val = (*(List[eadd].addr));
+			val = val & (1u << (List[eadd].bit));
+			if (val)
+			{
+				List[eadd].cb(List[eadd].a1);
+				List[eadd] = List[Tail];
+				Tail++;
+				Leng--;
+				if (Tail == MaxSize   )
+					Tail -= MaxSize   ;
+				break;
+			}
+		}
+		Enable_GINT();
+	}
+}
+
+int  EventCallBacker_I::CHk_CallBack_NB()
+{
+	unsigned int val;
+	int eadd;
+	Disable_GINT();
+	for (unsigned int i=0; i<Leng; i++)
+	{
+		eadd = Tail + i;
+		if (eadd >= MaxSize   )
+			eadd -= MaxSize   ;
+		val = (*(List[eadd].addr));
+		val = val & (1u << (List[eadd].bit));
+		if (val)
+		{
+			List[eadd].cb(List[eadd].a1);
+			List[eadd] = List[Tail];
+			Tail++;
+			Leng--;
+			if (Tail == MaxSize   )
+				Tail -= MaxSize   ;
+			break;
+		}
+	}
+	Enable_GINT();
+	return Leng;
+}
+
+void EventCallBacker_I::CHk_CallBack_NBUS()
+{
+	unsigned int val;
+	int eadd;
+	for (unsigned int i=0; i<Leng; i++)
+	{
+		eadd = Tail + i;
+		if (eadd >= MaxSize   )
+			eadd -= MaxSize   ;
+		val = (*(List[eadd].addr));
+		val = val & (1u << (List[eadd].bit));
+		if (val)
+		{
+			List[eadd].cb(List[eadd].a1);
+			List[eadd] = List[Tail];
+			Tail++;
+			Leng--;
+			if (Tail == MaxSize   )
+				Tail -= MaxSize   ;
+			break;
+		}
+	}
+}
+
+
+
+
+
+EventCallBacker_0::EventCallBacker_0()
+{
+	Head = 0;
+	Tail = 0;
+	Leng = 0;
+}
+
+void EventCallBacker_0::Add_CallBack(volatile unsigned int * new_add, int new_pos, void(*new_callback)(void))
+{
+	Disable_GINT();
+	List[Head] = {new_add, new_pos, new_callback};
+	Head++;
+	Leng++;
+	if (Head == MaxSize   )
+		Head -= MaxSize   ;
+	if (Leng >= (MaxSize   -Margine))
+		CHk_CallBack_NBUS();
+	Enable_GINT();
+}
+
+void EventCallBacker_0::Chk_CallBack()
+{
+	unsigned int val;
+	int eadd;
+	while (Leng > 0)
+	{
+		Disable_GINT();
+		for (unsigned int i=0; i<Leng; i++)
+		{
+			eadd = Tail + i;
+			if (eadd >= MaxSize   )
+				eadd -= MaxSize   ;
+			val = (*(List[eadd].addr));
+			val = val & (1u << (List[eadd].bit));
+			if (val)
+			{
+				List[eadd].cb();
+				List[eadd] = List[Tail];
+				Tail++;
+				Leng--;
+				if (Tail == MaxSize   )
+					Tail -= MaxSize   ;
+				break;
+			}
+		}
+		Enable_GINT();
+	}
+}
+
+int  EventCallBacker_0::CHk_CallBack_NB()
+{
+	unsigned int val;
+	int eadd;
+	Disable_GINT();
+	for (unsigned int i=0; i<Leng; i++)
+	{
+		eadd = Tail + i;
+		if (eadd >= MaxSize   )
+			eadd -= MaxSize   ;
+		val = (*(List[eadd].addr));
+		val = val & (1u << (List[eadd].bit));
+		if (val)
+		{
+			List[eadd].cb();
+			List[eadd] = List[Tail];
+			Tail++;
+			Leng--;
+			if (Tail == MaxSize   )
+				Tail -= MaxSize   ;
+			break;
+		}
+	}
+	Enable_GINT();
+	return Leng;
+}
+
+void EventCallBacker_0::CHk_CallBack_NBUS()
+{
+	unsigned int val;
+	int eadd;
+	for (unsigned int i=0; i<Leng; i++)
+	{
+		eadd = Tail + i;
+		if (eadd >= MaxSize   )
+			eadd -= MaxSize   ;
+		val = (*(List[eadd].addr));
+		val = val & (1u << (List[eadd].bit));
+		if (val)
+		{
+			List[eadd].cb();
+			List[eadd] = List[Tail];
+			Tail++;
+			Leng--;
+			if (Tail == MaxSize   )
+				Tail -= MaxSize   ;
+			break;
+		}
+	}
+}
+
+
+
+
+
