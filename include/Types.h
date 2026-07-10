@@ -14,31 +14,34 @@ struct DBID_t
     unsigned long long value;
 
     // Construct a null/invalid ID (value = 0).
-    static constexpr DBID_t Null() { return DBID_t{ 0 }; }
+    static constexpr DBID_t Null					() { return DBID_t{ 0 }; }
 
     // Convert to index for vector access.
-    size_t index() const { return static_cast<size_t>(value); }
+    size_t index									() const { return static_cast<size_t>(value); }
 
     // Compare IDs for equality.
-    bool operator== (const DBID_t& other) const
+    bool operator==								 (
+														const DBID_t& other) const
     {
         return value == other.value;
     }
 
     // Compare ID against size_t (for bounds checks).
-    bool operator < (const size_t& other) const
+    bool operator <								 (
+														const size_t& other) const
     {
         return value < other;
     }
 
     // Prefix increment: ++id.
-    DBID_t& operator++() {
+    DBID_t& operator++							  () {
         ++value;        // increment first
         return *this;   // return self by reference
     }
 
     // Postfix increment: id++.
-    DBID_t operator++(int) {
+    DBID_t operator++							   (
+														int) {
         DBID_t temp = *this; // copy current value
         ++value;             // increment self
         return temp;         // return old value
@@ -51,31 +54,34 @@ struct SNID_t
     unsigned long long value;
 
     // Construct a null/invalid ID (value = 0).
-    static constexpr SNID_t Null() { return SNID_t{ 0 }; }
+    static constexpr SNID_t Null					() { return SNID_t{ 0 }; }
 
     // Convert to index for vector access.
-    size_t index() const { return static_cast<size_t>(value); }
+    size_t index									() const { return static_cast<size_t>(value); }
 
     // Compare IDs for equality.
-    bool operator== (const SNID_t& other) const
+    bool operator==								 (
+														const SNID_t& other) const
     {
         return value == other.value;
     }
 
     // Compare ID against size_t (for bounds checks).
-    bool operator < (const size_t& other) const
+    bool operator <								 (
+														const size_t& other) const
     {
         return value < other;
     }
 
     // Prefix increment: ++id.
-    SNID_t& operator++() {
+    SNID_t& operator++							  () {
         ++value;        // increment first
         return *this;   // return self by reference
     }
 
     // Postfix increment: id++.
-    SNID_t operator++(int) {
+    SNID_t operator++							   (
+														int) {
         SNID_t temp = *this; // copy current value
         ++value;             // increment self
         return temp;         // return old value
@@ -83,13 +89,17 @@ struct SNID_t
 };
 
 // Stream-print a DBID_t as its index value.
-inline std::ostream& operator<<(std::ostream& os, const DBID_t& t)
+inline std::ostream& operator<<					 (
+														std::ostream& os,
+														const DBID_t& t)
 {
     return os << t.index();
 }
 
 // Stream-print an SNID_t as its index value.
-inline std::ostream& operator<<(std::ostream& os, const SNID_t& t)
+inline std::ostream& operator<<					 (
+														std::ostream& os,
+														const SNID_t& t)
 {
     return os << t.index();
 }

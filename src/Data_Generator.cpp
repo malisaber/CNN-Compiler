@@ -4,7 +4,7 @@
 
 
 // Initialize generator state and create a reserved null record at index 0.
-Data_Generator::Data_Generator							()
+Data_Generator::Data_Generator					  ()
 {
 	GIDF_cntr = 0;
 	GWDF_cntr = 0;
@@ -17,70 +17,76 @@ Data_Generator::Data_Generator							()
 
 
 // No-op destructor; storage is owned by STL containers.
-Data_Generator::~Data_Generator							()
+Data_Generator::~Data_Generator					 ()
 {
 
 }
 
 
 // Set inputs information getting from network
-void	Data_Generator::Get_Inps_info					(NETWORK* NET)
+void	Data_Generator::Get_Inps_info			   (
+														NETWORK* NET)
 {
 	NET->Get_input_sizes(Inps_linfo, Inps_minfo, Inps_lid);
 }
 
 
 // Set weights information getting from network
-void	Data_Generator::Get_Wgts_info					(NETWORK* NET)
+void	Data_Generator::Get_Wgts_info			   (
+														NETWORK* NET)
 {
 	NET->Get_weight_sizes(Wgts_linfo, Wgts_minfo, Wgts_lid);
 }
 
 
 // Return number of generator input files.
-size_t Data_Generator::Generated_Input_files_size		()
+size_t Data_Generator::Generated_Input_files_size   ()
 {
 	return GIDF_cntr;
 }
 
 
 // Return number of generator Weight stored.
-size_t Data_Generator::Generated_Weight_files_size		()
+size_t Data_Generator::Generated_Weight_files_size  ()
 {
 	return GWDF_cntr;
 }
 
 
 // Return number of generator Zero stored.
-size_t Data_Generator::Generated_Zero_files_size		()
+size_t Data_Generator::Generated_Zero_files_size	()
 {
 	return GZDF_cntr;
 }
 
 
 // Return number of generator records stored.
-size_t	Data_Generator::Generated_file_size				()
+size_t	Data_Generator::Generated_file_size		 ()
 {
 	return GIDF_cntr + GWDF_cntr + GZDF_cntr;
 }
 
 
 // Load input files' name 
-void	Data_Generator::load_input_files				(std::vector<std::filesystem::path> names)
+void	Data_Generator::load_input_files			(
+														std::vector<std::filesystem::path> names)
 {
 	Inps_Fnames = names;
 }
 
 
 // Load weight files' name 
-void	Data_Generator::load_Weight_files				(std::vector<std::filesystem::path> names)
+void	Data_Generator::load_Weight_files		   (
+														std::vector<std::filesystem::path> names)
 {
 	Wgts_Fnames = names;
 }
 
 
 // Generate Data files
-void	Data_Generator::Generate						(Data_Logger* DG, std::filesystem::path dest)
+void	Data_Generator::Generate					(
+														Data_Logger* DG,
+														std::filesystem::path dest)
 {
 	// Generate input files:
 	for (size_t i = 0; i < Inps_lid.size(); i++)
@@ -104,7 +110,9 @@ void	Data_Generator::Generate						(Data_Logger* DG, std::filesystem::path dest)
 
 
 // Reading a binary file of input  data
-std::vector<uint16_t> Data_Generator::Read_binary_file	(std::filesystem::path& filename, size_t element_size)
+std::vector<uint16_t> Data_Generator::Read_binary_file(
+														std::filesystem::path& filename,
+														size_t element_size)
 {
 		std::ifstream fid(filename, std::ios::binary);
 		if (!fid) throw std::runtime_error("Could not open file: " + filename.string());
@@ -124,14 +132,25 @@ std::vector<uint16_t> Data_Generator::Read_binary_file	(std::filesystem::path& f
 
 // Convert the CHW idexed to absolute index
 // flat layout, index as img[b*C*FH*FW + c*FH*FW + w*FH + h]
-size_t	Data_Generator::Relative_2_Absolute_idx			(size_t b, size_t c, size_t w, size_t h, size_t B, size_t C, size_t W, size_t H)
+size_t	Data_Generator::Relative_2_Absolute_idx	 (
+														size_t b,
+														size_t c,
+														size_t w,
+														size_t h,
+														size_t B,
+														size_t C,
+														size_t W,
+														size_t H)
 {
 	return (b * C * H * W) + (c * H * W) + (w * H) + h;
 }
 
 
 // Generate data file for input layer x
-void	Data_Generator::Generate_IDF					(Data_Logger* DL, size_t idx, std::filesystem::path dest)
+void	Data_Generator::Generate_IDF				(
+														Data_Logger* DL,
+														size_t idx,
+														std::filesystem::path dest)
 {
 	size_t					cntr		= 0;
 	size_t					lid			= Inps_lid[idx];
@@ -194,7 +213,10 @@ void	Data_Generator::Generate_IDF					(Data_Logger* DL, size_t idx, std::filesys
 
 
 // Generate Weight data file for CNN layer x
-void	Data_Generator::Generate_WDF					(Data_Logger* DL, size_t idx, std::filesystem::path dest)
+void	Data_Generator::Generate_WDF				(
+														Data_Logger* DL,
+														size_t idx,
+														std::filesystem::path dest)
 {
 	size_t					cntr		= 0;
 	size_t					lid			= Wgts_lid[idx];
@@ -257,7 +279,9 @@ void	Data_Generator::Generate_WDF					(Data_Logger* DL, size_t idx, std::filesys
 
 
 // Generate Zero data files
-void	Data_Generator::Generate_ZDF					(Data_Logger* DL, std::filesystem::path dest)
+void	Data_Generator::Generate_ZDF				(
+														Data_Logger* DL,
+														std::filesystem::path dest)
 {
 	size_t					cntr = 0;
 	size_t					Data_size = DL->size();
@@ -300,7 +324,13 @@ void	Data_Generator::Generate_ZDF					(Data_Logger* DL, std::filesystem::path de
 
 
 // returning the value 
-size_t	Data_Generator::write_input_value				(std::ofstream& fid, std::vector<uint16_t> data, Conv_Layer_Info linfo, Conv_Layer_Info Dims, Conv_Layer_Info Idxs, bool* used)
+size_t	Data_Generator::write_input_value		   (
+														std::ofstream& fid,
+														std::vector<uint16_t> data,
+														Conv_Layer_Info linfo,
+														Conv_Layer_Info Dims,
+														Conv_Layer_Info Idxs,
+														bool* used)
 {
 	size_t cntr(0);
 
@@ -331,7 +361,13 @@ size_t	Data_Generator::write_input_value				(std::ofstream& fid, std::vector<uin
 
 
 // returning the weight value 
-size_t	Data_Generator::write_Weight_value				(std::ofstream& fid, std::vector<uint16_t> data, Conv_Layer_Info linfo, Conv_Layer_Info Dims, Conv_Layer_Info Idxs, bool* used)
+size_t	Data_Generator::write_Weight_value		  (
+														std::ofstream& fid,
+														std::vector<uint16_t> data,
+														Conv_Layer_Info linfo,
+														Conv_Layer_Info Dims,
+														Conv_Layer_Info Idxs,
+														bool* used)
 {
 	size_t cntr(0);
 
@@ -362,7 +398,9 @@ size_t	Data_Generator::write_Weight_value				(std::ofstream& fid, std::vector<ui
 
 
 // Writing a zero data block
-size_t	Data_Generator::write_zero_block				(std::ofstream& fid, Conv_Layer_Info Dims)
+size_t	Data_Generator::write_zero_block			(
+														std::ofstream& fid,
+														Conv_Layer_Info Dims)
 {
 	size_t cntr = Dims.Channel_size * Dims.Width_size;
 

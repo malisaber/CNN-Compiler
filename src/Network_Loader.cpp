@@ -26,7 +26,9 @@ const std::unordered_map<std::string, int>& LayerTypeMap()
 
 } // namespace
 
-void BuildNetworkFromFile(const std::filesystem::path& path, Compiler& compiler)
+void BuildNetworkFromFile							(
+														const std::filesystem::path& path,
+														Compiler& compiler)
 {
     std::ifstream in(path);
     if (!in)

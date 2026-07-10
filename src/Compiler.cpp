@@ -35,7 +35,8 @@ Compiler::~Compiler									()
 }
 
 
-void	Compiler::Compile							(bool verbose)
+void	Compiler::Compile							(
+														bool verbose)
 {
 	if (!Added_Lyr)			throw std::runtime_error("No Layers were added to the network;\nPlrase add some layers using ""Add_Layer_to_Notwork"" member.\n");
 	if (!Added_Dir)			throw std::runtime_error("No Dump Directory were added;\nPlrase add a Dump directory using ""Add_Dump_Directory"" member.\n");
@@ -71,7 +72,10 @@ void	Compiler::Compile							(bool verbose)
 
 
 // Rearrenges the dataset and weights
-void	Compiler::Rearreng_Data						(bool verbose, std::vector<std::filesystem::path>	Inps, std::vector<std::filesystem::path>	Wgts)
+void	Compiler::Rearreng_Data						(
+														bool verbose,
+														std::vector<std::filesystem::path>	Inps,
+														std::vector<std::filesystem::path>	Wgts)
 {
 	if (!Compiled)	throw std::runtime_error("Please Compile Before re-arrenging the dataset.\n");
 
@@ -88,7 +92,10 @@ void	Compiler::Rearreng_Data						(bool verbose, std::vector<std::filesystem::pa
 
 
 // Adds layer to the network:
-size_t	Compiler::Add_Layer_to_Notwork				(Layer_2D_Types ltype, Conv_Layer_Info linfo, Conv_Layer_Info lmaxes)
+size_t	Compiler::Add_Layer_to_Notwork				(
+														Layer_2D_Types ltype,
+														Conv_Layer_Info linfo,
+														Conv_Layer_Info lmaxes)
 {
 	Added_Lyr = true;
 	return Network->Add_Layer(ltype, linfo, lmaxes);
@@ -96,7 +103,11 @@ size_t	Compiler::Add_Layer_to_Notwork				(Layer_2D_Types ltype, Conv_Layer_Info 
 
 
 // Adds layer to the network:
-size_t	Compiler::Add_Layer_to_Notwork				(Layer_2D_Types ltype, Conv_Layer_Info linfo, Conv_Layer_Info lmaxes, MaxP_Layer_Info MP_window)
+size_t	Compiler::Add_Layer_to_Notwork				(
+														Layer_2D_Types ltype,
+														Conv_Layer_Info linfo,
+														Conv_Layer_Info lmaxes,
+														MaxP_Layer_Info MP_window)
 {
 	Added_Lyr = true;
 	return Network->Add_Layer(ltype, linfo, lmaxes, MP_window);
@@ -104,7 +115,8 @@ size_t	Compiler::Add_Layer_to_Notwork				(Layer_2D_Types ltype, Conv_Layer_Info 
 
 
 // Adds a Dump location
-void	Compiler::Add_Dump_Directory				(std::filesystem::path dir)
+void	Compiler::Add_Dump_Directory				(
+														std::filesystem::path dir)
 {
 	if (!std::filesystem::exists(dir))	std::filesystem::create_directory(dir);
 
@@ -123,7 +135,9 @@ void	Compiler::Add_Dump_Directory				(std::filesystem::path dir)
 
 
 // Adds directory for saving generated data files 
-void	Compiler::Add_Data_Gen_Directory			(std::vector<std::filesystem::path> Inps, std::vector<std::filesystem::path> Wgts)
+void	Compiler::Add_Data_Gen_Directory			(
+														std::vector<std::filesystem::path> Inps,
+														std::vector<std::filesystem::path> Wgts)
 {
 	Inp_names = Inps;
 	Wgt_names = Wgts;
@@ -131,7 +145,8 @@ void	Compiler::Add_Data_Gen_Directory			(std::vector<std::filesystem::path> Inps
 
 
 // Adds a source directory 
-void	Compiler::Add_Material_Directory			(std::filesystem::path src)
+void	Compiler::Add_Material_Directory			(
+														std::filesystem::path src)
 {
 	CG_Matr_file	= src;
 	Added_Mtr		= true;
@@ -139,7 +154,8 @@ void	Compiler::Add_Material_Directory			(std::filesystem::path src)
 
 
 // Adds a source directory 
-void	Compiler::Add_Output_Directory				(std::filesystem::path src)
+void	Compiler::Add_Output_Directory				(
+														std::filesystem::path src)
 {
 	std::filesystem::create_directory(src / ("include"));
 	std::filesystem::create_directory(src / ("src"));
@@ -179,7 +195,8 @@ void	Compiler::Report							()
 
 
 // Builds the network and its dependencies
-void	Compiler::Build_Network						(bool verbose)
+void	Compiler::Build_Network						(
+														bool verbose)
 {
 	bool bit;
 
@@ -191,7 +208,8 @@ void	Compiler::Build_Network						(bool verbose)
 
 
 // Schedules the dependencies
-void	Compiler::Schedule_Dependencies				(bool verbose)
+void	Compiler::Schedule_Dependencies				(
+														bool verbose)
 {
 	size_t tmp;
 
@@ -205,7 +223,8 @@ void	Compiler::Schedule_Dependencies				(bool verbose)
 
 
 // Builds Executing threads
-void	Compiler::Build_Threads						(bool verbose)
+void	Compiler::Build_Threads						(
+														bool verbose)
 {
 	bool bit;
 
@@ -221,7 +240,8 @@ void	Compiler::Build_Threads						(bool verbose)
 
 
 // Maps the Nodes on the actual Hardware
-void	Compiler::Map								(bool verbose)
+void	Compiler::Map								(
+														bool verbose)
 {
 	bool bit;
 	size_t tmp;
@@ -241,7 +261,8 @@ void	Compiler::Map								(bool verbose)
 
 
 // Allocates the memory blocks
-void	Compiler::Allocate							(bool verbose)
+void	Compiler::Allocate							(
+														bool verbose)
 {
 	bool bit;
 	size_t Icnt;	// Input	Data Block Count
@@ -270,7 +291,8 @@ void	Compiler::Allocate							(bool verbose)
 
 
 // Generats the code
-void	Compiler::Generate_Codes					(bool verbose)
+void	Compiler::Generate_Codes					(
+														bool verbose)
 {
 	// Code Geneneration
 	if (verbose)	std::cout << "Running Code Generator Engine ..." << std::endl;

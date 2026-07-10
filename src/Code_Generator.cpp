@@ -9,7 +9,7 @@
 // - Clears ordering/PE/index containers (CG_MPDRs starts empty by default).
 // - Resets Imported/Extracted/Modified flags.
 // - Resets Max_PZero_per_Vault.
-Code_Generator::Code_Generator								()
+Code_Generator::Code_Generator						()
 {
 	Ordering.clear();
 	CG_PEs.clear();
@@ -22,7 +22,7 @@ Code_Generator::Code_Generator								()
 
 
 // No-op destructor; state is owned by STL containers and released automatically.
-Code_Generator::~Code_Generator								()
+Code_Generator::~Code_Generator					 ()
 {
 }
 
@@ -33,7 +33,8 @@ Code_Generator::~Code_Generator								()
 // - Builds CG_MPDRs per baseline if an MPDR node exists.
 // - Marks Extracted and removes empty baselines.
 // Returns true on successful extraction.
-bool Code_Generator::Extract_PE_Execution_Info				(Dependency_Logger* DpndL)
+bool Code_Generator::Extract_PE_Execution_Info		(
+														Dependency_Logger* DpndL)
 {
 	DpndL->Get_Ordering_Info(Ordering);
 	Imported = true;
@@ -93,7 +94,13 @@ bool Code_Generator::Extract_PE_Execution_Info				(Dependency_Logger* DpndL)
 // - Copies template runtime files into dest and emits main.cpp.
 // - Generates per-level execute/peripheral functions and per-baseline bodies.
 // Returns true on successful generation.
-bool Code_Generator::Code_Wizard							(Dependency_Logger* DpndL, Data_Logger* DataL, NETWORK* network, std::filesystem::path Src_fname, std::filesystem::path dst_fname, std::filesystem::path CGCW_Dump_dir)
+bool Code_Generator::Code_Wizard					(
+														Dependency_Logger* DpndL,
+														Data_Logger* DataL,
+														NETWORK* network,
+														std::filesystem::path Src_fname,
+														std::filesystem::path dst_fname,
+														std::filesystem::path CGCW_Dump_dir)
 {
 	if (!Extracted)
 		return false;
@@ -124,7 +131,13 @@ bool Code_Generator::Code_Wizard							(Dependency_Logger* DpndL, Data_Logger* D
 // - Captures input DBIDs from Sch_CNN_Input dependencies.
 // - On the first node, captures weight DBIDs from Sch_CNN_Weight dependencies.
 // Returns true if at least one execution node was captured.
-bool Code_Generator::Extract_Single_PE_Execution_Info		(Dependency_Logger* DpndL, CG_PE_Node& PEInfo, size_t lvl, size_t baseline, size_t plane, size_t vault)
+bool Code_Generator::Extract_Single_PE_Execution_Info(
+														Dependency_Logger* DpndL,
+														CG_PE_Node& PEInfo,
+														size_t lvl,
+														size_t baseline,
+														size_t plane,
+														size_t vault)
 {
 	Ordering_Node Ord_Node;
 	SNID_t ONID;
@@ -218,7 +231,11 @@ bool Code_Generator::Extract_Single_PE_Execution_Info		(Dependency_Logger* DpndL
 // - Finds the first non-generated Sch_MPDR node in the baseline.
 // - Marks it Generated, sets Node/Vault/Output, and collects input DBIDs.
 // Returns true if an MPDR node was found.
-bool Code_Generator::Extract_MPDR_Execution_Info			(Dependency_Logger* DpndL, CG_MPDR_Node& MPDRInfo, size_t lvl, size_t baseline)
+bool Code_Generator::Extract_MPDR_Execution_Info	(
+														Dependency_Logger* DpndL,
+														CG_MPDR_Node& MPDRInfo,
+														size_t lvl,
+														size_t baseline)
 {
 	// Initializations
 	MPDRInfo.valid = true;
@@ -276,7 +293,10 @@ bool Code_Generator::Extract_MPDR_Execution_Info			(Dependency_Logger* DpndL, CG
 // - Uses Ordering_Index to locate the owning CG_PE_Node and fills Output_ID
 //   and Acum_DBID (Null for the first dep), and sets Activation on last dep.
 // Throws if the execution node is missing from Ordering_Index.
-void Code_Generator::Link_PE_Storage						(Dependency_Logger* DpndL, size_t lvl, size_t baseline)
+void Code_Generator::Link_PE_Storage				(
+														Dependency_Logger* DpndL,
+														size_t lvl,
+														size_t baseline)
 {
 	Ordering_Node Ord_Node;
 	SNID_t ONID;
@@ -328,7 +348,7 @@ void Code_Generator::Link_PE_Storage						(Dependency_Logger* DpndL, size_t lvl,
 
 // Remove empty baselines from CG_PEs and CG_MPDRs vectors.
 // Levels are retained even if empty (level erase code is commented out).
-void Code_Generator::Cleans_CG_Vectors						()
+void Code_Generator::Cleans_CG_Vectors				()
 {
 	for (size_t lvl = CG_PEs.size(); lvl-- > 0; )
 	{
@@ -349,7 +369,7 @@ void Code_Generator::Cleans_CG_Vectors						()
 
 // Normalize PE input list by keeping the first two inputs, then every third input.
 // Overwrites Inputs_ID for each PE and sets Modified = true.
-void Code_Generator::Modify_PE_Inputs						()
+void Code_Generator::Modify_PE_Inputs				()
 {
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 	{
@@ -376,7 +396,8 @@ void Code_Generator::Modify_PE_Inputs						()
 
 
 // Apply MPDR reordering for all levels to create evenly spaced chains.
-void Code_Generator::Modify_MPDR_units						(Data_Logger* DataL)
+void Code_Generator::Modify_MPDR_units				(
+														Data_Logger* DataL)
 {
 	for (size_t lvl = 0; lvl < CG_MPDRs.size(); lvl++)
 		Modify_MPDR_units(DataL, lvl);
@@ -387,7 +408,9 @@ void Code_Generator::Modify_MPDR_units						(Data_Logger* DataL)
 // - Finds the minimum spacing between outputs across baselines.
 // - Builds chains by appending nodes with same spacing and vault.
 // - Rebuilds CG_MPDRs[lvl] with the grouped chains.
-void Code_Generator::Modify_MPDR_units						(Data_Logger* DataL, size_t lvl)
+void Code_Generator::Modify_MPDR_units				(
+														Data_Logger* DataL,
+														size_t lvl)
 {
 	if (CG_MPDRs[lvl].empty())
 		return;
@@ -478,7 +501,14 @@ void Code_Generator::Modify_MPDR_units						(Data_Logger* DataL, size_t lvl)
 // Check equal spacing for PE inputs, outputs, and accumulators.
 // - Uses spacing between the first two elements as reference.
 // - Sets ESI/ESO/ESP to true only if all subsequent gaps match.
-void Code_Generator::Equal_Spaced_Check_PE					(Data_Logger* DataL, size_t lvl, size_t bline, size_t node, bool& ESI, bool& ESO, bool& ESP)
+void Code_Generator::Equal_Spaced_Check_PE			(
+														Data_Logger* DataL,
+														size_t lvl,
+														size_t bline,
+														size_t node,
+														bool& ESI,
+														bool& ESO,
+														bool& ESP)
 {	
 	std::vector<DBID_t> Inputs_ID = CG_PEs[lvl][bline][node].Inputs_ID;
 	std::vector<DBID_t> Output_ID = CG_PEs[lvl][bline][node].Output_ID;
@@ -506,7 +536,10 @@ void Code_Generator::Equal_Spaced_Check_PE					(Data_Logger* DataL, size_t lvl, 
 // Check equal spacing for MPDR inputs/outputs across nodes of a baseline.
 // - Compares spacing of outputs and each input slot across nodes.
 // - Writes ESI/ESO flags into every MPDR node in the baseline.
-void Code_Generator::Equal_Spaced_Check_MPDR				(Data_Logger* DataL, size_t lvl, size_t bline)
+void Code_Generator::Equal_Spaced_Check_MPDR		(
+														Data_Logger* DataL,
+														size_t lvl,
+														size_t bline)
 {
 	bool ESO(true);
 	bool ESI(true);
@@ -556,7 +589,13 @@ void Code_Generator::Equal_Spaced_Check_MPDR				(Data_Logger* DataL, size_t lvl,
 // - Searches duplicate chain for a DBID that matches spacing to its neighbor.
 // - Updates Inputs_ID[0] and Inputs_ID[last] if better matches are found.
 // - Sets first/last flags when replacements are applied.
-void Code_Generator::Modify_Zero_Blocks						(Data_Logger* DataL, size_t lvl, size_t bline, size_t node, bool& first, bool& last)
+void Code_Generator::Modify_Zero_Blocks			 (
+														Data_Logger* DataL,
+														size_t lvl,
+														size_t bline,
+														size_t node,
+														bool& first,
+														bool& last)
 {
 	DBID_t DBID;
 	first = false;
@@ -611,7 +650,9 @@ void Code_Generator::Modify_Zero_Blocks						(Data_Logger* DataL, size_t lvl, si
 //   and set input spacing (Inp_Seqnc).
 // - For each MPDR baseline: set ESI/ESO.
 // - Print spacing reports and compute Max_PZero_per_Vault.
-void Code_Generator::Modify_All								(Data_Logger* DataL, std::filesystem::path fname)
+void Code_Generator::Modify_All					 (
+														Data_Logger* DataL,
+														std::filesystem::path fname)
 {
 	bool PE_print_en	(true);
 	bool MPDR_print_en	(true);
@@ -670,7 +711,9 @@ void Code_Generator::Modify_All								(Data_Logger* DataL, std::filesystem::pat
 // - fname_PE.txt: detailed per-output PE spacing.
 // - fname_MPDR.txt: detailed MPDR spacing.
 // - fname_PE_Summary.txt: condensed PE summary.
-void Code_Generator::Print_Spacing							(Data_Logger* DataL, std::filesystem::path fname)
+void Code_Generator::Print_Spacing					(
+														Data_Logger* DataL,
+														std::filesystem::path fname)
 {
 	std::ofstream files_out_PE;
 	std::ofstream files_out_MPDR;
@@ -874,7 +917,12 @@ void Code_Generator::Print_Spacing							(Data_Logger* DataL, std::filesystem::p
 
 
 // Generate Codes
-void Code_Generator::Generate_Codes							(Dependency_Logger* DpndL, Data_Logger* DataL, NETWORK* network, std::filesystem::path srce, std::filesystem::path dest)
+void Code_Generator::Generate_Codes				 (
+														Dependency_Logger* DpndL,
+														Data_Logger* DataL,
+														NETWORK* network,
+														std::filesystem::path srce,
+														std::filesystem::path dest)
 {
 	// Generating the initialization functions, every thing shoud kept simple as fuck.
 	// copying the basic files
@@ -931,7 +979,9 @@ void Code_Generator::Generate_Codes							(Dependency_Logger* DpndL, Data_Logger
 
 // Copy required template source files from srce to dest (overwrite existing).
 // Files: Utilities.h, common.h, Accelerator.h/.cpp, EventCallBacker.h/.cpp.
-void Code_Generator::Copy_File								(std::filesystem::path srce, std::filesystem::path dest)
+void Code_Generator::Copy_File						(
+														std::filesystem::path srce,
+														std::filesystem::path dest)
 {
 	// coppying the Utilities.h file
 	std::filesystem::copy_file(	srce / ("Utilities.h"),			dest / ("Utilities.h"),				OVERWRITE);
@@ -964,7 +1014,8 @@ void Code_Generator::Copy_File								(std::filesystem::path srce, std::filesyst
 // - Global DMA arrays/counters sized by Max_PZero_per_Vault.
 // - main(): initialize counters, callbacks, system control, interrupts, timer,
 //   and calls per-level execute/peripheral functions before looping forever.
-void Code_Generator::Generate_Main_P1						(std::ofstream& files_out)
+void Code_Generator::Generate_Main_P1				(
+														std::ofstream& files_out)
 {
 	Data_H_file	<< "#include \"common.h\""														<< std::endl << std::endl << std::endl;
 	Data_C_file	<< "#include \"Data.h\""														<< std::endl << std::endl << std::endl;
@@ -1095,7 +1146,10 @@ void Code_Generator::Generate_Main_P1						(std::ofstream& files_out)
 
 // Emit Platform_Execute_Layer_<lvl> wrapper that triggers each baseline.
 // - Resets baseline done counters and calls each baseline function.
-void Code_Generator::Generate_Platform_Execute_Layer_lvl	(Data_Logger* DataL, std::ofstream& files_out, size_t lvl)
+void Code_Generator::Generate_Platform_Execute_Layer_lvl(
+														Data_Logger* DataL,
+														std::ofstream& files_out,
+														size_t lvl)
 {
 	files_out	<< "void Platform_Execute_Layer_" << lvl << "()"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
@@ -1114,7 +1168,11 @@ void Code_Generator::Generate_Platform_Execute_Layer_lvl	(Data_Logger* DataL, st
 // - Initializes STA/UPA addressing for outputs/accumulators/weights/inputs.
 // - Emits PE configs, event counters, and PE control sequences.
 // - Waits for DMA and execution completion.
-void Code_Generator::Generate_Platform_Execute_Layer_bl		(Data_Logger* DataL, std::ofstream& files_out, size_t lvl, size_t bline)
+void Code_Generator::Generate_Platform_Execute_Layer_bl(
+														Data_Logger* DataL,
+														std::ofstream& files_out,
+														size_t lvl,
+														size_t bline)
 {
 	size_t bl = bline;
 
@@ -1217,7 +1275,8 @@ void Code_Generator::Generate_Platform_Execute_Layer_bl		(Data_Logger* DataL, st
 
 
 // Emit Platform_Execute_BseLine for all baselines.
-void Code_Generator::Generate_Platform_Execute_BseLine		(std::ofstream& files_out)
+void Code_Generator::Generate_Platform_Execute_BseLine(
+														std::ofstream& files_out)
 {
 	files_out	<< "void Platform_Execute_BseLine (unsigned int bline)"							<< std::endl;
 	files_out	<< "{"																			<< std::endl;
@@ -1313,7 +1372,12 @@ void Code_Generator::Generate_Platform_Execute_BseLine		(std::ofstream& files_ou
 // - For each group, configures MPDR counters and addressing, then starts MPDR.
 // - Uses NETWORK maxes to pass column/channel limits.
 // - Waits for PRI_Done_Cntr; uneven-spacing path is not implemented.
-void Code_Generator::Generate_Platform_Peripheral_Layer_lvl	(Dependency_Logger* DpndL, Data_Logger* DataL, NETWORK* network, std::ofstream& files_out, size_t lvl)
+void Code_Generator::Generate_Platform_Peripheral_Layer_lvl(
+														Dependency_Logger* DpndL,
+														Data_Logger* DataL,
+														NETWORK* network,
+														std::ofstream& files_out,
+														size_t lvl)
 {
 	files_out	<< "void Platform_Peripheral_Layer_" << lvl << "()"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
@@ -1367,7 +1431,8 @@ void Code_Generator::Generate_Platform_Peripheral_Layer_lvl	(Dependency_Logger* 
 // - intr_* handlers update counters and trigger PE restarts.
 // - DMA_CallBack schedules the next transfer and re-registers itself.
 // - EXT_INT handlers dispatch via the interrupt vector table.
-void Code_Generator::Generate_Main_P2						(std::ofstream& files_out)
+void Code_Generator::Generate_Main_P2				(
+														std::ofstream& files_out)
 {
 	files_out	<< "void intr_PC		(unsigned int intr_addr)"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
@@ -1511,7 +1576,10 @@ void Code_Generator::Generate_Main_P2						(std::ofstream& files_out)
 
 
 // adding data to the Data.h and making its array
-void Code_Generator::Generage_Data_Blocks_Exe_lvl_bline		(Data_Logger* DataL, size_t lvl, size_t bline)
+void Code_Generator::Generage_Data_Blocks_Exe_lvl_bline(
+														Data_Logger* DataL,
+														size_t lvl,
+														size_t bline)
 {
 	// initialization, node_count
 	size_t node_count = CG_PEs[lvl][bline].size();
@@ -1763,7 +1831,12 @@ void Code_Generator::Generage_Data_Blocks_Exe_lvl_bline		(Data_Logger* DataL, si
 
 
 // adding necessary data for peripheral part to the Data.h and making its array
-void Code_Generator::Generage_Data_Blocks_Peri_lvl			(Dependency_Logger* DpndL, Data_Logger* DataL, NETWORK* network, size_t lvl, std::vector<std::vector<size_t>> All_BLs)
+void Code_Generator::Generage_Data_Blocks_Peri_lvl	(
+														Dependency_Logger* DpndL,
+														Data_Logger* DataL,
+														NETWORK* network,
+														size_t lvl,
+														std::vector<std::vector<size_t>> All_BLs)
 {
 	// number of Baselines within this level
 	Data_H_file	<< std::dec;
@@ -1942,7 +2015,8 @@ void Code_Generator::Generage_Data_Blocks_Peri_lvl			(Dependency_Logger* DpndL, 
 
 
 // adding datablocks
-void Code_Generator::Generage_Data_Blocks_Exe_Baseline		(Data_Logger* DataL)
+void Code_Generator::Generage_Data_Blocks_Exe_Baseline(
+														Data_Logger* DataL)
 {
 	size_t size(0);
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)

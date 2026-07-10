@@ -11,20 +11,21 @@ class Hardware
 public:
 
 	// Construct hardware model with a given plane count.
-	Hardware(unsigned int available_planes);
+	Hardware										(
+														unsigned int available_planes);
 	
 	// Destroy hardware model (no explicit resource cleanup required).
-	~Hardware();
+	~Hardware									   ();
 	
 	
 	// Return total number of available PEs (planes * vaults).
-	unsigned int Get_Number_of_Available_PE() const;
+	unsigned int Get_Number_of_Available_PE		 () const;
 	
 	// Return number of available planes.
-	unsigned int Get_Number_of_Available_Planes() const;
+	unsigned int Get_Number_of_Available_Planes	 () const;
 	
 	// Return number of available vaults.
-	unsigned int Get_Number_of_Available_Vaults() const;
+	unsigned int Get_Number_of_Available_Vaults	 () const;
 
 private:
 

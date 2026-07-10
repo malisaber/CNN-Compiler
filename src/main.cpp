@@ -14,7 +14,9 @@
 
 
 // Entry point: builds a test network, schedules/maps/allocates, and runs code generation.
-int main(int argc, char** argv)
+int main											(
+														int argc,
+														char** argv)
 {
 	CLI::App app{"CNN Compiler for custom CNN accelerator"};
 

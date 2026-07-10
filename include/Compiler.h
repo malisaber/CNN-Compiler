@@ -47,50 +47,72 @@ public:
 	~Compiler										();
 
 	// Compile 
-	void	Compile									(bool verbose);
+	void	Compile									(
+														bool verbose);
 
 	// Rearrenges the dataset and weights
-	void	Rearreng_Data							(bool verbose, std::vector<std::filesystem::path>	Inps, std::vector<std::filesystem::path>	Wgts);
+	void	Rearreng_Data							(
+														bool verbose,
+														std::vector<std::filesystem::path>	Inps,
+														std::vector<std::filesystem::path>	Wgts);
 
 	// Adds layer to the network:
-	size_t	Add_Layer_to_Notwork					(Layer_2D_Types ltype, Conv_Layer_Info linfo, Conv_Layer_Info lmaxes);
+	size_t	Add_Layer_to_Notwork					(
+														Layer_2D_Types ltype,
+														Conv_Layer_Info linfo,
+														Conv_Layer_Info lmaxes);
 
 	// Adds layer to the network:
-	size_t	Add_Layer_to_Notwork					(Layer_2D_Types ltype, Conv_Layer_Info linfo, Conv_Layer_Info lmaxes, MaxP_Layer_Info MP_window);
+	size_t	Add_Layer_to_Notwork					(
+														Layer_2D_Types ltype,
+														Conv_Layer_Info linfo,
+														Conv_Layer_Info lmaxes,
+														MaxP_Layer_Info MP_window);
 
 	// Adds a Dump location
-	void	Add_Dump_Directory						(std::filesystem::path dir);
+	void	Add_Dump_Directory						(
+														std::filesystem::path dir);
 
 	// Adds directory for saving generated data files 
-	void	Add_Data_Gen_Directory					(std::vector<std::filesystem::path>	Inps, std::vector<std::filesystem::path>	Wgts);
+	void	Add_Data_Gen_Directory					(
+														std::vector<std::filesystem::path>	Inps,
+														std::vector<std::filesystem::path>	Wgts);
 
 	// Adds a material directory 
-	void	Add_Material_Directory					(std::filesystem::path	src);
+	void	Add_Material_Directory					(
+														std::filesystem::path	src);
 
 	// Adds an output directory 
-	void	Add_Output_Directory					(std::filesystem::path	src);
+	void	Add_Output_Directory					(
+														std::filesystem::path	src);
 	
 	// Reports something
 	void	Report									();
 
 private:
 	// Buils the network and its dependencies
-	void	Build_Network							(bool verbose);
+	void	Build_Network							(
+														bool verbose);
 
 	// Schedules the dependencies
-	void	Schedule_Dependencies					(bool verbose);
+	void	Schedule_Dependencies					(
+														bool verbose);
 
 	// Building Executing threads
-	void	Build_Threads							(bool verbose);
+	void	Build_Threads							(
+														bool verbose);
 
 	// Maps the Nodes on the actual Hardware
-	void	Map										(bool verbose);
+	void	Map										(
+														bool verbose);
 
 	// Allocating the memory blocks
-	void	Allocate								(bool verbose);
+	void	Allocate								(
+														bool verbose);
 
 	// Generats the code
-	void	Generate_Codes							(bool verbose);
+	void	Generate_Codes							(
+														bool verbose);
 
 	//// Initiating Data rearrengement engine
 	//void	DR_initiate								();

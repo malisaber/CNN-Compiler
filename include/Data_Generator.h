@@ -34,64 +34,102 @@ class Data_Generator
 
 public:
 	// Initialize generator state and reserve storage.
-	Data_Generator();
+	Data_Generator									();
 	
-	// Destroy generator (no explicit resource cleanup required).
-	~Data_Generator();
+	// Destroy generator	(no explicit resource cleanup required).
+	~Data_Generator									();
 
 	// Set inputs information getting from network
-	void	Get_Inps_info					(NETWORK* NET);
+	void	Get_Inps_info							(
+														NETWORK* NET);
 
 	// Set weights information getting from network
-	void	Get_Wgts_info					(NETWORK* NET);
+	void	Get_Wgts_info							(
+														NETWORK* NET);
 
 	// Return number of generator input files.
-	size_t	Generated_Input_files_size		();
+	size_t	Generated_Input_files_size				();
 
 	// Return number of generator Weight stored.
-	size_t	Generated_Weight_files_size		();
+	size_t	Generated_Weight_files_size				();
 
 	// Return number of generator Zero stored.
-	size_t	Generated_Zero_files_size		();
+	size_t	Generated_Zero_files_size				();
 
 	// Return number of generator records stored.
-	size_t	Generated_file_size				();
+	size_t	Generated_file_size						();
 
 	// Load input files' name 
-	void	load_input_files				(std::vector<std::filesystem::path> names);
+	void	load_input_files						(
+														std::vector<std::filesystem::path> names);
 
 	// Load weight files' name 
-	void	load_Weight_files				(std::vector<std::filesystem::path> names);
+	void	load_Weight_files						(
+														std::vector<std::filesystem::path> names);
 
 	// Generating files
-	void	Generate						(Data_Logger* DG, std::filesystem::path dest);
+	void	Generate								(
+														Data_Logger* DG,
+														std::filesystem::path dest);
 
 
 private:
 
 	// Reading a binary file of data
-	std::vector<uint16_t> Read_binary_file	(std::filesystem::path& filename, size_t element_size);
+	std::vector<uint16_t> Read_binary_file			(
+														std::filesystem::path& filename,
+														size_t element_size);
 
 	// Convert the bcwh idexed to offset	 ------------ Comiler Side ------------	 ------------ DataSet Side ------------
-	size_t	Relative_2_Absolute_idx			(size_t b, size_t c, size_t w, size_t h, size_t B, size_t C, size_t W, size_t H);
+	size_t	Relative_2_Absolute_idx					(
+														size_t b,
+														size_t c,
+														size_t w,
+														size_t h,
+														size_t B,
+														size_t C,
+														size_t W,
+														size_t H);
 
 	// Generate data file for input layer x
-	void	Generate_IDF					(Data_Logger* DG, size_t idx, std::filesystem::path dest);
+	void	Generate_IDF							(
+														Data_Logger* DG,
+														size_t idx,
+														std::filesystem::path dest);
 
 	// Generate Weight data file for CNN layer x
-	void	Generate_WDF					(Data_Logger* DG, size_t idx, std::filesystem::path dest);
+	void	Generate_WDF							(
+														Data_Logger* DG,
+														size_t idx,
+														std::filesystem::path dest);
 	
 	// Generate Zero data files
-	void	Generate_ZDF					(Data_Logger* DG, std::filesystem::path dest);
+	void	Generate_ZDF							(
+														Data_Logger* DG,
+														std::filesystem::path dest);
 
 	// returning the input value
-	size_t	write_input_value				(std::ofstream& fid, std::vector<uint16_t> data, Conv_Layer_Info linfo, Conv_Layer_Info Dims, Conv_Layer_Info Idxs, bool* used);
+	size_t	write_input_value						(
+														std::ofstream& fid,
+														std::vector<uint16_t> data,
+														Conv_Layer_Info linfo,
+														Conv_Layer_Info Dims,
+														Conv_Layer_Info Idxs,
+														bool* used);
 	
 	// returning the weight value 
-	size_t	write_Weight_value				(std::ofstream& fid, std::vector<uint16_t> data, Conv_Layer_Info linfo, Conv_Layer_Info Dims, Conv_Layer_Info Idxs, bool* used);
+	size_t	write_Weight_value						(
+														std::ofstream& fid,
+														std::vector<uint16_t> data,
+														Conv_Layer_Info linfo,
+														Conv_Layer_Info Dims,
+														Conv_Layer_Info Idxs,
+														bool* used);
 
 	// Writing a zero data block
-	size_t	write_zero_block				(std::ofstream& fid, Conv_Layer_Info Dims);
+	size_t	write_zero_block						(
+														std::ofstream& fid,
+														Conv_Layer_Info Dims);
 };
 
 

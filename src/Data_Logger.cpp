@@ -6,7 +6,7 @@
 //*			Public Functions			*//
 //***************************************//
 
-Data_Logger::Data_Logger()
+Data_Logger::Data_Logger							()
 {
 	Data_Block_ID_cntr = DBID_t::Null();
 	DATA.reserve(32768);
@@ -20,14 +20,15 @@ Data_Logger::Data_Logger()
 
 
 // Destroy the logger (no explicit resource cleanup required).
-Data_Logger::~Data_Logger()
+Data_Logger::~Data_Logger						   ()
 {
 }
 
 
 // Create a data block from info only (no explicit producer/consumer).
 // Returns the newly assigned DBID.
-DBID_t Data_Logger::Creat_Data_Block(Data_Block_Info DBI)
+DBID_t Data_Logger::Creat_Data_Block				(
+														Data_Block_Info DBI)
 {
 	Data_Block_ID_cntr++;
 	Data_Block tmp = assign(DBI);
@@ -39,7 +40,9 @@ DBID_t Data_Logger::Creat_Data_Block(Data_Block_Info DBI)
 
 // Create a data block and set its producer scheduling node.
 // Returns the newly assigned DBID.
-DBID_t Data_Logger::Creat_Data_Block(Data_Block_Info DBI, SNID_t Prod_ID)
+DBID_t Data_Logger::Creat_Data_Block				(
+														Data_Block_Info DBI,
+														SNID_t Prod_ID)
 {
 	Data_Block_ID_cntr++;
 	Data_Block tmp = assign(DBI);
@@ -52,7 +55,10 @@ DBID_t Data_Logger::Creat_Data_Block(Data_Block_Info DBI, SNID_t Prod_ID)
 
 // Create a data block with producer and a single initial consumer.
 // Returns the newly assigned DBID.
-DBID_t Data_Logger::Creat_Data_Block(Data_Block_Info DBI, SNID_t Prod_ID, SNID_t Cons_ID)
+DBID_t Data_Logger::Creat_Data_Block				(
+														Data_Block_Info DBI,
+														SNID_t Prod_ID,
+														SNID_t Cons_ID)
 {
 	Data_Block_ID_cntr++;
 	Data_Block tmp = assign(DBI);
@@ -67,7 +73,9 @@ DBID_t Data_Logger::Creat_Data_Block(Data_Block_Info DBI, SNID_t Prod_ID, SNID_t
 
 // Set/replace the producer scheduling node for an existing data block.
 // Returns false if DBID is out of range.
-bool Data_Logger::Set_Producer_ID_of_DBID(DBID_t DBI, SNID_t NID)
+bool Data_Logger::Set_Producer_ID_of_DBID		   (
+														DBID_t DBI,
+														SNID_t NID)
 {
 	if (DBI < DATA.size())
 	{
@@ -80,7 +88,9 @@ bool Data_Logger::Set_Producer_ID_of_DBID(DBID_t DBI, SNID_t NID)
 
 // Append a consumer scheduling node to an existing data block.
 // Returns false if DBID is out of range.
-bool Data_Logger::Add_Consumer(DBID_t DBI, SNID_t NID)
+bool Data_Logger::Add_Consumer					  (
+														DBID_t DBI,
+														SNID_t NID)
 {
 	if (DBI < DATA.size())
 	{
@@ -93,7 +103,8 @@ bool Data_Logger::Add_Consumer(DBID_t DBI, SNID_t NID)
 
 // Clone a data block entry and mark it as a duplicate of the original.
 // Returns the new DBID (or Null if DBID is invalid).
-DBID_t Data_Logger::Duplicate_Data_Block(DBID_t DBI)
+DBID_t Data_Logger::Duplicate_Data_Block			(
+														DBID_t DBI)
 {
 	bool found(false);
 	DBID_t NDBID = DBID_t::Null();
@@ -116,7 +127,9 @@ DBID_t Data_Logger::Duplicate_Data_Block(DBID_t DBI)
 
 // Retrieve a full data block record by ID.
 // Returns true if found, and copies into DB.
-bool Data_Logger::Get_Data_Block_Info(DBID_t DBI, Data_Block& DB)
+bool Data_Logger::Get_Data_Block_Info			   (
+														DBID_t DBI,
+														Data_Block& DB)
 {
 	bool found(false);
 
@@ -132,7 +145,9 @@ bool Data_Logger::Get_Data_Block_Info(DBID_t DBI, Data_Block& DB)
 
 // Replace an existing data block record by ID.
 // Returns true if updated; DB.ID is overwritten with DBI.
-bool Data_Logger::Change_Data_Block_info(DBID_t DBI, Data_Block DB)
+bool Data_Logger::Change_Data_Block_info			(
+														DBID_t DBI,
+														Data_Block DB)
 {
 	bool found(false);
 	
@@ -149,7 +164,9 @@ bool Data_Logger::Change_Data_Block_info(DBID_t DBI, Data_Block DB)
 
 // Set the starting block index (SoBI) within the assigned vault.
 // Returns false if DBID is out of range.
-bool Data_Logger::Set_Starting_Index_of_Data_Block(DBID_t DBI, size_t SoBI)
+bool Data_Logger::Set_Starting_Index_of_Data_Block  (
+														DBID_t DBI,
+														size_t SoBI)
 {
 	bool found(false);
 
@@ -164,14 +181,16 @@ bool Data_Logger::Set_Starting_Index_of_Data_Block(DBID_t DBI, size_t SoBI)
 
 
 // Get the starting block index (SoBI) within the assigned vault.
-size_t Data_Logger::Get_Starting_Index_of_Data_Block(DBID_t DBI)
+size_t Data_Logger::Get_Starting_Index_of_Data_Block(
+														DBID_t DBI)
 {
 	return DATA[DBI.index()].SoBI;
 }
 
 
 // Compute effective address (EA) in bytes from vault and starting index.
-size_t Data_Logger::GET_EA(DBID_t DBI)
+size_t Data_Logger::GET_EA						  (
+														DBID_t DBI)
 {
 	size_t EA(DATA[DBI.index()].SoBI);
 	EA += DATA[DBI.index()].Vault * Ava_Vault_Cap;
@@ -181,7 +200,8 @@ size_t Data_Logger::GET_EA(DBID_t DBI)
 
 // Dump all data blocks into a text file (appends .txt).
 // Returns number of data blocks written.
-size_t Data_Logger::print_file(std::filesystem::path name)
+size_t Data_Logger::print_file					  (
+														std::filesystem::path name)
 {
 	std::string a_line;
 	unsigned int i;
@@ -235,42 +255,49 @@ size_t Data_Logger::print_file(std::filesystem::path name)
 
 
 // Return number of data blocks stored (including null).
-size_t Data_Logger::size()
+size_t Data_Logger::size							()
 {
 	return DATA.size();
 }
 
 
 // Get producer node ID for a data block.
-SNID_t Data_Logger::Get_Producer_ID_of_DBID(DBID_t DBI)
+SNID_t Data_Logger::Get_Producer_ID_of_DBID		 (
+														DBID_t DBI)
 {
 	return DATA[DBI.index()].Producer_ID;
 }
 
 
 // Test allocation flag for a data block.
-bool Data_Logger::Is_Allocated(DBID_t DBI)
+bool Data_Logger::Is_Allocated					  (
+														DBID_t DBI)
 {
 	return DATA[DBI.index()].alocated;
 }
 
 
 // Get data block type (DBT_*).
-Data_Block_Types Data_Logger::Get_Type_of_DBID(DBID_t DBI)
+Data_Block_Types Data_Logger::Get_Type_of_DBID	  (
+														DBID_t DBI)
 {
 	return DATA[DBI.index()].DBT;
 }
 
 
 // Copy all consumer node IDs into the provided vector.
-void Data_Logger::Get_Consumers_ID_of_DBID(DBID_t DBI, std::vector<SNID_t>& CID)
+void Data_Logger::Get_Consumers_ID_of_DBID		  (
+														DBID_t DBI,
+														std::vector<SNID_t>& CID)
 {
 	CID = DATA[DBI.index()].Consumers_ID;
 }
 
 
 // Replace all consumer node IDs with a single consumer.
-void Data_Logger::Set_Consumers_ID_of_DBID(DBID_t DBI, SNID_t CID)
+void Data_Logger::Set_Consumers_ID_of_DBID		  (
+														DBID_t DBI,
+														SNID_t CID)
 {
 	DATA[DBI.index()].Consumers_ID.clear();
 	DATA[DBI.index()].Consumers_ID.push_back(CID);
@@ -278,21 +305,26 @@ void Data_Logger::Set_Consumers_ID_of_DBID(DBID_t DBI, SNID_t CID)
 
 
 // Set vault index for a data block.
-void Data_Logger::Set_Vault_of_DBID(DBID_t DBI, size_t vlt)
+void Data_Logger::Set_Vault_of_DBID				 (
+														DBID_t DBI,
+														size_t vlt)
 {
 	DATA[DBI.index()].Vault = (unsigned int)vlt;
 }
 
 
 // Retrieve vault index for a data block (by reference).
-void Data_Logger::Get_Vault_of_DBID(DBID_t DBI, size_t& vlt)
+void Data_Logger::Get_Vault_of_DBID				 (
+														DBID_t DBI,
+														size_t& vlt)
 {
 	vlt = DATA[DBI.index()].Vault;
 }
 
 
 // Retrieve vault index for a data block (by value).
-size_t Data_Logger::Get_Vault_of_DBID(DBID_t DBI)
+size_t Data_Logger::Get_Vault_of_DBID			   (
+														DBID_t DBI)
 {
 	return DATA[DBI.index()].Vault;
 }
@@ -300,7 +332,9 @@ size_t Data_Logger::Get_Vault_of_DBID(DBID_t DBI)
 
 // Set produced time (timestamp) for a data block.
 // Returns false if DBID is out of range.
-bool Data_Logger::Set_Produced_Time(DBID_t DBI, size_t time)
+bool Data_Logger::Set_Produced_Time				 (
+														DBID_t DBI,
+														size_t time)
 {
 	bool found(false);
 
@@ -316,7 +350,9 @@ bool Data_Logger::Set_Produced_Time(DBID_t DBI, size_t time)
 
 // Update last accessed time for a data block (max of old/new).
 // Returns false if DBID is out of range.
-bool Data_Logger::Set_Accessed_Time(DBID_t DBI, size_t time)
+bool Data_Logger::Set_Accessed_Time				 (
+														DBID_t DBI,
+														size_t time)
 {
 	bool found(false);
 
@@ -335,7 +371,8 @@ bool Data_Logger::Set_Accessed_Time(DBID_t DBI, size_t time)
 
 // Mark a data block as allocated.
 // Returns false if DBID is out of range.
-bool Data_Logger::Mark_as_Allocated(DBID_t DBI)
+bool Data_Logger::Mark_as_Allocated				 (
+														DBID_t DBI)
 {
 	bool found(false);
 
@@ -350,7 +387,9 @@ bool Data_Logger::Mark_as_Allocated(DBID_t DBI)
 
 
 // Compute distance in blocks between two data blocks by vault/SBI.
-size_t Data_Logger::Calculate_Space_Between(DBID_t DBID_1, DBID_t DBID_2)
+size_t Data_Logger::Calculate_Space_Between		 (
+														DBID_t DBID_1,
+														DBID_t DBID_2)
 {
 	size_t vlt1 = DATA[DBID_1.index()].Vault;
 	size_t vlt2 = DATA[DBID_2.index()].Vault;
@@ -363,35 +402,40 @@ size_t Data_Logger::Calculate_Space_Between(DBID_t DBID_1, DBID_t DBID_2)
 
 
 //  Retrieve dimension (Max Sizes) of the block
-Conv_Layer_Info Data_Logger::Get_Dims(DBID_t DBI)
+Conv_Layer_Info Data_Logger::Get_Dims			   (
+														DBID_t DBI)
 {
 	return DATA[DBI.index()].Dims;
 }
  
 
 //  Retrieve dimension indexes of the block
-Conv_Layer_Info Data_Logger::Get_Idxs(DBID_t DBI)
+Conv_Layer_Info Data_Logger::Get_Idxs			   (
+														DBID_t DBI)
 {
 	return DATA[DBI.index()].Idxs;
 }
 
 
 // is data block generated
-bool Data_Logger::is_Generated(DBID_t DBI)
+bool Data_Logger::is_Generated					  (
+														DBID_t DBI)
 {
 	return DATA[DBI.index()].isGenerated;
 }
 
 
 // Mark a data block as generated
-void Data_Logger::Mark_as_Generated(DBID_t DBI)
+void Data_Logger::Mark_as_Generated				 (
+														DBID_t DBI)
 {
 	DATA[DBI.index()].isGenerated = true;
 }
 
 
 // Return the layer ID of Data block id
-size_t Data_Logger::Get_Layer_ID(DBID_t DBI)
+size_t Data_Logger::Get_Layer_ID					(
+														DBID_t DBI)
 {
 	return DATA[DBI.index()].Layer_ID;
 }

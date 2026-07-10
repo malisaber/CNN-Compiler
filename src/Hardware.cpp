@@ -2,7 +2,8 @@
 #include "Config.h"
 
 // Initialize hardware model with plane count and default 16 vaults.
-Hardware::Hardware(unsigned int available_planes)
+Hardware::Hardware								  (
+														unsigned int available_planes)
 {
 	Available_Planes = available_planes;
 	Available_Vaults = 16;
@@ -77,13 +78,13 @@ Hardware::Hardware(unsigned int available_planes)
 
 
 // No-op destructor; no dynamic resources in this class.
-Hardware::~Hardware()
+Hardware::~Hardware								 ()
 {
 }
 
 
 // Return total available processing elements (planes * 16 vaults).
-unsigned int Hardware::Get_Number_of_Available_PE() const
+unsigned int Hardware::Get_Number_of_Available_PE   () const
 {
 	return 16 * Available_Planes;
 }

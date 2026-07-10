@@ -2,7 +2,8 @@
 
 
 // Build a Data_Block from a Data_Block_Info record and reset allocation/timing fields.
-Data_Block assign(Data_Block_Info inp)
+Data_Block assign								   (
+														Data_Block_Info inp)
 {
 	Data_Block out{};
 	out.DBT = inp.DBT;
@@ -27,7 +28,14 @@ Data_Block assign(Data_Block_Info inp)
 
 
 // Build Conv_Layer_Info from individual dimensions.
-Conv_Layer_Info assign(unsigned int B, unsigned int K, unsigned int C, unsigned int W, unsigned int H, unsigned int FH, unsigned int FW)
+Conv_Layer_Info assign							  (
+														unsigned int B,
+														unsigned int K,
+														unsigned int C,
+														unsigned int W,
+														unsigned int H,
+														unsigned int FH,
+														unsigned int FW)
 {
 	Conv_Layer_Info out{};
 	out.Batch_size = B;
@@ -42,7 +50,9 @@ Conv_Layer_Info assign(unsigned int B, unsigned int K, unsigned int C, unsigned 
 
 
 // Compare Conv_Layer_Info for B/H/W equality and K==C consistency.
-bool Eq_comapre_BHW_K1C2(Conv_Layer_Info i1, Conv_Layer_Info i2)
+bool Eq_comapre_BHW_K1C2							(
+														Conv_Layer_Info i1,
+														Conv_Layer_Info i2)
 {
 	bool Batch = (i1.Batch_size == i2.Batch_size);
 	bool Width = (i1.Width_size == i2.Width_size);
@@ -53,7 +63,8 @@ bool Eq_comapre_BHW_K1C2(Conv_Layer_Info i1, Conv_Layer_Info i2)
 
 
 // Print Conv_Layer_Info in (BKCWHFF) order.
-void print(Conv_Layer_Info inp)
+void print										  (
+														Conv_Layer_Info inp)
 {
 	std::cout << "(BKCWHFF) = (";
 	std::cout << inp.Batch_size << ", ";
@@ -67,7 +78,8 @@ void print(Conv_Layer_Info inp)
 
 
 // Print a Dependency (ID and satisfied flag).
-void print(Dependency dep)
+void print										  (
+														Dependency dep)
 {
 	std::cout << "ID: " << dep.Dependent_ID << ", \t";
 	std::cout << "Sat.: " << dep.satisfied;
@@ -75,7 +87,14 @@ void print(Dependency dep)
 
 
 // Allocate a 7D array of DBID_t with sizes d0..d6.
-DBID_t*******	new_DBID_7D	(unsigned int d0, unsigned int d1, unsigned int d2, unsigned int d3, unsigned int d4, unsigned int d5, unsigned int d6)
+DBID_t*******	new_DBID_7D						 (
+														unsigned int d0,
+														unsigned int d1,
+														unsigned int d2,
+														unsigned int d3,
+														unsigned int d4,
+														unsigned int d5,
+														unsigned int d6)
 {
 	DBID_t******* out;
 	out = new DBID_t * *****[d0];
@@ -111,7 +130,14 @@ DBID_t*******	new_DBID_7D	(unsigned int d0, unsigned int d1, unsigned int d2, un
 
 
 // Allocate a 7D array of SNID_t with sizes d0..d6.
-SNID_t*******	new_SNID_7D	(unsigned int d0, unsigned int d1, unsigned int d2, unsigned int d3, unsigned int d4, unsigned int d5, unsigned int d6)
+SNID_t*******	new_SNID_7D						 (
+														unsigned int d0,
+														unsigned int d1,
+														unsigned int d2,
+														unsigned int d3,
+														unsigned int d4,
+														unsigned int d5,
+														unsigned int d6)
 {
 	SNID_t******* out;
 	out = new SNID_t ****** [d0];
@@ -147,7 +173,11 @@ SNID_t*******	new_SNID_7D	(unsigned int d0, unsigned int d1, unsigned int d2, un
 
 
 // Allocate a 4D array of DBID_t with sizes d0..d3.
-DBID_t****		new_DBID_4D	(unsigned int d0, unsigned int d1, unsigned int d2, unsigned int d3)
+DBID_t****		new_DBID_4D						 (
+														unsigned int d0,
+														unsigned int d1,
+														unsigned int d2,
+														unsigned int d3)
 {
 	DBID_t**** out;
 	out = new DBID_t * **[d0];
@@ -165,7 +195,11 @@ DBID_t****		new_DBID_4D	(unsigned int d0, unsigned int d1, unsigned int d2, unsi
 
 
 // Allocate a 4D array of SNID_t with sizes d0..d3.
-SNID_t****		new_SNID_4D	(unsigned int d0, unsigned int d1, unsigned int d2, unsigned int d3)
+SNID_t****		new_SNID_4D						 (
+														unsigned int d0,
+														unsigned int d1,
+														unsigned int d2,
+														unsigned int d3)
 {
 	SNID_t**** out;
 	out = new SNID_t *** [d0];
@@ -183,7 +217,9 @@ SNID_t****		new_SNID_4D	(unsigned int d0, unsigned int d1, unsigned int d2, unsi
 
 
 // Construct a Dependency with given satisfied flag and dependent ID.
-Dependency Gen_Dependency(bool satisfied, SNID_t Dependent_ID)
+Dependency Gen_Dependency						   (
+														bool satisfied,
+														SNID_t Dependent_ID)
 {
 	Dependency dep = {};
 	dep.satisfied = satisfied;
@@ -193,7 +229,8 @@ Dependency Gen_Dependency(bool satisfied, SNID_t Dependent_ID)
 
 
 // Map baseline count to vault count (heuristic).
-size_t calculate_vault_map(size_t bl)
+size_t calculate_vault_map						  (
+														size_t bl)
 {
 	size_t out(0);
 	switch (bl)
@@ -226,42 +263,68 @@ size_t calculate_vault_map(size_t bl)
 
 
 // Return a string for a boolean result ("Suucessfull"/"Unsuucessfull").
-std::string Res_Dec(const bool b)
+std::string Res_Dec								 (
+														const bool b)
 {
 	if (b)
 		return "Suucessfull";
 	return "Unsuucessfull";
 }
 
-std::string embedd				(size_t lvl,	size_t bline																)
+std::string embedd								  (
+														size_t lvl,
+														size_t bline)
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline);
 }
-std::string embedd				(size_t lvl,	size_t bline,	size_t node													)
+std::string embedd								  (
+														size_t lvl,
+														size_t bline,
+														size_t node)
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline) + "_nd_" + std::to_string(node);
 }
-std::string embedd_array		(size_t lvl,										size_t arr_size_d1						)
+std::string embedd_array							(
+														size_t lvl,
+														size_t arr_size_d1)
 {
 	return std::to_string(lvl) + "[" + std::to_string(arr_size_d1) + "]";
 }
-std::string embedd_array		(size_t lvl,	size_t bline,						size_t arr_size_d1						)
+std::string embedd_array							(
+														size_t lvl,
+														size_t bline,
+														size_t arr_size_d1)
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline) + "[" + std::to_string(arr_size_d1) + "]";
 }
-std::string embedd_array		(size_t lvl,	size_t bline,	size_t node,		size_t arr_size_d1						)
+std::string embedd_array							(
+														size_t lvl,
+														size_t bline,
+														size_t node,
+														size_t arr_size_d1)
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline) + "_nd_" + std::to_string(node) + "[" + std::to_string(arr_size_d1) + "]";
 }
-std::string embedd_dma_array	(size_t lvl,	size_t bline,	size_t node,		size_t arr_size_d1						)
+std::string embedd_dma_array						(
+														size_t lvl,
+														size_t bline,
+														size_t node,
+														size_t arr_size_d1)
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline) + "_DMA_" + std::to_string(node) + "[" + std::to_string(arr_size_d1) + "]";
 }
-std::string embedd_array_2D		(size_t lvl,										size_t arr_size_d1,	size_t arr_size_d2	)
+std::string embedd_array_2D						 (
+														size_t lvl,
+														size_t arr_size_d1,
+														size_t arr_size_d2)
 {
 	return std::to_string(lvl) + "[" + std::to_string(arr_size_d1) + "][" + std::to_string(arr_size_d2) + "]";
 }
-std::string embedd_array_2D		(size_t lvl,	size_t bline,						size_t arr_size_d1,	size_t arr_size_d2	)
+std::string embedd_array_2D						 (
+														size_t lvl,
+														size_t bline,
+														size_t arr_size_d1,
+														size_t arr_size_d2)
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline) + "[" + std::to_string(arr_size_d1) + "][" + std::to_string(arr_size_d2) + "]";
 }
