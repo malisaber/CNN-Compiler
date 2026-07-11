@@ -1,4 +1,5 @@
 #include "Layers.h"
+#include <cmath>
 
 
 
@@ -78,10 +79,10 @@ Input_Layer_2D::Input_Layer_2D						(
 	Maxes_info = Maxes;
 	Windo_info = { 3, 3 };
 
-	map_entity.Batch_size   = (unsigned int)ceil((double)Layer_info.Batch_size   / (double)Maxes_info.Batch_size);
-	map_entity.Channel_size = (unsigned int)ceil((double)Layer_info.Channel_size / (double)Maxes_info.Channel_size);
-	map_entity.Width_size   = (unsigned int)ceil((double)Layer_info.Width_size   / (double)Maxes_info.Width_size);
-	map_entity.Height_size  = (unsigned int)ceil((double)Layer_info.Height_size  / (double)Maxes_info.Height_size);
+	map_entity.Batch_size   = (unsigned int)std::ceil((double)Layer_info.Batch_size   / (double)Maxes_info.Batch_size);
+	map_entity.Channel_size = (unsigned int)std::ceil((double)Layer_info.Channel_size / (double)Maxes_info.Channel_size);
+	map_entity.Width_size   = (unsigned int)std::ceil((double)Layer_info.Width_size   / (double)Maxes_info.Width_size);
+	map_entity.Height_size  = (unsigned int)std::ceil((double)Layer_info.Height_size  / (double)Maxes_info.Height_size);
 	map_entity.Kernel_size  = map_entity.Channel_size;
 
 	
@@ -219,13 +220,13 @@ Conv_MKMC_2D::Conv_MKMC_2D							(
 	Maxes_info = Maxes;
 	Windo_info = { 3, 3 };
 	
-	map_entity.Batch_size		= (unsigned int)ceil((double)Layer_info.Batch_size		/ (double)Maxes_info.Batch_size);
-	map_entity.Kernel_size		= (unsigned int)ceil((double)Layer_info.Kernel_size		/ (double)Maxes_info.Kernel_size);
-	map_entity.Channel_size		= (unsigned int)ceil((double)Layer_info.Channel_size	/ (double)Maxes_info.Channel_size);
-	map_entity.Width_size		= (unsigned int)ceil((double)Layer_info.Width_size		/ (double)Maxes_info.Width_size);
-	map_entity.Height_size		= (unsigned int)ceil((double)Layer_info.Height_size		/ (double)Maxes_info.Height_size);
-	map_entity.FiltH_Size		= (unsigned int)ceil((double)Layer_info.FiltH_Size		/ (double)Maxes_info.FiltH_Size);
-	map_entity.FiltW_Size		= (unsigned int)ceil((double)Layer_info.FiltW_Size		/ (double)Maxes_info.FiltW_Size);
+	map_entity.Batch_size		= (unsigned int)std::ceil((double)Layer_info.Batch_size		/ (double)Maxes_info.Batch_size);
+	map_entity.Kernel_size		= (unsigned int)std::ceil((double)Layer_info.Kernel_size		/ (double)Maxes_info.Kernel_size);
+	map_entity.Channel_size		= (unsigned int)std::ceil((double)Layer_info.Channel_size	/ (double)Maxes_info.Channel_size);
+	map_entity.Width_size		= (unsigned int)std::ceil((double)Layer_info.Width_size		/ (double)Maxes_info.Width_size);
+	map_entity.Height_size		= (unsigned int)std::ceil((double)Layer_info.Height_size		/ (double)Maxes_info.Height_size);
+	map_entity.FiltH_Size		= (unsigned int)std::ceil((double)Layer_info.FiltH_Size		/ (double)Maxes_info.FiltH_Size);
+	map_entity.FiltW_Size		= (unsigned int)std::ceil((double)Layer_info.FiltW_Size		/ (double)Maxes_info.FiltW_Size);
 
 	Out_Data_Map				= new_DBID_4D(map_entity.Batch_size, map_entity.Height_size, map_entity.Width_size, map_entity.Kernel_size);
 	Out_Node_Map				= new_SNID_4D(map_entity.Batch_size, map_entity.Height_size, map_entity.Width_size, map_entity.Kernel_size);
@@ -692,10 +693,10 @@ MPDR_MC_2D::MPDR_MC_2D								(
 	Maxes_info = Maxes;
 	Windo_info = Window;
 
-	map_entity.Batch_size   = (unsigned int)ceil((double)Layer_info.Batch_size   / (double)Maxes_info.Batch_size);
-	map_entity.Channel_size = (unsigned int)ceil((double)Layer_info.Channel_size / (double)Maxes_info.Channel_size);
-	map_entity.Width_size   = (unsigned int)ceil((double)Layer_info.Width_size   / (double)Maxes_info.Width_size);
-	map_entity.Height_size  = (unsigned int)ceil((double)Layer_info.Height_size  / (double)Maxes_info.Height_size);
+	map_entity.Batch_size   = (unsigned int)std::ceil((double)Layer_info.Batch_size   / (double)Maxes_info.Batch_size);
+	map_entity.Channel_size = (unsigned int)std::ceil((double)Layer_info.Channel_size / (double)Maxes_info.Channel_size);
+	map_entity.Width_size   = (unsigned int)std::ceil((double)Layer_info.Width_size   / (double)Maxes_info.Width_size);
+	map_entity.Height_size  = (unsigned int)std::ceil((double)Layer_info.Height_size  / (double)Maxes_info.Height_size);
 	map_entity.Kernel_size  = map_entity.Channel_size;
 
 	Out_Data_Map			= new_DBID_4D(map_entity.Batch_size, map_entity.Height_size / Windo_info.Height_size, map_entity.Width_size / Windo_info.Width_size, map_entity.Channel_size);
@@ -842,10 +843,10 @@ Output_Layer_2D::Output_Layer_2D					(
 	Maxes_info = Maxes;
 	Windo_info = {3, 3};
 
-	map_entity.Batch_size   = (unsigned int)ceil((double)Layer_info.Batch_size   / (double)Maxes_info.Batch_size);
-	map_entity.Channel_size = (unsigned int)ceil((double)Layer_info.Channel_size / (double)Maxes_info.Channel_size);
-	map_entity.Width_size   = (unsigned int)ceil((double)Layer_info.Width_size   / (double)Maxes_info.Width_size);
-	map_entity.Height_size  = (unsigned int)ceil((double)Layer_info.Height_size  / (double)Maxes_info.Height_size);
+	map_entity.Batch_size   = (unsigned int)std::ceil((double)Layer_info.Batch_size   / (double)Maxes_info.Batch_size);
+	map_entity.Channel_size = (unsigned int)std::ceil((double)Layer_info.Channel_size / (double)Maxes_info.Channel_size);
+	map_entity.Width_size   = (unsigned int)std::ceil((double)Layer_info.Width_size   / (double)Maxes_info.Width_size);
+	map_entity.Height_size  = (unsigned int)std::ceil((double)Layer_info.Height_size  / (double)Maxes_info.Height_size);
 	map_entity.Kernel_size  = map_entity.Channel_size;
 
 	
