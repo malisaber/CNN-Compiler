@@ -125,6 +125,7 @@ void	Compiler::Add_Dump_Directory				(
 	CG_Dump_dest = dir / ("Code_Gen");
 	DG_Dump_dest = dir / ("Data_Gen");
 	
+	std::filesystem::create_directory(dir);
 	std::filesystem::create_directory(DA_Dump_dest);
 	std::filesystem::create_directory(DP_Dump_dest);
 	std::filesystem::create_directory(CG_Dump_dest);
@@ -157,6 +158,7 @@ void	Compiler::Add_Material_Directory			(
 void	Compiler::Add_Output_Directory				(
 														std::filesystem::path src)
 {
+	std::filesystem::create_directory(src);
 	std::filesystem::create_directory(src / ("include"));
 	std::filesystem::create_directory(src / ("src"));
 	CG_Outp_dest	= src;
