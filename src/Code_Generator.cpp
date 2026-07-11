@@ -22,7 +22,7 @@ Code_Generator::Code_Generator						()
 
 
 // No-op destructor; state is owned by STL containers and released automatically.
-Code_Generator::~Code_Generator					 ()
+Code_Generator::~Code_Generator						()
 {
 }
 
@@ -98,18 +98,18 @@ bool Code_Generator::Code_Wizard					(
 														Dependency_Logger* DpndL,
 														Data_Logger* DataL,
 														NETWORK* network,
-														std::filesystem::path Src_fname,
-														std::filesystem::path dst_fname,
-														std::filesystem::path CGCW_Dump_dir)
+														std::filesystem::path Mtr_fname,
+														std::filesystem::path Dmp_fname,
+														std::filesystem::path Out_fname)
 {
 	if (!Extracted)
 		return false;
 
 	// Modifing the structure of extracted information to simpify the code generation
-	Modify_All(DataL, CGCW_Dump_dir);
+	Modify_All(DataL, Dmp_fname);
 	
 	// Generate Codes.
-	Generate_Codes(DpndL, DataL, network, Src_fname, dst_fname);
+	Generate_Codes(DpndL, DataL, network, Mtr_fname, Out_fname);
 
 	return true;
 }
@@ -589,7 +589,7 @@ void Code_Generator::Equal_Spaced_Check_MPDR		(
 // - Searches duplicate chain for a DBID that matches spacing to its neighbor.
 // - Updates Inputs_ID[0] and Inputs_ID[last] if better matches are found.
 // - Sets first/last flags when replacements are applied.
-void Code_Generator::Modify_Zero_Blocks			 (
+void Code_Generator::Modify_Zero_Blocks				(
 														Data_Logger* DataL,
 														size_t lvl,
 														size_t bline,
@@ -650,9 +650,9 @@ void Code_Generator::Modify_Zero_Blocks			 (
 //   and set input spacing (Inp_Seqnc).
 // - For each MPDR baseline: set ESI/ESO.
 // - Print spacing reports and compute Max_PZero_per_Vault.
-void Code_Generator::Modify_All					 (
+void Code_Generator::Modify_All						(
 														Data_Logger* DataL,
-														std::filesystem::path fname)
+														std::filesystem::path Dmp_fname)
 {
 	bool PE_print_en	(true);
 	bool MPDR_print_en	(true);
@@ -703,7 +703,7 @@ void Code_Generator::Modify_All					 (
 		}
 	}
 
-	Print_Spacing(DataL, fname);
+	Print_Spacing(DataL, Dmp_fname);
 }
 
 
@@ -713,15 +713,15 @@ void Code_Generator::Modify_All					 (
 // - fname_PE_Summary.txt: condensed PE summary.
 void Code_Generator::Print_Spacing					(
 														Data_Logger* DataL,
-														std::filesystem::path fname)
+														std::filesystem::path Dmp_fname)
 {
 	std::ofstream files_out_PE;
 	std::ofstream files_out_MPDR;
 	std::ofstream files_out_PESum;
 
-	files_out_PE	.open(fname / "CG_PE.txt");
-	files_out_MPDR	.open(fname / "CG_MPDR.txt");
-	files_out_PESum	.open(fname / "CG_PE_Summary.txt");
+	files_out_PE	.open(Dmp_fname / ("CG_PE.txt"));
+	files_out_MPDR	.open(Dmp_fname / ("CG_MPDR.txt"));
+	files_out_PESum	.open(Dmp_fname / ("CG_PE_Summary.txt"));
 	
 
 	files_out_PE	<< "\t( "			<< std::setw(3) << "P";
@@ -917,24 +917,24 @@ void Code_Generator::Print_Spacing					(
 
 
 // Generate Codes
-void Code_Generator::Generate_Codes				 (
+void Code_Generator::Generate_Codes					(
 														Dependency_Logger* DpndL,
 														Data_Logger* DataL,
 														NETWORK* network,
-														std::filesystem::path srce,
-														std::filesystem::path dest)
+														std::filesystem::path Mtr_fname,
+														std::filesystem::path Out_fname)
 {
 	// Generating the initialization functions, every thing shoud kept simple as fuck.
 	// copying the basic files
 	
-	Copy_File(srce, dest);
+	Copy_File(Mtr_fname, Out_fname);
 
 
 	// Generating Main Fucntion 
 	std::ofstream files_main;
-	files_main .open(dest / ("main.cpp"));
-	Data_H_file.open(dest / ("Data.h"));
-	Data_C_file.open(dest / ("Data.cpp"));
+	files_main .open(Out_fname / ("src")		/ ("main.cpp"));
+	Data_H_file.open(Out_fname / ("include")	/ ("Data.h"));
+	Data_C_file.open(Out_fname / ("src")		/ ("Data.cpp"));
 	Generate_Main_P1(files_main);
 	
 
@@ -980,32 +980,34 @@ void Code_Generator::Generate_Codes				 (
 // Copy required template source files from srce to dest (overwrite existing).
 // Files: Utilities.h, common.h, Accelerator.h/.cpp, EventCallBacker.h/.cpp.
 void Code_Generator::Copy_File						(
-														std::filesystem::path srce,
-														std::filesystem::path dest)
+														std::filesystem::path Mtr_fname,
+														std::filesystem::path Out_fname)
 {
-	// coppying the Utilities.h file
-	std::filesystem::copy_file(	srce / ("Utilities.h"),			dest / ("Utilities.h"),				OVERWRITE);
+	
+	std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("Utilities.h"),
+								Out_fname / ("include")	/ ("Utilities.h"),		OVERWRITE);
 
-	// coppying the Utilities.h file
-	std::filesystem::copy_file(	srce / ("Utilities.cpp"),		dest / ("Utilities.cpp"),			OVERWRITE);
+	std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("common.h"),			
+								Out_fname / ("include")	/ ("common.h"),			OVERWRITE);
 
-	// coppying the common.h file
-	std::filesystem::copy_file(	srce / ("common.h"),			dest / ("common.h"),				OVERWRITE);
+	std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("Accelerator.h"),		
+								Out_fname / ("include")	/ ("Accelerator.h"),	OVERWRITE);
 
-	// coppying the Accelerator.h file
-	std::filesystem::copy_file(	srce / ("Accelerator.h"),		dest / ("Accelerator.h"),			OVERWRITE);
+	std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("uprint.h"),			
+								Out_fname / ("include")	/ ("uprint.h"),			OVERWRITE);
 
-	// coppying the Accelerator.cpp file
-	std::filesystem::copy_file(	srce / ("Accelerator.cpp"),		dest / ("Accelerator.cpp"),			OVERWRITE);
+	std::filesystem::copy_file(	Mtr_fname / ("src")		/ ("Utilities.cpp"),		
+								Out_fname / ("src")		/ ("Utilities.cpp"),	OVERWRITE);
 
-	// coppying the uprint.h file
-	std::filesystem::copy_file(	srce / ("uprint.h"),			dest / ("uprint.h"),				OVERWRITE);
+	std::filesystem::copy_file(	Mtr_fname / ("src")		/ ("Accelerator.cpp"),		
+								Out_fname / ("src")		/ ("Accelerator.cpp"),	OVERWRITE);
 
-	//// coppying the EventCallBacker.h file
-	//std::filesystem::copy_file(	srce + "/EventCallBacker.h",	dest + "/EventCallBacker.h",	OVERWRITE);
+	
+	//std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("EventCallBacker.h"),	
+	//  							Out_fname / ("include")	/ ("EventCallBacker.h"),	OVERWRITE);
 	//
-	//// coppying the EventCallBacker.cpp file
-	//std::filesystem::copy_file(srce + "/EventCallBacker.cpp",	dest + "/EventCallBacker.cpp",	OVERWRITE);
+	//std::filesystem::copy_file(Mtr_fname / ("src")		/ ("EventCallBacker.cpp"),	
+	//  							Out_fname / ("src")		/ ("EventCallBacker.cpp"),	OVERWRITE);
 }
 
 

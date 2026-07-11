@@ -7,6 +7,6 @@
 #include "json.hpp"
 #include "Compiler.h"
 
-void BuildNetworkFromFile						   (
+void BuildNetworkFromFile							(
 														const std::filesystem::path& path,
 														Compiler& compiler);

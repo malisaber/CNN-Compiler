@@ -1,7 +1,7 @@
 #include "tester.h"
 
 std::vector<Mapping_Result>
-CNN_Node_Mapper::MapNodes						   (
+CNN_Node_Mapper::MapNodes							(
 														const std::vector<Scheduling_Node>& Nodes)
 {
     constexpr uint8_t PLANES = 4;

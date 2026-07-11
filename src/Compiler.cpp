@@ -17,11 +17,11 @@ Compiler::Compiler									()
 	Compiled			= false;
 	All_done			= false;
 
-	CG_Matr_file		= "";
 	DA_Dump_dest		= "";
 	DP_Dump_dest		= "";
+	CG_Matr_file		= "";
 	CG_Dump_dest		= "";
-	CW_Outp_dest		= "";
+	CG_Outp_dest		= "";
 	DG_Dump_dest		= "";
 
 
@@ -159,7 +159,7 @@ void	Compiler::Add_Output_Directory				(
 {
 	std::filesystem::create_directory(src / ("include"));
 	std::filesystem::create_directory(src / ("src"));
-	CW_Outp_dest	= src;
+	CG_Outp_dest	= src;
 	Added_Out		= true;
 }
 
@@ -297,7 +297,7 @@ void	Compiler::Generate_Codes					(
 	// Code Geneneration
 	if (verbose)	std::cout << "Running Code Generator Engine ..." << std::endl;
 					Code_Gen_Eng->Extract_PE_Execution_Info(Dpnd_Log_Eng);
-					Code_Gen_Eng->Code_Wizard(Dpnd_Log_Eng, Data_Log_Eng, Network, CG_Matr_file, CG_Dump_dest, CW_Outp_dest);
+					Code_Gen_Eng->Code_Wizard(Dpnd_Log_Eng, Data_Log_Eng, Network, CG_Matr_file, CG_Dump_dest, CG_Outp_dest);
 	if (verbose)	std::cout << "Code Generator Engine Done!" << std::endl << std::endl << std::endl;
 }
 

@@ -57,7 +57,7 @@ Dependency_Logger::Dependency_Logger				()
 
 
 // No-op destructor; state is owned by STL containers.
-Dependency_Logger::~Dependency_Logger			   ()
+Dependency_Logger::~Dependency_Logger				()
 {
 }
 
@@ -160,7 +160,7 @@ SNID_t Dependency_Logger::Get_Ending_Point_Scheduling_Node_Idx() const
 
 
 // Get the layer index for a scheduling node.
-size_t Dependency_Logger::Get_Layer_of			  (
+size_t Dependency_Logger::Get_Layer_of				(
 														SNID_t SNI)
 {
 	return Nodes[SNI.index()].layer;
@@ -213,7 +213,7 @@ bool Dependency_Logger::Add_Dependency_to_Scheduling_Node(
 
 
 // Set scheduling info for a node.
-bool Dependency_Logger::Set_Scheduling_Info		 (
+bool Dependency_Logger::Set_Scheduling_Info			(
 														SNID_t SNI,
 														Scheduling_info Sinfo)
 {
@@ -228,7 +228,7 @@ bool Dependency_Logger::Set_Scheduling_Info		 (
 
 
 // Get scheduling info for a node.
-bool Dependency_Logger::Get_Scheduling_Info		 (
+bool Dependency_Logger::Get_Scheduling_Info			(
 														SNID_t SNI,
 														Scheduling_info& Sinfo)
 {
@@ -309,7 +309,7 @@ bool Dependency_Logger::Fetch_Scheduling_Nodes_with_this_Dependency(
 
 
 // Seting Convolution Layer Information of the Node
-bool Dependency_Logger::Set_CLI					 (
+bool Dependency_Logger::Set_CLI						(
 														SNID_t SNI,
 														Conv_Layer_Info CLinfo)
 {
@@ -324,7 +324,7 @@ bool Dependency_Logger::Set_CLI					 (
 
 
 // Getting the Convolution Layer Information of the Node
-bool Dependency_Logger::Get_CLI					 (
+bool Dependency_Logger::Get_CLI						(
 														SNID_t SNI,
 														Conv_Layer_Info& CLinfo)
 {
@@ -414,7 +414,7 @@ size_t Dependency_Logger::print_file				(
 
 
 // Return number of scheduling nodes stored.
-size_t Dependency_Logger::size					  ()
+size_t Dependency_Logger::size						()
 {
 	return Nodes.size();
 }
@@ -488,7 +488,7 @@ size_t Dependency_Logger::Schedule_Nodes			(
 
 // Build execution and peripheral threads from scheduled nodes.
 // Groups Sch_Process nodes by similar weights, and Sch_Activation/Sch_MPDR by type.
-bool Dependency_Logger::Build_Threads			   ()
+bool Dependency_Logger::Build_Threads				()
 {
 	//	Sch_Null,		Sch_Start,		Sch_Input,		Sch_Process,	Sch_PE_Store,	Sch_Accumulate,		
 	//	********,		*********,		*********,		***********,	************,	**************,	
@@ -719,7 +719,7 @@ bool Dependency_Logger::Optimizing_Execution_Threads()
 
 
 // Return total number of nodes across execution and peripheral threads.
-size_t Dependency_Logger::Thread_Size			   ()
+size_t Dependency_Logger::Thread_Size				()
 {
 	
 
@@ -868,7 +868,7 @@ size_t Dependency_Logger::print_Optimized_Execution_Thread_info_file(
 
 // Map scheduled nodes onto hardware planes/vaults and build ordering.
 // Returns number of nodes successfully mapped.
-size_t Dependency_Logger::Map					   (
+size_t Dependency_Logger::Map						(
 														Data_Logger* DataL,
 														Hardware* HW,
 														std::filesystem::path mappr_Dump_Dir)
@@ -1108,7 +1108,7 @@ size_t Dependency_Logger::Map					   (
 
 
 // Dump mapping and ordering info to a text file (appends .txt).
-bool Dependency_Logger::print_mapping_file		  (
+bool Dependency_Logger::print_mapping_file			(
 														std::filesystem::path fname)
 {
 	std::ofstream file_out;
@@ -1186,7 +1186,7 @@ bool Dependency_Logger::print_mapping_file		  (
 
 
 // Get allocated vault for a scheduling node.
-bool Dependency_Logger::Get_Vault_Info			  (
+bool Dependency_Logger::Get_Vault_Info				(
 														SNID_t SID,
 														size_t& Vlt)
 {
@@ -1251,7 +1251,7 @@ size_t Dependency_Logger::Calculate_Data_Block_Timing(
 
 
 // Allocate data blocks into vault address space.
-bool Dependency_Logger::Allocte					 (
+bool Dependency_Logger::Allocte						(
 														Data_Logger* DataL)
 {
 	Calculate_Required_Spaces(DataL);
@@ -1291,7 +1291,7 @@ bool Dependency_Logger::Allocte					 (
 
 
 // Return required space counts and offsets for each data type.
-bool Dependency_Logger::Get_Required_Spaces		 (
+bool Dependency_Logger::Get_Required_Spaces			(
 														size_t& Icnt,
 														size_t& Wcnt,
 														size_t& Ocnt,
@@ -1318,7 +1318,7 @@ bool Dependency_Logger::Get_Required_Spaces		 (
 
 
 // Export ordering info for code generation.
-void Dependency_Logger::Get_Ordering_Info		   (
+void Dependency_Logger::Get_Ordering_Info			(
 														std::vector<std::vector<std::vector<Ordering_Node>>>& Ord) const
 {
 	Ord = Ordering;
@@ -1326,7 +1326,7 @@ void Dependency_Logger::Get_Ordering_Info		   (
 
 
 // Fetch consumed data block IDs for a scheduling node.
-void Dependency_Logger::Get_Consumed_Data_Bloks	 (
+void Dependency_Logger::Get_Consumed_Data_Bloks		(
 														SNID_t SID,
 														std::vector<DBID_t>& Cnsmd_DBID)
 {
@@ -1505,7 +1505,7 @@ bool Dependency_Logger::Clear_Scheduling_Node_Spacing_Info()
 
 
 // Build reverse edges (Condition_for) for all nodes and mark Compiled.
-void Dependency_Logger::Compile_Schedule_Nodes	  ()
+void Dependency_Logger::Compile_Schedule_Nodes		()
 {
 	for (size_t idx = 0; idx < Nodes.size(); idx++)
 	{
@@ -1549,7 +1549,7 @@ bool Dependency_Logger::Is_Scheduling_Node_Satisfied(
 
 
 // Check whether two Sch_Process nodes share the same weight blocks.
-bool Dependency_Logger::Is_PE_Weights_Similar	   (
+bool Dependency_Logger::Is_PE_Weights_Similar		(
 														SNID_t SID,
 														SNID_t BLNode_Idx)
 {
@@ -1588,7 +1588,7 @@ bool Dependency_Logger::Is_PE_Inputs_Next_Sequencing(
 
 
 // Calculate total and per-vault coverage of PE assignments.
-void Dependency_Logger::Calculate_PE_Coverage	   (
+void Dependency_Logger::Calculate_PE_Coverage		(
 														PE_Node PEs[4][16],
 														size_t& total_Cover,
 														size_t& vault_Cover)
@@ -1610,7 +1610,7 @@ void Dependency_Logger::Calculate_PE_Coverage	   (
 
 
 // Reset cached Previous_PE_Info records.
-void Dependency_Logger::Clear_Previous_PE_Info	  ()
+void Dependency_Logger::Clear_Previous_PE_Info		()
 {
 	Previous_PE_Info_valid = false;
 	for (size_t pln = 0; pln < 4; pln++)
@@ -1683,7 +1683,7 @@ void Dependency_Logger::Generate_Peripheral_Block   (
 
 
 // Map a level
-void Dependency_Logger::Map_level				   (
+void Dependency_Logger::Map_level					(
 														std::vector<SNID_t>& nodes_ID,
 														std::vector<std::vector<Mapping_Result>>& res)
 {
@@ -1834,7 +1834,7 @@ void Dependency_Logger::Map_Node					(
 
 
 // Mark a scheduling node as mapped.
-void Dependency_Logger::Mark_as_Mapped			  (
+void Dependency_Logger::Mark_as_Mapped				(
 														SNID_t SNI)
 {
 	Nodes[SNI.index()].mapped = true;
@@ -1869,7 +1869,7 @@ void Dependency_Logger::Time_The_Node_Please		(
 
 
 // Mark a scheduling node as timed.
-void Dependency_Logger::Mark_as_Timmed			  (
+void Dependency_Logger::Mark_as_Timmed				(
 														SNID_t SNI)
 {
 	Nodes[SNI.index()].timmed = true;
@@ -1958,7 +1958,7 @@ void Dependency_Logger::Calculate_Required_Spaces   (
 
 
 // Allocate input (DATA_IN/IZero) blocks with sequential addresses.
-void Dependency_Logger::maloc_DATA_IN			   (
+void Dependency_Logger::maloc_DATA_IN				(
 														Data_Logger* DataL,
 														size_t Offset,
 														size_t& Next_Offset)
@@ -2040,7 +2040,7 @@ void Dependency_Logger::maloc_WEIGHT				(
 
 
 // Allocate output blocks with sequential addresses.
-void Dependency_Logger::maloc_DATA_OUT			  (
+void Dependency_Logger::maloc_DATA_OUT				(
 														Data_Logger* DataL,
 														size_t Offset,
 														size_t& Next_Offset)
@@ -2091,7 +2091,7 @@ void Dependency_Logger::maloc_DATA_OUT			  (
 
 
 // Allocate partial-sum blocks with sequential addresses.
-void Dependency_Logger::maloc_PSUM				  (
+void Dependency_Logger::maloc_PSUM					(
 														Data_Logger* DataL,
 														size_t Offset,
 														size_t& Next_Offset)
@@ -2419,7 +2419,7 @@ void Dependency_Logger::maloc_PSUM				  (
 
 
 // Allocate a single input node, duplicating data if vault mismatch.
-void Dependency_Logger::maloc_DATA_IN_Node		  (
+void Dependency_Logger::maloc_DATA_IN_Node			(
 														Data_Logger* DataL,
 														size_t vlt,
 														size_t* SoBI,
@@ -2478,7 +2478,7 @@ void Dependency_Logger::maloc_DATA_IN_Node		  (
 
 
 // Allocate a single weight node, duplicating data if vault mismatch.
-void Dependency_Logger::maloc_WEIGHT_Node		   (
+void Dependency_Logger::maloc_WEIGHT_Node			(
 														Data_Logger* DataL,
 														size_t vlt,
 														size_t* SoBI,
@@ -2536,7 +2536,7 @@ void Dependency_Logger::maloc_WEIGHT_Node		   (
 
 
 // Clear allocation flags for PZero and PSUM blocks.
-void Dependency_Logger::Clear_Allocation_Flag	   (
+void Dependency_Logger::Clear_Allocation_Flag		(
 														Data_Logger* DataL)
 {
 	for (DBID_t idx = DBID_t::Null(); idx < DataL->size(); idx++)
@@ -2570,7 +2570,7 @@ void   Dependency_Logger::Addin_New_Time			(
 
 
 // Get index of a time slot (create if missing).
-size_t Dependency_Logger::Return_the_Time_idx	   (
+size_t Dependency_Logger::Return_the_Time_idx		(
 														std::vector<std::vector<DBID_t>>& matrix,
 														std::vector<size_t>& Ax,
 														size_t time)
@@ -2698,7 +2698,7 @@ size_t Dependency_Logger::Setting_Start_Address_of_Allocation_Matrix(
 
 
 // Pre-reserve rows in the allocation matrix.
-void   Dependency_Logger::Reserve_Rows			  (
+void   Dependency_Logger::Reserve_Rows				(
 														std::vector<std::vector<DBID_t>>& matrix,
 														size_t cnt)
 {

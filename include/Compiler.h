@@ -32,11 +32,11 @@ class Compiler
 	bool								All_done;
 
 
-	std::filesystem::path				CG_Matr_file;
 	std::filesystem::path				DA_Dump_dest;
 	std::filesystem::path				DP_Dump_dest;
+	std::filesystem::path				CG_Matr_file;
 	std::filesystem::path				CG_Dump_dest;
-	std::filesystem::path				CW_Outp_dest;
+	std::filesystem::path				CG_Outp_dest;
 	std::filesystem::path				DG_Dump_dest;
 
 	std::vector<std::filesystem::path>	Inp_names;

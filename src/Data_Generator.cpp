@@ -4,7 +4,7 @@
 
 
 // Initialize generator state and create a reserved null record at index 0.
-Data_Generator::Data_Generator					  ()
+Data_Generator::Data_Generator						()
 {
 	GIDF_cntr = 0;
 	GWDF_cntr = 0;
@@ -17,14 +17,14 @@ Data_Generator::Data_Generator					  ()
 
 
 // No-op destructor; storage is owned by STL containers.
-Data_Generator::~Data_Generator					 ()
+Data_Generator::~Data_Generator						()
 {
 
 }
 
 
 // Set inputs information getting from network
-void	Data_Generator::Get_Inps_info			   (
+void	Data_Generator::Get_Inps_info				(
 														NETWORK* NET)
 {
 	NET->Get_input_sizes(Inps_linfo, Inps_minfo, Inps_lid);
@@ -32,7 +32,7 @@ void	Data_Generator::Get_Inps_info			   (
 
 
 // Set weights information getting from network
-void	Data_Generator::Get_Wgts_info			   (
+void	Data_Generator::Get_Wgts_info				(
 														NETWORK* NET)
 {
 	NET->Get_weight_sizes(Wgts_linfo, Wgts_minfo, Wgts_lid);
@@ -61,7 +61,7 @@ size_t Data_Generator::Generated_Zero_files_size	()
 
 
 // Return number of generator records stored.
-size_t	Data_Generator::Generated_file_size		 ()
+size_t	Data_Generator::Generated_file_size			()
 {
 	return GIDF_cntr + GWDF_cntr + GZDF_cntr;
 }
@@ -76,7 +76,7 @@ void	Data_Generator::load_input_files			(
 
 
 // Load weight files' name 
-void	Data_Generator::load_Weight_files		   (
+void	Data_Generator::load_Weight_files			(
 														std::vector<std::filesystem::path> names)
 {
 	Wgts_Fnames = names;
@@ -132,7 +132,7 @@ std::vector<uint16_t> Data_Generator::Read_binary_file(
 
 // Convert the CHW idexed to absolute index
 // flat layout, index as img[b*C*FH*FW + c*FH*FW + w*FH + h]
-size_t	Data_Generator::Relative_2_Absolute_idx	 (
+size_t	Data_Generator::Relative_2_Absolute_idx		(
 														size_t b,
 														size_t c,
 														size_t w,
@@ -324,7 +324,7 @@ void	Data_Generator::Generate_ZDF				(
 
 
 // returning the value 
-size_t	Data_Generator::write_input_value		   (
+size_t	Data_Generator::write_input_value			(
 														std::ofstream& fid,
 														std::vector<uint16_t> data,
 														Conv_Layer_Info linfo,
@@ -361,7 +361,7 @@ size_t	Data_Generator::write_input_value		   (
 
 
 // returning the weight value 
-size_t	Data_Generator::write_Weight_value		  (
+size_t	Data_Generator::write_Weight_value			(
 														std::ofstream& fid,
 														std::vector<uint16_t> data,
 														Conv_Layer_Info linfo,

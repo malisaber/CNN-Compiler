@@ -14,18 +14,18 @@ public:
 	Hardware										(
 														unsigned int available_planes);
 	
-	// Destroy hardware model (no explicit resource cleanup required).
-	~Hardware									   ();
+	// Destroy hardware model	(no explicit resource cleanup required).
+	~Hardware										();
 	
 	
-	// Return total number of available PEs (planes * vaults).
-	unsigned int Get_Number_of_Available_PE		 () const;
+	// Return total number of available PEs	(planes * vaults).
+	unsigned int Get_Number_of_Available_PE			() const;
 	
 	// Return number of available planes.
-	unsigned int Get_Number_of_Available_Planes	 () const;
+	unsigned int Get_Number_of_Available_Planes		() const;
 	
 	// Return number of available vaults.
-	unsigned int Get_Number_of_Available_Vaults	 () const;
+	unsigned int Get_Number_of_Available_Vaults		() const;
 
 private:
 

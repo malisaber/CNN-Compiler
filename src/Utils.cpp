@@ -2,7 +2,7 @@
 
 
 // Build a Data_Block from a Data_Block_Info record and reset allocation/timing fields.
-Data_Block assign								   (
+Data_Block assign									(
 														Data_Block_Info inp)
 {
 	Data_Block out{};
@@ -28,7 +28,7 @@ Data_Block assign								   (
 
 
 // Build Conv_Layer_Info from individual dimensions.
-Conv_Layer_Info assign							  (
+Conv_Layer_Info assign								(
 														unsigned int B,
 														unsigned int K,
 														unsigned int C,
@@ -63,7 +63,7 @@ bool Eq_comapre_BHW_K1C2							(
 
 
 // Print Conv_Layer_Info in (BKCWHFF) order.
-void print										  (
+void print											(
 														Conv_Layer_Info inp)
 {
 	std::cout << "(BKCWHFF) = (";
@@ -78,7 +78,7 @@ void print										  (
 
 
 // Print a Dependency (ID and satisfied flag).
-void print										  (
+void print											(
 														Dependency dep)
 {
 	std::cout << "ID: " << dep.Dependent_ID << ", \t";
@@ -87,7 +87,7 @@ void print										  (
 
 
 // Allocate a 7D array of DBID_t with sizes d0..d6.
-DBID_t*******	new_DBID_7D						 (
+DBID_t*******	new_DBID_7D							(
 														unsigned int d0,
 														unsigned int d1,
 														unsigned int d2,
@@ -130,7 +130,7 @@ DBID_t*******	new_DBID_7D						 (
 
 
 // Allocate a 7D array of SNID_t with sizes d0..d6.
-SNID_t*******	new_SNID_7D						 (
+SNID_t*******	new_SNID_7D							(
 														unsigned int d0,
 														unsigned int d1,
 														unsigned int d2,
@@ -173,7 +173,7 @@ SNID_t*******	new_SNID_7D						 (
 
 
 // Allocate a 4D array of DBID_t with sizes d0..d3.
-DBID_t****		new_DBID_4D						 (
+DBID_t****		new_DBID_4D							(
 														unsigned int d0,
 														unsigned int d1,
 														unsigned int d2,
@@ -195,7 +195,7 @@ DBID_t****		new_DBID_4D						 (
 
 
 // Allocate a 4D array of SNID_t with sizes d0..d3.
-SNID_t****		new_SNID_4D						 (
+SNID_t****		new_SNID_4D							(
 														unsigned int d0,
 														unsigned int d1,
 														unsigned int d2,
@@ -217,7 +217,7 @@ SNID_t****		new_SNID_4D						 (
 
 
 // Construct a Dependency with given satisfied flag and dependent ID.
-Dependency Gen_Dependency						   (
+Dependency Gen_Dependency							(
 														bool satisfied,
 														SNID_t Dependent_ID)
 {
@@ -229,7 +229,7 @@ Dependency Gen_Dependency						   (
 
 
 // Map baseline count to vault count (heuristic).
-size_t calculate_vault_map						  (
+size_t calculate_vault_map							(
 														size_t bl)
 {
 	size_t out(0);
@@ -263,7 +263,7 @@ size_t calculate_vault_map						  (
 
 
 // Return a string for a boolean result ("Suucessfull"/"Unsuucessfull").
-std::string Res_Dec								 (
+std::string Res_Dec									(
 														const bool b)
 {
 	if (b)
@@ -271,13 +271,13 @@ std::string Res_Dec								 (
 	return "Unsuucessfull";
 }
 
-std::string embedd								  (
+std::string embedd									(
 														size_t lvl,
 														size_t bline)
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline);
 }
-std::string embedd								  (
+std::string embedd									(
 														size_t lvl,
 														size_t bline,
 														size_t node)
@@ -313,14 +313,14 @@ std::string embedd_dma_array						(
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline) + "_DMA_" + std::to_string(node) + "[" + std::to_string(arr_size_d1) + "]";
 }
-std::string embedd_array_2D						 (
+std::string embedd_array_2D							(
 														size_t lvl,
 														size_t arr_size_d1,
 														size_t arr_size_d2)
 {
 	return std::to_string(lvl) + "[" + std::to_string(arr_size_d1) + "][" + std::to_string(arr_size_d2) + "]";
 }
-std::string embedd_array_2D						 (
+std::string embedd_array_2D							(
 														size_t lvl,
 														size_t bline,
 														size_t arr_size_d1,

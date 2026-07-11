@@ -47,9 +47,9 @@ public:
 														Dependency_Logger* DpndL,
 														Data_Logger* DataL,
 														NETWORK* network,
-														std::filesystem::path Src_fname,
-														std::filesystem::path dst_fname,
-														std::filesystem::path CGCW_Dump_dir);
+														std::filesystem::path Mtr_fname,
+														std::filesystem::path Dmp_fname,
+														std::filesystem::path Out_fname);
 
 
 private:
@@ -120,12 +120,12 @@ private:
 	// Apply all normalization/spacing/zero-block fixes and dump intermediate files.
 	void	Modify_All							 	(
 														Data_Logger* DataL,
-														std::filesystem::path fname);
+														std::filesystem::path Dmp_fname);
 
 	// Emit a spacing diagnostics report file.
 	void	Print_Spacing							(
 														Data_Logger* DataL,
-														std::filesystem::path fname);
+														std::filesystem::path Dmp_fname);
 
 	//// Build spacing pattern for PE outputs; returns false if inconsistent.
 	//bool	Get_PE_Out_Spacing_Pattern				(Data_Logger* DataL, size_t lvl, size_t bline, size_t node, std::vector<size_t>& pattern);
@@ -138,13 +138,13 @@ private:
 														Dependency_Logger* DpndL,
 														Data_Logger* DataL,
 														NETWORK* network,
-														std::filesystem::path srce,
-														std::filesystem::path fname);
+														std::filesystem::path Mtr_fname,
+														std::filesystem::path Out_fname);
 
 	// Copy template source files from srce to dest	(overwrite if present).
 	void	Copy_File								(
-														std::filesystem::path srce,
-														std::filesystem::path dest);
+														std::filesystem::path Mtr_fname,
+														std::filesystem::path Out_fname);
 
 	// Emit the first part of generated main.cpp	(includes globals and setup).
 	void	Generate_Main_P1						(

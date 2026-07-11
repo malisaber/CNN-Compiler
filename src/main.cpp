@@ -52,7 +52,7 @@ int main											(
 	BuildNetworkFromFile			(Net_Filex, compiler);
 	compiler.Add_Dump_Directory		(Dmp_Direc);
 	compiler.Add_Material_Directory	(Mtr_Direc);
-	compiler.Add_Output_Directory	(Mtr_Direc);
+	compiler.Add_Output_Directory	(Out_Direc);
 	compiler.Add_Data_Gen_Directory	(Inp_names, Wgt_names);
 	compiler.Compile				(verbose);
 	compiler.Report					();

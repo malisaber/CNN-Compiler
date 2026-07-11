@@ -20,7 +20,7 @@ Data_Logger::Data_Logger							()
 
 
 // Destroy the logger (no explicit resource cleanup required).
-Data_Logger::~Data_Logger						   ()
+Data_Logger::~Data_Logger							()
 {
 }
 
@@ -73,7 +73,7 @@ DBID_t Data_Logger::Creat_Data_Block				(
 
 // Set/replace the producer scheduling node for an existing data block.
 // Returns false if DBID is out of range.
-bool Data_Logger::Set_Producer_ID_of_DBID		   (
+bool Data_Logger::Set_Producer_ID_of_DBID			(
 														DBID_t DBI,
 														SNID_t NID)
 {
@@ -88,7 +88,7 @@ bool Data_Logger::Set_Producer_ID_of_DBID		   (
 
 // Append a consumer scheduling node to an existing data block.
 // Returns false if DBID is out of range.
-bool Data_Logger::Add_Consumer					  (
+bool Data_Logger::Add_Consumer						(
 														DBID_t DBI,
 														SNID_t NID)
 {
@@ -127,7 +127,7 @@ DBID_t Data_Logger::Duplicate_Data_Block			(
 
 // Retrieve a full data block record by ID.
 // Returns true if found, and copies into DB.
-bool Data_Logger::Get_Data_Block_Info			   (
+bool Data_Logger::Get_Data_Block_Info				(
 														DBID_t DBI,
 														Data_Block& DB)
 {
@@ -189,7 +189,7 @@ size_t Data_Logger::Get_Starting_Index_of_Data_Block(
 
 
 // Compute effective address (EA) in bytes from vault and starting index.
-size_t Data_Logger::GET_EA						  (
+size_t Data_Logger::GET_EA							(
 														DBID_t DBI)
 {
 	size_t EA(DATA[DBI.index()].SoBI);
@@ -200,7 +200,7 @@ size_t Data_Logger::GET_EA						  (
 
 // Dump all data blocks into a text file (appends .txt).
 // Returns number of data blocks written.
-size_t Data_Logger::print_file					  (
+size_t Data_Logger::print_file						(
 														std::filesystem::path name)
 {
 	std::string a_line;
@@ -262,7 +262,7 @@ size_t Data_Logger::size							()
 
 
 // Get producer node ID for a data block.
-SNID_t Data_Logger::Get_Producer_ID_of_DBID		 (
+SNID_t Data_Logger::Get_Producer_ID_of_DBID			(
 														DBID_t DBI)
 {
 	return DATA[DBI.index()].Producer_ID;
@@ -270,7 +270,7 @@ SNID_t Data_Logger::Get_Producer_ID_of_DBID		 (
 
 
 // Test allocation flag for a data block.
-bool Data_Logger::Is_Allocated					  (
+bool Data_Logger::Is_Allocated						(
 														DBID_t DBI)
 {
 	return DATA[DBI.index()].alocated;
@@ -278,7 +278,7 @@ bool Data_Logger::Is_Allocated					  (
 
 
 // Get data block type (DBT_*).
-Data_Block_Types Data_Logger::Get_Type_of_DBID	  (
+Data_Block_Types Data_Logger::Get_Type_of_DBID		(
 														DBID_t DBI)
 {
 	return DATA[DBI.index()].DBT;
@@ -286,7 +286,7 @@ Data_Block_Types Data_Logger::Get_Type_of_DBID	  (
 
 
 // Copy all consumer node IDs into the provided vector.
-void Data_Logger::Get_Consumers_ID_of_DBID		  (
+void Data_Logger::Get_Consumers_ID_of_DBID			(
 														DBID_t DBI,
 														std::vector<SNID_t>& CID)
 {
@@ -295,7 +295,7 @@ void Data_Logger::Get_Consumers_ID_of_DBID		  (
 
 
 // Replace all consumer node IDs with a single consumer.
-void Data_Logger::Set_Consumers_ID_of_DBID		  (
+void Data_Logger::Set_Consumers_ID_of_DBID			(
 														DBID_t DBI,
 														SNID_t CID)
 {
@@ -305,7 +305,7 @@ void Data_Logger::Set_Consumers_ID_of_DBID		  (
 
 
 // Set vault index for a data block.
-void Data_Logger::Set_Vault_of_DBID				 (
+void Data_Logger::Set_Vault_of_DBID					(
 														DBID_t DBI,
 														size_t vlt)
 {
@@ -314,7 +314,7 @@ void Data_Logger::Set_Vault_of_DBID				 (
 
 
 // Retrieve vault index for a data block (by reference).
-void Data_Logger::Get_Vault_of_DBID				 (
+void Data_Logger::Get_Vault_of_DBID					(
 														DBID_t DBI,
 														size_t& vlt)
 {
@@ -323,7 +323,7 @@ void Data_Logger::Get_Vault_of_DBID				 (
 
 
 // Retrieve vault index for a data block (by value).
-size_t Data_Logger::Get_Vault_of_DBID			   (
+size_t Data_Logger::Get_Vault_of_DBID				(
 														DBID_t DBI)
 {
 	return DATA[DBI.index()].Vault;
@@ -332,7 +332,7 @@ size_t Data_Logger::Get_Vault_of_DBID			   (
 
 // Set produced time (timestamp) for a data block.
 // Returns false if DBID is out of range.
-bool Data_Logger::Set_Produced_Time				 (
+bool Data_Logger::Set_Produced_Time					(
 														DBID_t DBI,
 														size_t time)
 {
@@ -350,7 +350,7 @@ bool Data_Logger::Set_Produced_Time				 (
 
 // Update last accessed time for a data block (max of old/new).
 // Returns false if DBID is out of range.
-bool Data_Logger::Set_Accessed_Time				 (
+bool Data_Logger::Set_Accessed_Time					(
 														DBID_t DBI,
 														size_t time)
 {
@@ -371,7 +371,7 @@ bool Data_Logger::Set_Accessed_Time				 (
 
 // Mark a data block as allocated.
 // Returns false if DBID is out of range.
-bool Data_Logger::Mark_as_Allocated				 (
+bool Data_Logger::Mark_as_Allocated					(
 														DBID_t DBI)
 {
 	bool found(false);
@@ -387,7 +387,7 @@ bool Data_Logger::Mark_as_Allocated				 (
 
 
 // Compute distance in blocks between two data blocks by vault/SBI.
-size_t Data_Logger::Calculate_Space_Between		 (
+size_t Data_Logger::Calculate_Space_Between			(
 														DBID_t DBID_1,
 														DBID_t DBID_2)
 {
@@ -402,7 +402,7 @@ size_t Data_Logger::Calculate_Space_Between		 (
 
 
 //  Retrieve dimension (Max Sizes) of the block
-Conv_Layer_Info Data_Logger::Get_Dims			   (
+Conv_Layer_Info Data_Logger::Get_Dims				(
 														DBID_t DBI)
 {
 	return DATA[DBI.index()].Dims;
@@ -410,7 +410,7 @@ Conv_Layer_Info Data_Logger::Get_Dims			   (
  
 
 //  Retrieve dimension indexes of the block
-Conv_Layer_Info Data_Logger::Get_Idxs			   (
+Conv_Layer_Info Data_Logger::Get_Idxs				(
 														DBID_t DBI)
 {
 	return DATA[DBI.index()].Idxs;
@@ -418,7 +418,7 @@ Conv_Layer_Info Data_Logger::Get_Idxs			   (
 
 
 // is data block generated
-bool Data_Logger::is_Generated					  (
+bool Data_Logger::is_Generated						(
 														DBID_t DBI)
 {
 	return DATA[DBI.index()].isGenerated;
@@ -426,7 +426,7 @@ bool Data_Logger::is_Generated					  (
 
 
 // Mark a data block as generated
-void Data_Logger::Mark_as_Generated				 (
+void Data_Logger::Mark_as_Generated					(
 														DBID_t DBI)
 {
 	DATA[DBI.index()].isGenerated = true;

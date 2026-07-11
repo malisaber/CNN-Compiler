@@ -19,7 +19,7 @@ private:
     {
         size_t K, C, FH, FW;
 
-        bool operator==							 (
+        bool operator==								(
 														const WeightKey& other) const
         {
             return K == other.K && C == other.C &&
@@ -31,7 +31,7 @@ private:
     {
         size_t B, K, C, W, FH, FW;
 
-        bool operator==							 (
+        bool operator==								(
 														const ExecKey& o) const
         {
             return B == o.B && K == o.K && C == o.C &&
@@ -41,27 +41,27 @@ private:
 
     struct WeightHasher
     {
-        size_t operator							 ()(const WeightKey& k) const noexcept
+        size_t operator								()(const WeightKey& k) const noexcept
         {
             return std::hash<size_t>()(k.K) ^
 													(
 														std::hash<size_t>()(k.C) << 1) ^
-                (std::hash<size_t>()(k.FH) << 2) ^
-                (std::hash<size_t>()(k.FW) << 3);
+             	(std::hash<size_t>()(k.FH) << 2) ^
+             	(std::hash<size_t>()(k.FW) << 3);
         }
     };
 
     struct ExecHasher
     {
-        size_t operator							 ()(const ExecKey& k) const noexcept
+        size_t operator								()(const ExecKey& k) const noexcept
         {
             return std::hash<size_t>()(k.B) ^
 													(
 														std::hash<size_t>()(k.K) << 1) ^
-                (std::hash<size_t>()(k.C) << 2) ^
-                (std::hash<size_t>()(k.W) << 3) ^
-                (std::hash<size_t>()(k.FH) << 4) ^
-                (std::hash<size_t>()(k.FW) << 5);
+             	(std::hash<size_t>()(k.C) << 2) ^
+             	(std::hash<size_t>()(k.W) << 3) ^
+             	(std::hash<size_t>()(k.FH) << 4) ^
+             	(std::hash<size_t>()(k.FW) << 5);
         }
     };
 };
