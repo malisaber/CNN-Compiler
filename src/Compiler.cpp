@@ -216,7 +216,7 @@ void	Compiler::Schedule_Dependencies				(
 	//	Scheduling 
 	if (verbose)	std::cout << "Running Scheduling Engine ..." << std::endl;
 	if (verbose)	std::cout << "Total Node: " << Dpnd_Log_Eng->size() << std::endl;
-	tmp =			Dpnd_Log_Eng->Schedule_Nodes(Data_Log_Eng);
+	tmp =			Dpnd_Log_Eng->Schedule_Nodes();
 	if (verbose)	std::cout << "Scheduling Engine Done!" << std::endl;
 	if (verbose)	std::cout << "Nodes that did not scheduled: " << Dpnd_Log_Eng->size() - tmp << std::endl << std::endl << std::endl;
 }

@@ -86,7 +86,7 @@ private:
 														size_t c,
 														size_t w,
 														size_t h,
-														size_t B,
+														//size_t B,
 														size_t C,
 														size_t W,
 														size_t H);

@@ -422,8 +422,8 @@ size_t Dependency_Logger::size						()
 
 // Schedule dependency nodes level-by-level until no further nodes are ready.
 // Computes spacing info and compiles reverse edges.
-size_t Dependency_Logger::Schedule_Nodes			(
-														Data_Logger* DL)
+size_t Dependency_Logger::Schedule_Nodes			()
+														//Data_Logger* DL)
 {
 	size_t tot(0);
 	unsigned int level(0);
@@ -1822,7 +1822,7 @@ void Dependency_Logger::Map_Node					(
 	order.Generated = false;
 	
 
-	if (lvl < 0)
+	if ((long long)lvl < 0)
 		return;
 	if (!forced)
 		if (Nodes[node_idx.index()].mapped)
@@ -2040,7 +2040,7 @@ void Dependency_Logger::maloc_DATA_IN				(
 				size_t vlt = Nodes[Order_SNID.index()].Alc_Info.Allocated_Vault;
 				//std::cout << "Vlt: " << vlt << "\t(N" << Order_SNID << ")\t";
 				for (size_t Dep_Cntr = 0; Dep_Cntr < Nodes[Order_SNID.index()].Dependencies.size(); Dep_Cntr++)
-					maloc_DATA_IN_Node(DataL, vlt, SoBI, Order_SNID, Nodes[Order_SNID.index()].Dependencies[Dep_Cntr], false);
+					maloc_DATA_IN_Node(DataL, vlt, SoBI, Order_SNID, Nodes[Order_SNID.index()].Dependencies[Dep_Cntr]);
 				//std::cout << std::endl;
 			}
 		}
@@ -2480,8 +2480,8 @@ void Dependency_Logger::maloc_DATA_IN_Node			(
 														size_t vlt,
 														size_t* SoBI,
 														SNID_t Orig_Node,
-														Dependency Deps,
-														bool IZero_Force)
+														Dependency Deps)
+														//bool IZero_Force)
 {
 	// Initializations
 	SNID_t Dep_SNID = Deps.Dependent_ID;
@@ -2515,10 +2515,10 @@ void Dependency_Logger::maloc_DATA_IN_Node			(
 
 		// Here is the place where the magic happens
 		// 1- Douplicating the data Block 
-		DBID_t old_Cnsmd_DBID = Cnsmd_DBID;
+		//DBID_t old_Cnsmd_DBID = Cnsmd_DBID;
 		Cnsmd_DBID = DataL->Duplicate_Data_Block(Cnsmd_DBID);
 		// 2- Douplicating the Scheduling Node
-		SNID_t old_Dep_SNID = Dep_SNID;
+		//SNID_t old_Dep_SNID = Dep_SNID;
 		Dep_SNID = Douplicate_and_cleanse_Scheduling_Node(Dep_SNID, Orig_Node);
 		// 3- Changing the consumed data of that node to the new data block 
 		Nodes[Dep_SNID.index()].Consumes_DBID[0] = Cnsmd_DBID;
@@ -2544,7 +2544,7 @@ void Dependency_Logger::maloc_WEIGHT_Node			(
 	// Initializations
 	SNID_t Dep_SNID = Deps.Dependent_ID;
 	DBID_t Cnsmd_DBID = Nodes[Dep_SNID.index()].Consumes_DBID[0];
-	Data_Block_Types Cnsmd_DBID_Type = DataL->Get_Type_of_DBID(Cnsmd_DBID);
+	//Data_Block_Types Cnsmd_DBID_Type = DataL->Get_Type_of_DBID(Cnsmd_DBID);
 	// it should returns if the node is not Sch_CNN_Weight
 	if (Nodes[Dep_SNID.index()].type != Sch_CNN_Weight)
 		return;
@@ -2570,12 +2570,12 @@ void Dependency_Logger::maloc_WEIGHT_Node			(
 		}
 		// Here is the place where the magic happens
 		// 1- Douplicating the data Block 
-		DBID_t old_Cnsmd_DBID = Cnsmd_DBID;
+		//DBID_t old_Cnsmd_DBID = Cnsmd_DBID;
 		Cnsmd_DBID = DataL->Duplicate_Data_Block(Cnsmd_DBID);
 		//std::cout << "!" << Cnsmd_DBID << "(" << old_Cnsmd_DBID << "),\t";
 		//std::cout << "New Data, DBID: " << Cnsmd_DBID << ",\tA copy of:" << old_Cnsmd_DBID << std::endl;
 		// 2- Douplicating the Scheduling Node
-		SNID_t old_Dep_SNID = Dep_SNID;
+		//SNID_t old_Dep_SNID = Dep_SNID;
 		Dep_SNID = Douplicate_and_cleanse_Scheduling_Node(Dep_SNID, Orig_Node);
 		// 3- Changing the consumed data of that node to the new data block 
 		Nodes[Dep_SNID.index()].Consumes_DBID[0] = Cnsmd_DBID;
@@ -2606,6 +2606,8 @@ void Dependency_Logger::Clear_Allocation_Flag		(
 			DB.alocated = false;
 			DataL->Change_Data_Block_info(idx, DB);
 			break;
+		default:
+			continue;
 		}
 	}
 }

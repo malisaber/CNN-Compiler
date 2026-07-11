@@ -32,13 +32,17 @@ int main											(
 	// --- Flags / Options ---
 	// Boolean flag: --verbose / --no-verbose (or just -v to force true)
 	app.add_flag	("-v,--verbose,!--no-verbose",	verbose,	"Enable verbose output");
-	app.add_option	("-n,--network",				Net_Filex,	"Network definition file (JSON)"			)->required()->check(CLI::ExistingFile);
-	app.add_option	("-m,--Mterial-dir",			Mtr_Direc,	"Material directory"						)->required()->check(CLI::ExistingDirectory);
-	app.add_option	("-d,--dump-dir",				Dmp_Direc,	"Dump directory"							)->required()->check(CLI::ExistingDirectory);
-	app.add_option	("-o,--Output-dir",				Out_Direc,	"Output directory"							)->required()->check(CLI::ExistingDirectory);
-	app.add_option	("-i,--input",					Inp_names,	"Input layer file(s), one per input layer"	)->required()->check(CLI::ExistingFile);
-	app.add_option	("-w,--weight",					Wgt_names,	"Weight file(s), one per CNN layer"			)->required()->check(CLI::ExistingFile);					
+	app.add_option	("-n,--network",				Net_Filex,	"Network definition file (JSON)"			);
+	app.add_option	("-m,--Mterial-dir",			Mtr_Direc,	"Material directory"						);
+	app.add_option	("-d,--dump-dir",				Dmp_Direc,	"Dump directory"							);
+	app.add_option	("-o,--Output-dir",				Out_Direc,	"Output directory"							);
+	app.add_option	("-i,--input",					Inp_names,	"Input layer file(s), one per input layer"	);
+	app.add_option	("-w,--weight",					Wgt_names,	"Weight file(s), one per CNN layer"			);
 	
+	//->required()->check(CLI::ExistingFile);
+	//->required()->check(CLI::ExistingDirectory);
+
+
 	CLI11_PARSE(app, argc, argv);
 	
 

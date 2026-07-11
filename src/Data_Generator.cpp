@@ -137,7 +137,7 @@ size_t	Data_Generator::Relative_2_Absolute_idx		(
 														size_t c,
 														size_t w,
 														size_t h,
-														size_t B,
+														//size_t B,
 														size_t C,
 														size_t W,
 														size_t H)
@@ -347,7 +347,7 @@ size_t	Data_Generator::write_input_value			(
 			size_t true_c = Idxs.Channel_size * Min_Channel_size  + c;
 			size_t true_w = Idxs.Width_size   * Min_Width_size    + w;
 			size_t true_h = Idxs.Height_size  * Min_Height_size   + 0;
-			size_t offset = Relative_2_Absolute_idx(true_b, true_c, true_w, true_h, linfo.Batch_size, linfo.Channel_size, linfo.Width_size, linfo.Height_size);
+			size_t offset = Relative_2_Absolute_idx(true_b, true_c, true_w, true_h, linfo.Channel_size, linfo.Width_size, linfo.Height_size);
 			fid << std::setw(4) << data[offset] << "\n";
 			used[offset]  = true;
 			cntr++;
@@ -384,7 +384,7 @@ size_t	Data_Generator::write_Weight_value			(
 			size_t true_c = Idxs.Channel_size * Min_Channel_size  + c;
 			size_t true_w = Idxs.FiltW_Size   * Dims.FiltW_Size   + 0;
 			size_t true_h = Idxs.FiltH_Size   * Dims.FiltH_Size   + 0;
-			size_t offset = Relative_2_Absolute_idx(true_k, true_c, true_w, true_h, linfo.Kernel_size, linfo.Channel_size, linfo.FiltW_Size, linfo.FiltH_Size);
+			size_t offset = Relative_2_Absolute_idx(true_k, true_c, true_w, true_h, linfo.Channel_size, linfo.FiltW_Size, linfo.FiltH_Size);
 			fid << std::setw(4) << data[offset] << "\n";
 			used[offset] = true;
 			cntr++;

@@ -154,8 +154,8 @@ public:
 	size_t size										();
 
 	// Scheduling the Dependency Nodes Assign execution levels to all nodes based on dependency satisfaction.
-	size_t Schedule_Nodes							(
-														Data_Logger* DL);
+	size_t Schedule_Nodes							();
+														//Data_Logger* DL);
 
 	// Thread Making, Build execution and peripheral threads.
 	bool Build_Threads								();
@@ -359,8 +359,8 @@ private:
 														size_t vlt,
 														size_t* SoBI,
 														SNID_t Orig_Node,
-														Dependency Deps,
-														bool IZero_Force);
+														Dependency Deps);
+														//bool IZero_Force);
 
 	// Allocate a specific WEIGHT node, duplicating if needed.
 	void	maloc_WEIGHT_Node						(
