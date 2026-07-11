@@ -22,10 +22,10 @@ int main											(
 
 	// Defaults (same as your original values)
 	bool								verbose		=	true;
-	std::filesystem::path				Net_Filex	=	"";
+	std::filesystem::path				Net_Filex	=	"";		// Network to compile
 	std::filesystem::path				Mtr_Direc	=	"";		//Materials;
-	std::filesystem::path				Dmp_Direc	=	"";		//"E:/WSL/Compiler/dump";
-	std::filesystem::path				Out_Direc	=	"";		//Materials;
+	std::filesystem::path				Dmp_Direc	=	"";		//Dump directory";
+	std::filesystem::path				Out_Direc	=	"";		//Output directory;
 	std::vector<std::filesystem::path>	Inp_names	=	{""};	//{"E:/WSL/data_gen/IDG/Input_1.bin"};	//	one entry per input layer
 	std::vector<std::filesystem::path>	Wgt_names	=	{""};	//{"E:/WSL/data_gen/WDG/Weight_1.bin"};	//	one entry per CNN	layer
 
