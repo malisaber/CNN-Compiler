@@ -28,7 +28,7 @@
 ┃╳│	32	│	add the suport of other window sizes														│					│╳┃
 ┃╳│	33	│	add max check to the compiler (all should be 1 except "C-W-K")								│					│╳┃
 ┃╳│	34	│	Multi-level Verbose system																	│					│╳┃
-┃╳│	35	│	Add Network Loader a member of Compiler 													│					│╳┃
+┃╳│	35	│	Add Network Loader as a member to the Compiler 												│					│╳┃
 ┃╳│	36	│																								│					│╳┃
 ┃╳│	37	│																								│					│╳┃
 ┃╳│		│																								│					│╳┃

@@ -1,5 +1,8 @@
 # CNN Compiler for custom CNN Accelerator
 
+cd ~/TEST
+rm -r -f CNN-Compiler
+
 
 git clone https://github.com/malisaber/CNN-Compiler.git
 
