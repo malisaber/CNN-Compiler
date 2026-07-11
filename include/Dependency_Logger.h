@@ -250,7 +250,7 @@ private:
 
 	// Check if a scheduling node is satisfied	(all deps ready).
 	bool	Is_Scheduling_Node_Satisfied			(
-														Data_Logger* DL,
+														//Data_Logger* DL,
 														Scheduling_Node& SN);
 
 	// Check if two PE nodes share the same weights.

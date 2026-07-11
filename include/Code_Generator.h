@@ -152,7 +152,7 @@ private:
 
 	// Emit "Platform_Execute_Layer_<lvl>" function body.
 	void	Generate_Platform_Execute_Layer_lvl		(
-														Data_Logger* DataL,
+														//Data_Logger* DataL,
 														std::ofstream& files_out,
 														size_t lvl);
 
@@ -194,7 +194,7 @@ private:
 														std::vector<std::vector<size_t>> All_BLs);
 	
 	// adding datablocks
-	void	Generage_Data_Blocks_Exe_Baseline		(
-														Data_Logger* DataL);
+	void	Generage_Data_Blocks_Exe_Baseline		();
+			
 };
 

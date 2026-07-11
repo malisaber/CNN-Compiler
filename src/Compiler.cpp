@@ -243,13 +243,13 @@ void	Compiler::Build_Threads						(
 void	Compiler::Map								(
 														bool verbose)
 {
-	bool bit;
+	//bool bit;
 	size_t tmp;
 
 	// Mapping
 	if (verbose)	std::cout << "Running Mapping Engine ..." << std::endl;
 	tmp =			Dpnd_Log_Eng->Map(Data_Log_Eng, HW, DP_Dump_dest / ("Mapper_Dump.txt"));
-	bit =			Dpnd_Log_Eng->print_mapping_file(DP_Dump_dest / "Mapping_Raw.txt");
+					Dpnd_Log_Eng->print_mapping_file(DP_Dump_dest / "Mapping_Raw.txt");
 	if (verbose)	std::cout << "Mapping Engine Done!" << std::endl;
 	if (verbose)	std::cout << "Nodes that did not Mapped: " << Dpnd_Log_Eng->size() - tmp << std::endl;
 	if (verbose)	std::cout << "Calculating Timing ..." << std::endl;
@@ -264,7 +264,7 @@ void	Compiler::Map								(
 void	Compiler::Allocate							(
 														bool verbose)
 {
-	bool bit;
+	//bool bit;
 	size_t Icnt;	// Input	Data Block Count
 	size_t Wcnt;	// Weight	Data Block Count
 	size_t Ocnt;	// Output	Data Block Count
@@ -278,8 +278,8 @@ void	Compiler::Allocate							(
 
 	//	Allocation
 	if (verbose)	std::cout << "Running Allocation Engine ..." << std::endl;
-	bit =			Dpnd_Log_Eng->Allocte(Data_Log_Eng);
-	bit =			Dpnd_Log_Eng->Get_Required_Spaces(Icnt, Wcnt, Ocnt, Pcnt, Ifst, Wfst, Ofst, Pfst, Efst);
+					Dpnd_Log_Eng->Allocte(Data_Log_Eng);
+					Dpnd_Log_Eng->Get_Required_Spaces(Icnt, Wcnt, Ocnt, Pcnt, Ifst, Wfst, Ofst, Pfst, Efst);
 	if (verbose)	std::cout << std::dec;
 	if (verbose)	std::cout << "Number of Input	Data Block Needed: " << std::setw(8) << Icnt << "\t\tStarting At: " << std::setw(8) << Ifst << std::endl;
 	if (verbose)	std::cout << "Number of Weight Data Block Needed: " << std::setw(8) << Wcnt << "\t\tStarting At: " << std::setw(8) << Wfst << std::endl;

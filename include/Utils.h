@@ -17,7 +17,7 @@ constexpr auto PRINT_DBT_INTERNAL	= false;
 
 
 
-struct Conv_Layer_Info
+struct	Conv_Layer_Info
 {
 	unsigned int Batch_size;	// Batch size (B).
 	unsigned int Kernel_size;	// Kernel/output channels (K).
@@ -28,17 +28,17 @@ struct Conv_Layer_Info
 	unsigned int FiltW_Size;	// Filter width (FW).
 };
 
-const Conv_Layer_Info		Conv_Layer_Info_NULL = { (unsigned int)0, (unsigned int)0, (unsigned int)0, (unsigned int)0, (unsigned int)0, (unsigned int)0, (unsigned int)0 };
+const	Conv_Layer_Info		Conv_Layer_Info_NULL = { (unsigned int)0, (unsigned int)0, (unsigned int)0, (unsigned int)0, (unsigned int)0, (unsigned int)0, (unsigned int)0 };
 
-struct MaxP_Layer_Info
+struct	MaxP_Layer_Info
 {
 	unsigned int Width_size;	// Window width.
 	unsigned int Height_size;	// Window height.
 };
 
-const MaxP_Layer_Info		MaxP_Layer_Info_NULL = {3, 3};
+const	MaxP_Layer_Info		MaxP_Layer_Info_NULL = {3, 3};
 
-struct Data_Block_Info
+struct	Data_Block_Info
 {
 	Data_Block_Types DBT;	// Data block type.
 	bool ready;				// Ready flag for scheduling.
@@ -52,7 +52,7 @@ struct Data_Block_Info
 	Conv_Layer_Info Idxs;	// Indices within dimensions (BKCWHFF).
 };
 
-struct Data_Block
+struct	Data_Block
 {
 	DBID_t				ID				= DBID_t::Null();		// Data block ID.
 	DBID_t				Douplicate_of	= DBID_t::Null			  ();		// Original block ID if this is a duplicate.
@@ -75,33 +75,33 @@ struct Data_Block
 	std::vector<SNID_t> Consumers_ID	= {};					// Consumer scheduling nodes.
 };
 
-const Data_Block			Data_Block_NULL;
+const	Data_Block			Data_Block_NULL;
 
-struct Dependency
+struct	Dependency
 {
 	bool satisfied;			// Whether dependency is satisfied.
 	SNID_t Dependent_ID;	// Dependent scheduling node ID.
 };
 
-struct Scheduling_info
+struct	Scheduling_info
 {
 	unsigned int		Execution_Level_Space_Before;	// Min spacing before this node's level.
 	unsigned int		Execution_Level;				// Execution level index.
 	unsigned int		Execution_Level_Space_After;	// Min spacing after this node's level.
 };
 
-const Scheduling_info		Scheduling_info_NULL = { 0, 0, 0 };
+const	Scheduling_info		Scheduling_info_NULL = { 0, 0, 0 };
 
-struct Allocation_info
+struct	Allocation_info
 {
 	Target_Module_Types Allocated_Target;	// Allocated target module type.
 	size_t				Allocated_Plane;	// Allocated plane index.
 	size_t				Allocated_Vault;	// Allocated vault index.
 	};
 
-const Allocation_info		Allocation_info_NULL = { TMT_Null, 0 , 0 };
+const	Allocation_info		Allocation_info_NULL = { TMT_Null, 0 , 0 };
 
-struct Scheduling_Node
+struct	Scheduling_Node
 {
 	bool					scheduled		= false;				// Scheduling flags.
 	bool					picked			= false;				// Thread selection flag.
@@ -121,9 +121,9 @@ struct Scheduling_Node
 	std::vector<DBID_t>		Consumes_DBID	= {};					// Consumed data block.
 };
 
-const Scheduling_Node		Scheduling_Node_NULL;
+const	Scheduling_Node		Scheduling_Node_NULL;
 
-struct Memory_Costs
+struct	Memory_Costs
 {
 	unsigned int storage_cost;				// Storage cost for this memory level.
 	unsigned int access_cost_to_Top;		// Access cost to next higher level.
@@ -132,7 +132,7 @@ struct Memory_Costs
 	unsigned int L3_Change_Vault_Acc_Pnlty;	// Vault change penalty.
 };
 
-struct Data_Generator_info
+struct	Data_Generator_info
 {
 	size_t ID;					// Generator record ID.
 	unsigned int Conv_Layer_ID;	// Associated convolution layer ID.
@@ -142,28 +142,28 @@ struct Data_Generator_info
 	bool generated;				// Generated flag.
 	};
 
-const Data_Generator_info	Data_Generator_info_NULL = { 0, 0, };
+const	Data_Generator_info	Data_Generator_info_NULL = { 0, 0, DBID_t::Null(), Conv_Layer_Info_NULL, Data_Block_Types::DBT_Null, false};
 
-struct Execution_Thread_Info
+struct	Execution_Thread_Info
 {
 	SNID_t BaseLine_Idx;			// Baseline node ID for this thread.
 	std::vector<SNID_t> Nodes;		// Ordered nodes in this execution thread.
 	std::vector<bool> Optimized;	// Per-node optimization flags.
 };
 
-struct Periphral_Sequal_Info
+struct	Periphral_Sequal_Info
 {
 	SNID_t Node;				// Peripheral node ID.
 	std::vector<SNID_t> Lasts;	// Dependency nodes to execute before this node.
 };
 
-struct Periphral_Thread_Info
+struct	Periphral_Thread_Info
 {
 	Scheduling_types type;						// Peripheral type (Sch_Activation or Sch_MPDR).
 	std::vector<Periphral_Sequal_Info> PSIs;	// Sequential peripheral nodes.
 };
 
-struct PE_Node
+struct	PE_Node
 {
 	bool active;					// Active flag.
 	size_t baseline;				// Baseline index.
@@ -172,9 +172,9 @@ struct PE_Node
 };
 
 // Null/default PE node.
-const PE_Node				PE_Node_NULL = { false, 0, 0, {} };
+const	PE_Node				PE_Node_NULL = { false, 0, 0, {} };
 
-struct Ordering_Node
+struct	Ordering_Node
 {
 	SNID_t ID;				// Scheduling node ID.
 	size_t Plane;			// Allocated plane.
@@ -184,9 +184,9 @@ struct Ordering_Node
 	bool Generated;			// Whether this ordering node has been consumed.
 };
 
-const Ordering_Node			Ordering_Node_NULL = { 0, 0, 0, 0, Sch_Null };
+const	Ordering_Node		Ordering_Node_NULL = { SNID_t::Null(), 0, 0, 0, Scheduling_types::Sch_Null, false};
 
-struct Ord_Address
+struct	Ord_Address
 {
 	bool valid;		// Validity flag.
 	size_t lvl;		// Level index.
@@ -195,7 +195,9 @@ struct Ord_Address
 	size_t pos;		// Position within node sequence.
 };
 
-struct CG_PE_Node
+const	Ord_Address			Ord_Address_NULL	=	{false, 0, 0, 0, 0};
+
+struct	CG_PE_Node
 {
 	bool				Activation;			// Activation flag for this PE node.
 	bool				ESI;
@@ -214,7 +216,7 @@ struct CG_PE_Node
 	
 };
 
-struct CG_MPDR_Node
+struct	CG_MPDR_Node
 {
 	bool				valid;		// Validity flag (used while reordering).
 	bool				gen;		// Validity flag (used while reordering).
@@ -226,7 +228,7 @@ struct CG_MPDR_Node
 	DBID_t				Output;		// Output block ID.
 };
 
-struct CG_PE_Sttus
+struct	CG_PE_Sttus
 {
 	DBID_t				Weigth_ID[9];				// Weight block IDs (3x3 kernel).
 	size_t				Input_Start_Index;			// Input start index for streaming.
@@ -235,7 +237,7 @@ struct CG_PE_Sttus
 	size_t				Output_Index_Advancement;	// Output index stride for streaming.
 };
 
-struct Mapping_Result
+struct	Mapping_Result
 {
 	SNID_t node;
 	uint16_t plane;

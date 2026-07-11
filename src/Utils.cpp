@@ -271,12 +271,16 @@ std::string Res_Dec									(
 	return "Unsuucessfull";
 }
 
+
+
 std::string embedd									(
 														size_t lvl,
 														size_t bline)
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline);
 }
+
+
 std::string embedd									(
 														size_t lvl,
 														size_t bline,
@@ -284,12 +288,16 @@ std::string embedd									(
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline) + "_nd_" + std::to_string(node);
 }
+
+
 std::string embedd_array							(
 														size_t lvl,
 														size_t arr_size_d1)
 {
 	return std::to_string(lvl) + "[" + std::to_string(arr_size_d1) + "]";
 }
+
+
 std::string embedd_array							(
 														size_t lvl,
 														size_t bline,
@@ -297,6 +305,8 @@ std::string embedd_array							(
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline) + "[" + std::to_string(arr_size_d1) + "]";
 }
+
+
 std::string embedd_array							(
 														size_t lvl,
 														size_t bline,
@@ -305,6 +315,8 @@ std::string embedd_array							(
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline) + "_nd_" + std::to_string(node) + "[" + std::to_string(arr_size_d1) + "]";
 }
+
+
 std::string embedd_dma_array						(
 														size_t lvl,
 														size_t bline,
@@ -313,6 +325,8 @@ std::string embedd_dma_array						(
 {
 	return std::to_string(lvl) + "_bl_" + std::to_string(bline) + "_DMA_" + std::to_string(node) + "[" + std::to_string(arr_size_d1) + "]";
 }
+
+
 std::string embedd_array_2D							(
 														size_t lvl,
 														size_t arr_size_d1,
@@ -320,6 +334,8 @@ std::string embedd_array_2D							(
 {
 	return std::to_string(lvl) + "[" + std::to_string(arr_size_d1) + "][" + std::to_string(arr_size_d2) + "]";
 }
+
+
 std::string embedd_array_2D							(
 														size_t lvl,
 														size_t bline,

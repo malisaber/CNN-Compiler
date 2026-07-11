@@ -106,12 +106,12 @@ bool Data_Logger::Add_Consumer						(
 DBID_t Data_Logger::Duplicate_Data_Block			(
 														DBID_t DBI)
 {
-	bool found(false);
+	//bool found(false);
 	DBID_t NDBID = DBID_t::Null();
 
 	if (DBI < DATA.size())
 	{
-		found = true;
+		//found = true;
 		NDBID = Creat_Data_Block({});
 		DATA[NDBID.index()] = DATA[DBI.index()];
 		DATA[NDBID.index()].ID = NDBID;

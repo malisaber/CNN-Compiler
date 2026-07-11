@@ -42,7 +42,7 @@ bool Code_Generator::Extract_PE_Execution_Info		(
 	CG_MPDRs.reserve(Ordering.size());
 	Ordering_Index.reserve(DpndL->size());
 	for (size_t i = 0; i < DpndL->size(); i++)
-		Ordering_Index.push_back({0, 0, 0});
+		Ordering_Index.push_back(Ord_Address_NULL);
 	
 
 	// For each Level in orderin
@@ -141,7 +141,7 @@ bool Code_Generator::Extract_Single_PE_Execution_Info(
 {
 	Ordering_Node Ord_Node;
 	SNID_t ONID;
-	size_t Rsrv;
+	//size_t Rsrv;
 	PEInfo.Activation = false;
 	PEInfo.ESI = false;
 	PEInfo.ESO = false;
@@ -176,7 +176,7 @@ bool Code_Generator::Extract_Single_PE_Execution_Info(
 	{
 		Ord_Node = Ordering[lvl][baseline][node];
 		ONID = Ord_Node.ID;
-		Rsrv = Ord_Node.Rsrv1;
+		//Rsrv = Ord_Node.Rsrv1;
 		//	Check for proper value
 		if (Ord_Node.Generated)				continue;
 		if (Ord_Node.Plane != plane)		continue;
@@ -248,7 +248,7 @@ bool Code_Generator::Extract_MPDR_Execution_Info	(
 	MPDRInfo.Output = DBID_t::Null();
 	Ordering_Node Ord_Node;
 	SNID_t ONID;
-	size_t Rsrv;
+	//size_t Rsrv;
 	bool found(false);
 	// For each nodes 
 	for (size_t node = 0; node < Ordering[lvl][baseline].size(); node++)
@@ -256,9 +256,9 @@ bool Code_Generator::Extract_MPDR_Execution_Info	(
 		// Some initializations
 		Ord_Node = Ordering[lvl][baseline][node];
 		ONID = Ord_Node.ID;
-		Rsrv = Ord_Node.Rsrv1;
-		size_t plane = Ord_Node.Plane;
-		size_t vault = Ord_Node.Vault;
+		//Rsrv = Ord_Node.Rsrv1;
+		//size_t plane = Ord_Node.Plane;
+		//size_t vault = Ord_Node.Vault;
 		// Checkign The orderign type, pass if it is Generated before
 		if (Ord_Node.Generated)
 			continue;
@@ -300,16 +300,16 @@ void Code_Generator::Link_PE_Storage				(
 {
 	Ordering_Node Ord_Node;
 	SNID_t ONID;
-	size_t Rsrv;
+	//size_t Rsrv;
 	// For each nodes 
 	for (size_t node = 0; node < Ordering[lvl][baseline].size(); node++)
 	{
 		// Some initializations
 		Ord_Node = Ordering[lvl][baseline][node];
 		ONID = Ord_Node.ID;
-		Rsrv = Ord_Node.Rsrv1;
-		size_t plane = Ord_Node.Plane;
-		size_t vault = Ord_Node.Vault;
+		//Rsrv = Ord_Node.Rsrv1;
+		//size_t plane = Ord_Node.Plane;
+		//size_t vault = Ord_Node.Vault;
 		// Checkign The orderign type,  pass if it is Generated before
 		if (Ord_Node.Generated)
 			continue;
@@ -654,8 +654,8 @@ void Code_Generator::Modify_All						(
 														Data_Logger* DataL,
 														std::filesystem::path Dmp_fname)
 {
-	bool PE_print_en	(true);
-	bool MPDR_print_en	(true);
+	//bool PE_print_en	(true);
+	//bool MPDR_print_en	(true);
 
 	Modify_PE_Inputs();
 	Modify_MPDR_units(DataL);
@@ -941,7 +941,7 @@ void Code_Generator::Generate_Codes					(
 	// Generate "Platform_Execute_Layer" function
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		if (!CG_PEs[lvl].empty())
-			Generate_Platform_Execute_Layer_lvl(DataL, files_main, lvl);
+			Generate_Platform_Execute_Layer_lvl(files_main, lvl);
 
 	// Generate "Platform_Peripheral_Layer" function
 	for (size_t lvl = 0; lvl < CG_MPDRs.size(); lvl++)
@@ -965,7 +965,7 @@ void Code_Generator::Generate_Codes					(
 				Generage_Data_Blocks_Exe_lvl_bline(DataL, lvl, bline);
 
 	// Generate "Platform_Execute" Vectors of data
-	Generage_Data_Blocks_Exe_Baseline(DataL);
+	Generage_Data_Blocks_Exe_Baseline();
 
 	// Last part of the main function
 	Generate_Main_P2(files_main);
@@ -1149,7 +1149,7 @@ void Code_Generator::Generate_Main_P1				(
 // Emit Platform_Execute_Layer_<lvl> wrapper that triggers each baseline.
 // - Resets baseline done counters and calls each baseline function.
 void Code_Generator::Generate_Platform_Execute_Layer_lvl(
-														Data_Logger* DataL,
+														//Data_Logger* DataL,
 														std::ofstream& files_out,
 														size_t lvl)
 {
@@ -2017,8 +2017,7 @@ void Code_Generator::Generage_Data_Blocks_Peri_lvl	(
 
 
 // adding datablocks
-void Code_Generator::Generage_Data_Blocks_Exe_Baseline(
-														Data_Logger* DataL)
+void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 {
 	size_t size(0);
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)

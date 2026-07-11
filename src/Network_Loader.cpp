@@ -42,8 +42,8 @@ void BuildNetworkFromFile							(
     }
 
     Conv_Layer_Info Maxes  = ParseConvInfo(j.at("maxes"));
-    MaxP_Layer_Info Window = { j.at("window").at("w").get<int>(),
-                                j.at("window").at("h").get<int>() };
+    MaxP_Layer_Info Window = { j.at("window").at("w").get<unsigned int>(),
+                                j.at("window").at("h").get<unsigned int>() };
 
     const auto& typeMap = LayerTypeMap();
 

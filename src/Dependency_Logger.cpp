@@ -438,7 +438,7 @@ size_t Dependency_Logger::Schedule_Nodes			(
 		bool has(false);
 		for (size_t i = 0; i < Nodes.size(); i++)
 		{
-			if (Is_Scheduling_Node_Satisfied(DL, Nodes[i]))
+			if (Is_Scheduling_Node_Satisfied(Nodes[i]))
 			{
 				tot++;
 				has = true;
@@ -878,7 +878,7 @@ size_t Dependency_Logger::Map						(
 
 	size_t Planes = HW->Get_Number_of_Available_Planes();
 	size_t Vaults = HW->Get_Number_of_Available_Vaults();
-	size_t tot(1);
+	//size_t tot(1);
 	PE_Node PEs[4][16];
 
 	for (size_t i = 0; i < 4; i++)
@@ -907,7 +907,7 @@ size_t Dependency_Logger::Map						(
 		Ordering[tmp].clear();
 	}
 	Ordering[0].push_back({});
-	Ordering_Node order = {};
+	//Ordering_Node order = {};
 
 
 	// Waiting For Start
@@ -1352,12 +1352,12 @@ SNID_t Dependency_Logger::Douplicate_and_cleanse_Scheduling_Node(
 														SNID_t SNI,
 														SNID_t NSNI)
 {
-	bool found(false);
+	//bool found(false);
 	SNID_t NSNID = SNID_t::Null();
 
 	if (SNI < Nodes.size())
 	{
-		found = true;
+		//found = true;
 		NSNID = Create_Scheduling_Node({}, 0);
 		Nodes[NSNID.index()] = Nodes[SNI.index()];
 		Nodes[NSNID.index()].ID = NSNID;
@@ -1522,7 +1522,7 @@ void Dependency_Logger::Compile_Schedule_Nodes		()
 
 // Check if a scheduling node is satisfied (all dependencies ready).
 bool Dependency_Logger::Is_Scheduling_Node_Satisfied(
-														Data_Logger* DL,
+														//Data_Logger* DL,
 														Scheduling_Node& SN)
 {
 	bool Sat(true);
@@ -1619,18 +1619,74 @@ void Dependency_Logger::Clear_Previous_PE_Info		()
 }
 
 
-// TODO
 // Optimize execution block ordering for a level.
 void Dependency_Logger::Optimize_PE_Execution_Block (
 														Data_Logger* DataL,
 														PE_Node PEs[4][16],
 														size_t lvl)
 {
+	// My code
 	for (size_t pln = 0; pln < 4; pln++)
 		for (size_t vlt = 0; vlt < 16; vlt++)
 			Previous_PE_Info[pln][vlt] = PEs[pln][vlt];
 	Previous_PE_Info_valid = true;
 	Generate_Execution_Block(DataL, lvl);
+
+
+	// Codex code
+//	for (size_t pln = 0; pln < 4; pln++)
+//		for (size_t vlt = 0; vlt < 16; vlt++)
+//		{
+//			Previous_PE_Info[pln][vlt] = PEs[pln][vlt];
+//			if (!Previous_PE_Info[pln][vlt].active)
+//				continue;
+//
+//			auto& seq = Previous_PE_Info[pln][vlt].Sequence;
+//			if (seq.size() < 3)
+//				continue;
+//
+//			std::vector<SNID_t> optimized;
+//			optimized.reserve(seq.size());
+//			std::vector<uint8_t> used(seq.size(), 0);
+//
+//			optimized.push_back(seq[0]);
+//			used[0] = 1;
+//
+//			for (size_t placed = 1; placed < seq.size(); placed++)
+//			{
+//				const SNID_t tail = optimized.back();
+//				bool found = false;
+//
+//				for (size_t node = 0; node < seq.size(); node++)
+//				{
+//					if (used[node])
+//						continue;
+//					if (!Is_PE_Inputs_Next_Sequencing(seq[node], tail))
+//						continue;
+//
+//					optimized.push_back(seq[node]);
+//					used[node] = 1;
+//					found = true;
+//					break;
+//				}
+//
+//				if (found)
+//					continue;
+//
+//				for (size_t node = 0; node < seq.size(); node++)
+//				{
+//					if (used[node])
+//						continue;
+//					optimized.push_back(seq[node]);
+//					used[node] = 1;
+//					break;
+//				}
+//			}
+//
+//			seq.swap(optimized);
+//		}
+//	Previous_PE_Info_valid = true;
+//	Generate_Execution_Block(DataL, lvl);
 }
 
 

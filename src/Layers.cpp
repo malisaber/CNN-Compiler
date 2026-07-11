@@ -9,40 +9,48 @@ bool Layer_2D::IsInput								() const
 	return false;
 }
 
+
 bool Layer_2D::IsOutput								() const
 {
 	return false;
 }
+
 
 bool Layer_2D::IsMPDR								() const
 {
 	return false;
 }
 
+
 bool Layer_2D::IsConv								() const
 {
 	return false;
 }
+
 
 size_t Layer_2D::Get_Layer_ID						() const
 {
 	return ID; 
 }
 
+
 Conv_Layer_Info Layer_2D::Get_Layer_info			()
 {
 	return Layer_info;
 }
+
 
 MaxP_Layer_Info Layer_2D::Get_Window_info			() const
 {
 	return Windo_info;
 }
 
+
 Conv_Layer_Info Layer_2D::Get_Maxes_info			() const
 {
 	return Maxes_info;
 }
+
 
 bool Layer_2D::Get_previous_output_scheduling_info  (
 														Layer_2D* prev_layer)
@@ -66,6 +74,7 @@ bool Layer_2D::Get_previous_output_scheduling_info  (
 	}
 	return Prev_Out_Sch_Info_rdy;
 }
+
 
 
 
@@ -95,14 +104,17 @@ Input_Layer_2D::Input_Layer_2D						(
 	getting_from_input = false;
 }
 
+
 Input_Layer_2D::~Input_Layer_2D						()
 {
 }
+
 
 bool Input_Layer_2D::IsInput						() const
 {
 	return true;
 }
+
 
 bool Input_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
@@ -187,6 +199,7 @@ bool Input_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 	return true;
 }
 
+
 bool Input_Layer_2D::Get_output_scheduling_info		(
 														SNID_t****& PLONM,
 														DBID_t****& PLODM,
@@ -207,6 +220,7 @@ bool Input_Layer_2D::Get_output_scheduling_info		(
 	}
 	return Out_Sch_Info_rdy;
 }
+
 
 
 
@@ -242,14 +256,17 @@ Conv_MKMC_2D::Conv_MKMC_2D							(
 	getting_from_input = false;
 }
 
+
 Conv_MKMC_2D::~Conv_MKMC_2D							()
 {
 }
+
 
 bool Conv_MKMC_2D::IsConv							() const
 {
 	return true;
 }
+
 
 bool Conv_MKMC_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
@@ -659,6 +676,7 @@ bool Conv_MKMC_2D::Map_Data_Blocks_and_Build_Dependencies(
 	return true;
 }
 
+
 bool Conv_MKMC_2D::Get_output_scheduling_info		(
 														SNID_t****& PLONM,
 														DBID_t****& PLODM,
@@ -679,6 +697,7 @@ bool Conv_MKMC_2D::Get_output_scheduling_info		(
 	}
 	return Out_Sch_Info_rdy;
 }
+
 
 
 
@@ -713,15 +732,18 @@ MPDR_MC_2D::MPDR_MC_2D								(
 	getting_from_input = false;
 }
 
+
 MPDR_MC_2D::~MPDR_MC_2D								()
 {
 
 }
 
+
 bool MPDR_MC_2D::IsMPDR								() const
 {
 	return true;
 }
+
 
 bool MPDR_MC_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
@@ -808,6 +830,7 @@ bool MPDR_MC_2D::Map_Data_Blocks_and_Build_Dependencies(
 	return true;
 }
 
+
 bool MPDR_MC_2D::Get_output_scheduling_info			(
 														SNID_t****& PLONM,
 														DBID_t****& PLODM,
@@ -830,6 +853,7 @@ bool MPDR_MC_2D::Get_output_scheduling_info			(
 	}
 	return Out_Sch_Info_rdy;
 }
+
 
 
 
@@ -864,14 +888,17 @@ Output_Layer_2D::Output_Layer_2D					(
 	getting_from_input = false;
 }
 
+
 Output_Layer_2D::~Output_Layer_2D					()
 {
 }
+
 
 bool Output_Layer_2D::IsOutput						() const
 {
 	return true;
 }
+
 
 bool Output_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
@@ -892,7 +919,7 @@ bool Output_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 		mapped = true;
 		SNID_t End_Node_ID = DpndL->Get_Ending_Point_Scheduling_Node_Idx();
 		DBID_t DBID;
-		Data_Block_Info DBInfo{};
+		//Data_Block_Info DBInfo{};
 
 
 
@@ -983,6 +1010,7 @@ bool Output_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 	return true;
 }
 
+
 bool Output_Layer_2D::Get_output_scheduling_info	(
 														SNID_t****& PLONM,
 														DBID_t****& PLODM,
@@ -1007,15 +1035,18 @@ bool Output_Layer_2D::Get_output_scheduling_info	(
 
 
 
+
 NETWORK::NETWORK									()
 {
 	NET.clear();
 	NET.reserve(32);
 }
 
+
 NETWORK::~NETWORK									()
 {
 }
+
 
 size_t NETWORK::Add_Layer							(
 														Layer_2D_Types ltype,
@@ -1032,6 +1063,7 @@ size_t NETWORK::Add_Layer							(
 	return base_Add_Layer(ltype, linfo, lmaxes, MP_window);
 }
 
+
 size_t NETWORK::Add_Layer							(
 														Layer_2D_Types ltype,
 														Conv_Layer_Info linfo,
@@ -1046,6 +1078,7 @@ size_t NETWORK::Add_Layer							(
 
 	return base_Add_Layer(ltype, linfo, lmaxes, MP_window);
 }
+
 
 bool NETWORK::Build_Network							(
 														Data_Logger* DataL,
@@ -1092,18 +1125,20 @@ bool NETWORK::Build_Network							(
 	return NET[last]->mapped;
 }
 
+
 Conv_Layer_Info NETWORK::Get_Maxes_info				(
 														size_t id)
 {
 	return NET[id]->Get_Maxes_info();
 }
 
+
 void NETWORK::Get_input_sizes						(
 														std::vector<Conv_Layer_Info>& linfo,
 														std::vector<Conv_Layer_Info>& minfo,
 														std::vector<size_t>& lid)
 {
-	size_t inp_cntr(0);
+	//size_t inp_cntr(0);
 
 	linfo.clear();
 	minfo.clear();
@@ -1119,12 +1154,13 @@ void NETWORK::Get_input_sizes						(
 	}
 }
 
+
 void NETWORK::Get_weight_sizes						(
 														std::vector<Conv_Layer_Info>& linfo,
 														std::vector<Conv_Layer_Info>& minfo,
 														std::vector<size_t>& lid)
 {
-	size_t inp_cntr(0);
+	//size_t inp_cntr(0);
 
 	linfo.clear();
 	minfo.clear();
@@ -1139,6 +1175,7 @@ void NETWORK::Get_weight_sizes						(
 		}
 	}
 }
+
 
 size_t NETWORK::base_Add_Layer						(
 														Layer_2D_Types ltype,
