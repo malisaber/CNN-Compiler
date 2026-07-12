@@ -1,3 +1,0 @@
-[submodule "packages/CNN-DRAM-Data-Gen"]
-	path = packages/CNN-DRAM-Data-Gen
-	url = https://github.com/malisaber/CNN-DRAM-Data-Gen.git
