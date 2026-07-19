@@ -1450,7 +1450,8 @@ void Code_Generator::Generate_Main_P2				(
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 	files_out	<< "void intr_RBF		(unsigned int intr_addr)"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
-	files_out	<< "\tRecieve_Buffer_Full_interrupt_handler();"									<< std::endl;
+	files_out	<< "\t"																			<< std::endl;
+	//files_out	<< "\tRecieve_Buffer_Full_interrupt_handler();"									<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 	files_out	<< "void intr_TXD		(unsigned int intr_addr)"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
