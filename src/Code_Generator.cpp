@@ -987,22 +987,30 @@ void Code_Generator::Copy_File						(
 	std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("Utilities.h"),
 								Out_fname / ("include")	/ ("Utilities.h"),		OVERWRITE);
 
+	std::filesystem::copy_file(	Mtr_fname / ("src")		/ ("Utilities.cpp"),		
+								Out_fname / ("src")		/ ("Utilities.cpp"),	OVERWRITE);
+
+
+								
 	std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("common.h"),			
 								Out_fname / ("include")	/ ("common.h"),			OVERWRITE);
 
+	std::filesystem::copy_file(	Mtr_fname / ("src")		/ ("common.cpp"),			
+								Out_fname / ("src")		/ ("common.cpp"),		OVERWRITE);
+
+
+
 	std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("Accelerator.h"),		
 								Out_fname / ("include")	/ ("Accelerator.h"),	OVERWRITE);
-
-	//std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("uprint.h"),			
-	//							Out_fname / ("include")	/ ("uprint.h"),			OVERWRITE);
-
-	std::filesystem::copy_file(	Mtr_fname / ("src")		/ ("Utilities.cpp"),		
-								Out_fname / ("src")		/ ("Utilities.cpp"),	OVERWRITE);
 
 	std::filesystem::copy_file(	Mtr_fname / ("src")		/ ("Accelerator.cpp"),		
 								Out_fname / ("src")		/ ("Accelerator.cpp"),	OVERWRITE);
 
 	
+
+	//std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("uprint.h"),			
+	//								Out_fname / ("include")	/ ("uprint.h"),			OVERWRITE);
+
 	//std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("EventCallBacker.h"),	
 	//  							Out_fname / ("include")	/ ("EventCallBacker.h"),	OVERWRITE);
 	//
