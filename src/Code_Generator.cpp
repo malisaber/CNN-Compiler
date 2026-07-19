@@ -1024,7 +1024,7 @@ void Code_Generator::Generate_Main_P1				(
 	//files_out	<< "#include <new>"																<< std::endl;
 	files_out	<< "#include <cstddef>"															<< std::endl;
 	files_out	<< "#include \"Data.h\""														<< std::endl;
-	files_out	<< "#include \"uprint.h\""														<< std::endl;
+	//files_out	<< "#include \"uprint.h\""														<< std::endl;
 	files_out	<< "#include \"Utilities.h\""													<< std::endl;
 	files_out	<< "#include \"Accelerator.h\""													<< std::endl << std::endl << std::endl;
 	//files_out	<< "#include \"EventCallBacker.h\""												<< std::endl;
