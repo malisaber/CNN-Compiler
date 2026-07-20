@@ -2143,7 +2143,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 
 	// Weights Base Address
 	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const unsigned int";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int";
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*UPA_Wgt_base_addr_ptr[" << std::to_string(size) << "])[9" << "]\t = \t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
@@ -2192,10 +2192,10 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
 
 
-
+ 
 	// DMA Transfer info
 	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const unsigned int";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int";
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*DMA_ZDB_Control[" << size << "])[2" << "]\t = \t";
 	Data_H_file << std::endl << "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
