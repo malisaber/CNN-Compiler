@@ -1039,19 +1039,19 @@ void Code_Generator::Generate_Main_P1				(
 	files_out	<< "#include \"Utilities.h\""													<< std::endl;
 	files_out	<< "#include \"Accelerator.h\""													<< std::endl << std::endl << std::endl;
 	//files_out	<< "#include \"EventCallBacker.h\""												<< std::endl;
-	files_out	<< "void intr_PC		(int intr_addr);"										<< std::endl;
-	files_out	<< "void intr_TBE		(int intr_addr);"										<< std::endl;
-	files_out	<< "void intr_RBF		(int intr_addr);"										<< std::endl;
-	files_out	<< "void intr_TXD		(int intr_addr);"										<< std::endl;
-	files_out	<< "void intr_RXD		(int intr_addr);"										<< std::endl;
-	files_out	<< "void intr_Timer		(int intr_addr);"										<< std::endl;
-	files_out	<< "void intr_MPDR		(int intr_addr);"										<< std::endl;
-	files_out	<< "void intr_DMA		(int intr_addr);"										<< std::endl;
-	files_out	<< "void intr_PLANE_0	(int intr_addr);"										<< std::endl;
-	files_out	<< "void intr_PLANE_1	(int intr_addr);"										<< std::endl;
-	files_out	<< "void intr_PLANE_2	(int intr_addr);"										<< std::endl;
-	files_out	<< "void intr_PLANE_3	(int intr_addr);"										<< std::endl;
-	files_out	<< "void (*funcPtrArray[12])(int);"												<< std::endl << std::endl << std::endl;
+	files_out	<< "void intr_PC		(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void intr_TBE		(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void intr_RBF		(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void intr_TXD		(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void intr_RXD		(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void intr_Timer		(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void intr_MPDR		(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void intr_DMA		(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void intr_PLANE_0	(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void intr_PLANE_1	(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void intr_PLANE_2	(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void intr_PLANE_3	(unsigned int intr_addr);"								<< std::endl;
+	files_out	<< "void (*funcPtrArray[12])(unsigned int);"									<< std::endl << std::endl << std::endl;
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 	{
 		if (!CG_PEs[lvl].empty())
