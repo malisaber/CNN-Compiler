@@ -47,7 +47,7 @@ public:
 	// Set weights information getting from network
 	void	Get_Wgts_info							(
 														NETWORK* NET
-														std::vector<size_t>& lids););
+														std::vector<size_t>& lids);
 
 	// Return number of generator input files.
 	size_t	Generated_Input_files_size				();
