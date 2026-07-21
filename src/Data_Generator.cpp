@@ -19,23 +19,28 @@ Data_Generator::Data_Generator						()
 // No-op destructor; storage is owned by STL containers.
 Data_Generator::~Data_Generator						()
 {
-
 }
 
 
 // Set inputs information getting from network
 void	Data_Generator::Get_Inps_info				(
-														NETWORK* NET)
+														NETWORK* NET,
+														std::vector<size_t>& lids)
 {
 	NET->Get_input_sizes(Inps_linfo, Inps_minfo, Inps_lid);
+	lids.clear();
+	lids = Inps_lid;
 }
 
 
 // Set weights information getting from network
 void	Data_Generator::Get_Wgts_info				(
-														NETWORK* NET)
+														NETWORK* NET,
+														std::vector<size_t>& lids)
 {
 	NET->Get_weight_sizes(Wgts_linfo, Wgts_minfo, Wgts_lid);
+	lids.clear();
+	lids = Inps_lid;
 }
 
 
@@ -86,18 +91,19 @@ void	Data_Generator::load_Weight_files			(
 // Generate Data files
 void	Data_Generator::Generate					(
 														Data_Logger* DG,
-														std::filesystem::path dest)
+														std::filesystem::path dram)
 {
+
 	// Generate input files:
 	for (size_t i = 0; i < Inps_lid.size(); i++)
-		Generate_IDF(DG, i, dest);
+		Generate_IDF(DG, i, dram);
 
 	// Generate Weight files:
 	for (size_t i = 0; i < Inps_lid.size(); i++)
-		Generate_WDF(DG, i, dest);
+		Generate_WDF(DG, i, dram);
 
 	// Generte Zero files
-	Generate_ZDF(DG, dest);
+	Generate_ZDF(DG, dram);
 }
 
 

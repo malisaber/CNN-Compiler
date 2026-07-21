@@ -14,6 +14,7 @@ Compiler::Compiler									()
 	Added_Dir			= false;
 	Added_Mtr			= false;
 	Added_Out			= false;
+	Added_Drm			= false;
 	Compiled			= false;
 	All_done			= false;
 
@@ -22,7 +23,6 @@ Compiler::Compiler									()
 	CG_Matr_file		= "";
 	CG_Dump_dest		= "";
 	CG_Outp_dest		= "";
-	DG_Dump_dest		= "";
 
 
 	Inp_names.clear();
@@ -42,6 +42,7 @@ void	Compiler::Compile							(
 	if (!Added_Dir)			throw std::runtime_error("No Dump Directory were added;\nPlrase add a Dump directory using ""Add_Dump_Directory"" member.\n");
 	if (!Added_Mtr)			throw std::runtime_error("No Material Directory were added;\nPlrase add a Material directory using ""Add_Material_Directory"" member.\n");
 	if (!Added_Out)			throw std::runtime_error("No Output Directory were added;\nPlrase add an Output directory using ""Add_Output_Directory"" member.\n");
+	if (!Added_Drm)			throw std::runtime_error("No DRAM output Directory were added;\nPlrase add a DRAM Output directory using ""Add_Dram_Directory"" member.\n");
 
 	// Building the network
 	Build_Network(verbose);
@@ -79,13 +80,20 @@ void	Compiler::Rearreng_Data						(
 {
 	if (!Compiled)	throw std::runtime_error("Please Compile Before re-arrenging the dataset.\n");
 
+	std::vector<size_t> Ilids;
+	std::vector<size_t> Wlids;
+
 	// Data re-arrangement
 	if (verbose)	std::cout << "Running Data Re-arrengement Engine ..." << std::endl;
-					Data_Gen_Eng->Get_Inps_info(Network);
-					Data_Gen_Eng->Get_Wgts_info(Network);
+					Data_Gen_Eng->Get_Inps_info(Network, Ilids);
+					Data_Gen_Eng->Get_Wgts_info(Network, Wlids);
+	
+	if (Ilids.size() != Inps.size()) throw std::runtime_error("inconsistent number of input input  files with the number of input layers.\n\thint: increase the bach size to add more input data");
+	if (Wlids.size() != Wgts.size()) throw std::runtime_error("inconsistent number of input weight files with the number of convolution layers.\n");
+
 					Data_Gen_Eng->load_input_files (Inps);
 					Data_Gen_Eng->load_Weight_files(Wgts);
-					Data_Gen_Eng->Generate(Data_Log_Eng, DG_Dump_dest);
+					Data_Gen_Eng->Generate(Data_Log_Eng, DG_DRAM_dest);
 	if (verbose)	std::cout << "Running Data Re-arrengement Engine Done!" << std::endl << std::endl << std::endl;
 
 }
@@ -123,13 +131,10 @@ void	Compiler::Add_Dump_Directory				(
 	DA_Dump_dest = dir / ("Data_Logger");
 	DP_Dump_dest = dir / ("Dependency_Logger");
 	CG_Dump_dest = dir / ("Code_Gen");
-	DG_Dump_dest = dir / ("Data_Gen");
 	
 	std::filesystem::create_directory(dir);
 	std::filesystem::create_directory(DA_Dump_dest);
 	std::filesystem::create_directory(DP_Dump_dest);
-	std::filesystem::create_directory(CG_Dump_dest);
-	std::filesystem::create_directory(DG_Dump_dest);
 
 	Added_Dir = true;
 }
@@ -146,11 +151,20 @@ void	Compiler::Add_Data_Gen_Directory			(
 
 
 // Adds a source directory 
-void	Compiler::Add_Material_Directory			(
+void	Compiler::Add_HAL_Directory					(
 														std::filesystem::path src)
 {
 	CG_Matr_file	= src;
 	Added_Mtr		= true;
+}
+
+
+// Adds a DRAM output directory 
+void	Compiler::Add_Dram_Directory				(
+														std::filesystem::path src)
+{
+	DG_DRAM_dest	= src;
+	Added_Drm		= true;
 }
 
 

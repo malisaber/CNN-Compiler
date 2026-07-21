@@ -41,11 +41,13 @@ public:
 
 	// Set inputs information getting from network
 	void	Get_Inps_info							(
-														NETWORK* NET);
+														NETWORK* NET,
+														std::vector<size_t>& lids);
 
 	// Set weights information getting from network
 	void	Get_Wgts_info							(
-														NETWORK* NET);
+														NETWORK* NET
+														std::vector<size_t>& lids););
 
 	// Return number of generator input files.
 	size_t	Generated_Input_files_size				();
@@ -70,7 +72,7 @@ public:
 	// Generating files
 	void	Generate								(
 														Data_Logger* DG,
-														std::filesystem::path dest);
+														std::filesystem::path dram);
 
 
 private:

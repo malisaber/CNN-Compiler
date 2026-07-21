@@ -28,6 +28,7 @@ class Compiler
 	bool								Added_Dir;
 	bool								Added_Mtr;
 	bool								Added_Out;
+	bool								Added_Drm;
 	bool								Compiled;
 	bool								All_done;
 
@@ -37,7 +38,7 @@ class Compiler
 	std::filesystem::path				CG_Matr_file;
 	std::filesystem::path				CG_Dump_dest;
 	std::filesystem::path				CG_Outp_dest;
-	std::filesystem::path				DG_Dump_dest;
+	std::filesystem::path				DG_DRAM_dest;
 
 	std::vector<std::filesystem::path>	Inp_names;
 	std::vector<std::filesystem::path>	Wgt_names;
@@ -78,8 +79,12 @@ public:
 														std::vector<std::filesystem::path>	Inps,
 														std::vector<std::filesystem::path>	Wgts);
 
-	// Adds a material directory 
-	void	Add_Material_Directory					(
+	// Adds a dram output directory 
+	void	Add_Dram_Directory						(
+														std::filesystem::path	src);
+
+	// Adds a haal directory 
+	void	Add_HAL_Directory						(
 														std::filesystem::path	src);
 
 	// Adds an output directory 
