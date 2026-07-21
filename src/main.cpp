@@ -34,7 +34,7 @@ int main											(
 	// Boolean flag: --verbose / --no-verbose (or just -v to force true)
 	app.add_flag	("-v,--verbose,!--no-verbose",	verbose,	"Enable verbose output");
 	app.add_option	("-n,--network",				Net_Filex,	"Network definition file (JSON)"			);
-	app.add_option	("-h,--hal-dir",				Hal_Direc,	"Hardware Abstraction Layer directory"		);
+	app.add_option	("-l,--hal-dir",				Hal_Direc,	"Hardware Abstraction Layer directory"		);
 	app.add_option	("-d,--dump-dir",				Dmp_Direc,	"Dump directory"							);
 	app.add_option	("-o,--Output-dir",				Out_Direc,	"Output directory"							);
 	app.add_option	("-r,--dram-dir",				Drm_Direc,	"Output DRAM directory"						);
