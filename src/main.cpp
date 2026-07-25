@@ -21,7 +21,7 @@ int main											(
 	CLI::App app{"CNN Compiler for custom CNN accelerator"};
 
 	// Defaults (same as your original values)
-	bool								verbose		=	true;
+	bool								verbose		=	false;
 	std::filesystem::path				Net_Filex	=	"";		// Network to compile
 	std::filesystem::path				Hal_Direc	=	"";		//Materials;
 	std::filesystem::path				Dmp_Direc	=	"";		//Dump directory";
