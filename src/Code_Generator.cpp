@@ -1654,7 +1654,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_lvl_bline(
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Conf_PE_lvl_";
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd(lvl, bline) << "\t=\t"		<< std::endl;
 	Data_H_file << "\t\t\t{"	<< std::endl	<< "\t\t\t\t\t";
-	Data_H_file << "FSM_CNN_1,	16,	FULL,	IUNSIGN,	WUNSIGN,	3,	15,	15,	15";
+	Data_H_file << "(unsigned int)FSM_CNN_1,	(unsigned int)16,	(unsigned int)FULL,	(unsigned int)IUNSIGN,	(unsigned int)WUNSIGN,	(unsigned int)3,	(unsigned int)15,	(unsigned int)15,	(unsigned int)15";
 	Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
 
 
@@ -1663,7 +1663,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_lvl_bline(
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "STA_info_lvl_";
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd(lvl, bline) << "\t=\t"		<< std::endl;
 	Data_H_file << "\t\t\t{"	<< std::endl << "\t\t\t\t\t";
-	Data_H_file	<< "0,	0,	1,	0,	0,	0,	0,	1,	0,	1, ";
+	Data_H_file	<< "0x00000000,	0x00000000,	0x00000001,	0x00000000,	0x00000000,	0x00000000,	0x00000000,	0x00000001,	0x00000000,	0x00000001, ";
 	Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
 
 
