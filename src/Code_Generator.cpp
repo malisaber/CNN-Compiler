@@ -1008,6 +1008,14 @@ void Code_Generator::Copy_File						(
 
 
 
+	std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("hal_serial.h"),		
+								Out_fname / ("include")	/ ("hal_serial.h"),		OVERWRITE);
+
+	std::filesystem::copy_file(	Mtr_fname / ("src")		/ ("hal_serial.cpp"),		
+								Out_fname / ("src")		/ ("hal_serial.cpp"),	OVERWRITE);
+
+
+
 	std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("MiniString.h"),		
 								Out_fname / ("include")	/ ("MiniString.h"),		OVERWRITE);
 
