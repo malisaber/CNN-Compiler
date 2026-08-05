@@ -1019,6 +1019,9 @@ void Code_Generator::Copy_File						(
 	std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("MiniString.h"),		
 								Out_fname / ("include")	/ ("MiniString.h"),		OVERWRITE);
 
+	std::filesystem::copy_file(	Mtr_fname / ("src")		/ ("MiniString.cpp"),		
+								Out_fname / ("src")		/ ("MiniString.cpp"),	OVERWRITE);
+
 	
 
 	//std::filesystem::copy_file(	Mtr_fname / ("include")	/ ("uprint.h"),			
