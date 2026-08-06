@@ -1138,7 +1138,7 @@ void Code_Generator::Generate_Main_P1				(
 	files_out	<< "\t}"																		<< std::endl << std::endl << std::endl;
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	Interrupt Handlre Configuration	"										<< std::endl;
-	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\//\\/\\/\\/\\*/ "							<< std::endl;
+	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\tINTH_enable_intr_pc();"													<< std::endl;
 	files_out	<< "\tINTH_enable_intr_timer_group	(0x01);"									<< std::endl;
 	files_out	<< "\tINTH_enable_intr_DMA_done_group	(0X0000);"								<< std::endl;
@@ -1149,6 +1149,7 @@ void Code_Generator::Generate_Main_P1				(
 		files_out << "\tINTH_enable_PSU_done_group		(PLANE_2,	0xFFFF);"					<< std::endl;
 	if (Ava_Planes > 3)
 		files_out << "\tINTH_enable_PSU_done_group		(PLANE_3,	0xFFFF);"					<< std::endl;
+	files_out	<< "\t"																			<< std::endl << << std::endl;;
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	Timer"																	<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
@@ -1208,7 +1209,7 @@ void Code_Generator::Generate_Platform_Execute_Layer_bl(
 
 	files_out	<< "void Platform_Execute_Layer_" << lvl << "_bl_" << bl << "()"				<< std::endl;
 	files_out	<< "{"																			<< std::endl;
-	files_out	<< "\tEXE_Done_Cntr = 0;"														<< std::endl << std::endl;
+	files_out	<< "\tEXE_Done_Cntr = 0;"														<< std::endl << std::endl << std::endl;
 	//files_out	<< "\tfor (int pln = 0; pln < 4; pln ++)"										<< std::endl;
 	//files_out	<< "\t\tfor (int vlt = 0; vlt < 16; vlt ++)"									<< std::endl;
 	//files_out	<< "\t\t\tPE_BaseLine_Done_Cntr[pln][vlt] = 0;"									<< std::endl << std::endl;
@@ -1298,8 +1299,32 @@ void Code_Generator::Generate_Platform_Execute_Layer_bl(
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	Wait for Completion"	 												<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
-	files_out	<< "\twhile(EXE_Done_Cntr < " << CG_PEs[lvl][bline].size() << ") {}"			<< std::endl;
-	files_out	<< "\t"																			<< std::endl;
+	files_out	<< "\twhile(EXE_Done_Cntr < " << CG_PEs[lvl][bline].size() << ") {}"			<< std::endl  << std::endl << std::endl;
+
+
+	// Destructor
+	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
+	files_out	<< "\t	Destructor of Plannar PE Control"	 									<< std::endl;
+	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
+	files_out	<< "\tPE_CONT_reset_all(PLANE_0);"												<< std::endl;
+	files_out	<< "\tPE_CONT_reset_all(PLANE_1);"												<< std::endl;
+	files_out	<< "\tPE_CONT_reset_all(PLANE_2);"												<< std::endl;
+	files_out	<< "\tPE_CONT_reset_all(PLANE_3);"												<< std::endl << std::endl << std::endl;
+	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
+	files_out	<< "\t	Destructor of Config Holder"		 									<< std::endl;
+	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
+	files_out	<< "\tCONFH_reset_all(PLANE_0);"												<< std::endl;
+	files_out	<< "\tCONFH_reset_all(PLANE_1);"												<< std::endl;
+	files_out	<< "\tCONFH_reset_all(PLANE_2);"												<< std::endl;
+	files_out	<< "\tCONFH_reset_all(PLANE_3);"												<< std::endl << std::endl << std::endl;
+	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
+	files_out	<< "\t	Destructor of System Control"		 									<< std::endl;
+	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
+	files_out	<< "\tfor (unsigned int pln = 0; pln < 4; pln++)"								<< std::endl;
+	files_out	<< "\t{"																		<< std::endl;
+	files_out	<< "\t	CONT_REG_ACC_Plane_reset (pln);"										<< std::endl;
+	files_out	<< "\t	CONT_REG_ACC_Plane_normal(pln);"										<< std::endl;
+	files_out	<< "\t}"																		<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 }
 
