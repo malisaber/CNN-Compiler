@@ -1149,7 +1149,7 @@ void Code_Generator::Generate_Main_P1				(
 		files_out << "\tINTH_enable_PSU_done_group		(PLANE_2,	0xFFFF);"					<< std::endl;
 	if (Ava_Planes > 3)
 		files_out << "\tINTH_enable_PSU_done_group		(PLANE_3,	0xFFFF);"					<< std::endl;
-	files_out	<< "\t"																			<< std::endl << << std::endl;
+	files_out	<< "\t"																			<< std::endl << std::endl;
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	Timer"																	<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
