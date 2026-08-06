@@ -1426,6 +1426,32 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	files_out	<< "\twhile(EXE_Done_Cntr < Capacity[bline]) {}"								<< std::endl;
 	files_out	<< "\t"																			<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
+
+
+	// Destructor
+	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
+	files_out	<< "\t	Destructor of Plannar PE Control"	 									<< std::endl;
+	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
+	files_out	<< "\tPE_CONT_reset_all(PLANE_0);"												<< std::endl;
+	files_out	<< "\tPE_CONT_reset_all(PLANE_1);"												<< std::endl;
+	files_out	<< "\tPE_CONT_reset_all(PLANE_2);"												<< std::endl;
+	files_out	<< "\tPE_CONT_reset_all(PLANE_3);"												<< std::endl << std::endl << std::endl;
+	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
+	files_out	<< "\t	Destructor of Config Holder"		 									<< std::endl;
+	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
+	files_out	<< "\tCONFH_reset_all(PLANE_0);"												<< std::endl;
+	files_out	<< "\tCONFH_reset_all(PLANE_1);"												<< std::endl;
+	files_out	<< "\tCONFH_reset_all(PLANE_2);"												<< std::endl;
+	files_out	<< "\tCONFH_reset_all(PLANE_3);"												<< std::endl << std::endl << std::endl;
+	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
+	files_out	<< "\t	Destructor of System Control"		 									<< std::endl;
+	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
+	files_out	<< "\tfor (unsigned int pln = 0; pln < 4; pln++)"								<< std::endl;
+	files_out	<< "\t{"																		<< std::endl;
+	files_out	<< "\t	CONT_REG_ACC_Plane_reset (pln);"										<< std::endl;
+	files_out	<< "\t	CONT_REG_ACC_Plane_normal(pln);"										<< std::endl;
+	files_out	<< "\t}"																		<< std::endl;
+	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 }
 
 
@@ -1522,7 +1548,7 @@ void Code_Generator::Generate_Main_P2				(
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 	files_out	<< "void intr_Timer		(unsigned int intr_addr)"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
-	files_out	<< "\tint which = intr_addr & 0x7;"												<< std::endl;
+	files_out	<< "\tunsigned int which = intr_addr & 0x7;"									<< std::endl;
 	files_out	<< "\t// Once more, I DO NOT know what to do."									<< std::endl;
 	files_out	<< "\t// just generate it because i can generate it"							<< std::endl;
 	files_out	<< "\t// ok, let increment a counter :D "										<< std::endl;
@@ -1534,7 +1560,7 @@ void Code_Generator::Generate_Main_P2				(
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 	files_out	<< "void intr_MPDR		(unsigned int intr_addr)"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
-	files_out	<< "\tint which = intr_addr & 0xF;"												<< std::endl;
+	files_out	<< "\tunsigned int which = intr_addr & 0xF;"									<< std::endl;
 	files_out	<< "\tPRI_Done_Cntr++;"															<< std::endl;
 	files_out	<< "\tMPDR_Stop(intr_addr);"													<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
@@ -1546,25 +1572,25 @@ void Code_Generator::Generate_Main_P2				(
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 	files_out	<< "void intr_PLANE_0	(unsigned int intr_addr)"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
-	files_out	<< "\tint which = intr_addr & 0xF;"												<< std::endl;
+	files_out	<< "\tunsigned int which = intr_addr & 0xF;"									<< std::endl;
 	files_out	<< "\tEXE_Done_Cntr++;"															<< std::endl;
 	files_out	<< "\tPE_CONT_PE_stop(PLANE_0, which);"											<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 	files_out	<< "void intr_PLANE_1	(unsigned int intr_addr)"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
-	files_out	<< "\tint which = intr_addr & 0xF;"												<< std::endl;
+	files_out	<< "\tunsigned int which = intr_addr & 0xF;"									<< std::endl;
 	files_out	<< "\tEXE_Done_Cntr++;"															<< std::endl;
 	files_out	<< "\tPE_CONT_PE_stop(PLANE_1, which);"											<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 	files_out	<< "void intr_PLANE_2	(unsigned int intr_addr)"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
-	files_out	<< "\tint which = intr_addr & 0xF;"												<< std::endl;
+	files_out	<< "\tunsigned int which = intr_addr & 0xF;"									<< std::endl;
 	files_out	<< "\tEXE_Done_Cntr++;"															<< std::endl;
 	files_out	<< "\tPE_CONT_PE_stop(PLANE_2, which);"											<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 	files_out	<< "void intr_PLANE_3	(unsigned int intr_addr)"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
-	files_out	<< "\tint which = intr_addr & 0xF;"												<< std::endl;
+	files_out	<< "\tunsigned int which = intr_addr & 0xF;"									<< std::endl;
 	files_out	<< "\tEXE_Done_Cntr++;"															<< std::endl;
 	files_out	<< "\tPE_CONT_PE_stop(PLANE_3, which);"											<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
