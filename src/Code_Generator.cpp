@@ -1540,9 +1540,8 @@ void Code_Generator::Generate_Main_P2				(
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 	files_out	<< "void intr_DMA		(unsigned int intr_addr)"								<< std::endl;
 	files_out	<< "{"																			<< std::endl;
-	files_out	<< "\tint which = intr_addr & 0xF;"												<< std::endl;
 	files_out	<< "\t// Nothing yet"															<< std::endl;
-	files_out	<< "\tint which = intr_addr - 16;"												<< std::endl;
+	files_out	<< "\tunsigned int which = intr_addr & 0xF;"									<< std::endl;
 	files_out	<< "\tDMA_CallBack(DMA_ZDBT_info[which]);"										<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 	files_out	<< "void intr_PLANE_0	(unsigned int intr_addr)"								<< std::endl;
