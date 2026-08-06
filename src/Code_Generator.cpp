@@ -1423,9 +1423,7 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	Wait for Completion"	 												<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
-	files_out	<< "\twhile(EXE_Done_Cntr < Capacity[bline]) {}"								<< std::endl;
-	files_out	<< "\t"																			<< std::endl;
-	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
+	files_out	<< "\twhile(EXE_Done_Cntr < Capacity[bline]) {}"								<< std::endl << std::endl << std::endl;
 
 
 	// Destructor
