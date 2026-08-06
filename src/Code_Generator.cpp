@@ -1177,7 +1177,10 @@ void Code_Generator::Generate_Main_P1				(
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	This Is The End"														<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
-	files_out	<< "\twhile(true){}"															<< std::endl;
+	files_out	<< "\twhile(true)"																<< std::endl;
+	files_out	<< "\t{"																		<< std::endl;
+	files_out	<< "\t\tuart.writeString(\"End of Acceleration.\\n\");"							<< std::endl;
+	files_out	<< "\t}"																		<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 }
 
@@ -1194,9 +1197,12 @@ void Code_Generator::Generate_Platform_Execute_Layer_lvl(
 	files_out	<< "\t//"																		<< std::endl;
 	files_out	<< "\t//	Platform Execute Layer " << lvl										<< std::endl;
 	files_out	<< "\t//"																		<< std::endl;
+	files_out	<< "\tuart.writeString(\"Start Executing layer " << lvl << ".\\n\");"			<< std::endl;
 	files_out	<< "\tfor (unsigned int bls=0; bls < Capacity_lvl_" << lvl << "; bls++)"		<< std::endl;
+	files_out	<< "\t{"																		<< std::endl;
+	files_out	<< "\t\tuart.fprint(\"\\n\\tBaseline \%u:\\n\", bls);"							<< std::endl;
 	files_out	<< "\t\tPlatform_Execute_BseLine(EXE_Bline_cntr++);"							<< std::endl;
-	files_out	<< "\t"																			<< std::endl;
+	files_out	<< "\t}"																		<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 }
 
@@ -1306,6 +1312,8 @@ void Code_Generator::Generate_Platform_Execute_Layer_bl(
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	Wait for Completion"	 												<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
+	files_out	<< "\tuart.writeString(\"\\t\\tDone Initializing.\\n\");"						<< std::endl;
+	files_out	<< "\tuart.writeString(\"\\t\\tNow waiting.\\n\");"								<< std::endl;
 	files_out	<< "\twhile(EXE_Done_Cntr < " << CG_PEs[lvl][bline].size() << ") {}"			<< std::endl  << std::endl << std::endl;
 
 
@@ -1423,6 +1431,8 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	Wait for Completion"	 												<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
+	files_out	<< "\tuart.writeString(\"\\t\\tDone Initializing.\\n\");"						<< std::endl;
+	files_out	<< "\tuart.writeString(\"\\t\\tNow waiting.\\n\");"								<< std::endl;
 	files_out	<< "\twhile(EXE_Done_Cntr < Capacity[bline]) {}"								<< std::endl << std::endl << std::endl;
 
 
