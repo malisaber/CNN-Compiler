@@ -1138,7 +1138,7 @@ void Code_Generator::Generate_Main_P1				(
 	files_out	<< "\t}"																		<< std::endl << std::endl << std::endl;
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	Interrupt Handlre Configuration	"										<< std::endl;
-	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
+	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
 	files_out	<< "\tINTH_enable_intr_pc();"													<< std::endl;
 	files_out	<< "\tINTH_enable_intr_timer_group	(0x01);"									<< std::endl;
 	files_out	<< "\tINTH_enable_intr_DMA_done_group	(0X0000);"								<< std::endl;
