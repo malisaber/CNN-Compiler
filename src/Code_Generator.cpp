@@ -1180,6 +1180,7 @@ void Code_Generator::Generate_Main_P1				(
 	files_out	<< "\twhile(true)"																<< std::endl;
 	files_out	<< "\t{"																		<< std::endl;
 	files_out	<< "\t\tuart.writeString(\"End of Acceleration.\\n\");"							<< std::endl;
+	files_out	<< "\t\tCONT_REG_Stop_Simulation();"											<< std::endl;
 	files_out	<< "\t}"																		<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
 }
