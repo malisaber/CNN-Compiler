@@ -1201,7 +1201,8 @@ void Code_Generator::Generate_Platform_Execute_Layer_lvl(
 	files_out	<< "\tuart.writeString(\"Start Executing layer " << lvl << ".\\n\");"			<< std::endl;
 	files_out	<< "\tfor (unsigned int bls=0; bls < Capacity_lvl_" << lvl << "; bls++)"		<< std::endl;
 	files_out	<< "\t{"																		<< std::endl;
-	files_out	<< "\t\tuart.fprint(\"\\n\\tBaseline \%u:\\n\", bls);"							<< std::endl;
+	files_out	<< "\t\tuart.fprint(\"\\n\\tBaseline \%u of \%u:\\n\", bls, Capacity_lvl_";
+	files_out	<< lvl << ");"																	<< std::endl;
 	files_out	<< "\t\tPlatform_Execute_BseLine(EXE_Bline_cntr++);"							<< std::endl;
 	files_out	<< "\t}"																		<< std::endl;
 	files_out	<< "}"																			<< std::endl << std::endl << std::endl;
