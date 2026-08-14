@@ -88,8 +88,8 @@ void	Compiler::Rearreng_Data						(
 					Data_Gen_Eng->Get_Inps_info(Network, Ilids);
 					Data_Gen_Eng->Get_Wgts_info(Network, Wlids);
 	
-	if (Ilids.size() != Inps.size()) throw std::runtime_error("inconsistent number of input input  files (" + std::to_string(Inps.size()) + ") with the number of input       layers (" + std::to_string(Inps.size()) + ").\n\thint: increase the bach size to add more input data");
-	if (Wlids.size() != Wgts.size()) throw std::runtime_error("inconsistent number of input weight files (" + std::to_string(Wgts.size()) + ") with the number of convolution layers (" + std::to_string(Wgts.size()) + ").\n");
+	if (Ilids.size() != Inps.size()) throw std::runtime_error("inconsistent number of input input  files (" + std::to_string(Inps.size()) + ") with the number of input       layers (" + std::to_string(Ilids.size()) + ").\n\thint: increase the bach size to add more input data");
+	if (Wlids.size() != Wgts.size()) throw std::runtime_error("inconsistent number of input weight files (" + std::to_string(Wgts.size()) + ") with the number of convolution layers (" + std::to_string(Wlids.size()) + ").\n");
 
 					Data_Gen_Eng->load_input_files (Inps);
 					Data_Gen_Eng->load_Weight_files(Wgts);
