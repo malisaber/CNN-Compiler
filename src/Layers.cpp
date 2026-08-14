@@ -1145,11 +1145,13 @@ void NETWORK::Get_input_sizes						(
 	lid.clear();
 	for (size_t i = 0; i < NET.size(); i++)
 	{
+		std::cout << "Nets #" << NET[i]->Get_Layer_ID() << ": (" << NET[i]->IsInput() << ", " << NET[i]->IsConv() << ", " << NET[i]->IsMPDR() << ");" << std::endl;
 		if (NET[i]->IsInput())
 		{
+			std::cout << "is inp" << std::endl;
 			linfo.push_back(NET[i]->Get_Layer_info());
 			minfo.push_back(NET[i]->Get_Maxes_info());
-			lid.push_back(NET[i]->Get_Layer_ID());
+			lid.push_back(  NET[i]->Get_Layer_ID());
 		}
 	}
 }
@@ -1167,11 +1169,13 @@ void NETWORK::Get_weight_sizes						(
 	lid.clear();
 	for (size_t i = 0; i < NET.size(); i++)
 	{
+		std::cout << "Nets #" << NET[i]->Get_Layer_ID() << ": (" << NET[i]->IsInput() << ", " << NET[i]->IsConv() << ", " << NET[i]->IsMPDR() << ");" << std::endl;
 		if (NET[i]->IsConv())
 		{
+			std::cout << "is Conv" << std::endl;
 			linfo.push_back(NET[i]->Get_Layer_info());
 			minfo.push_back(NET[i]->Get_Maxes_info());
-			lid.push_back(NET[i]->Get_Layer_ID());
+			lid.push_back(  NET[i]->Get_Layer_ID());
 		}
 	}
 }
