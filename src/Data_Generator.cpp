@@ -190,7 +190,7 @@ void Data_Generator::Generate_IDF(
 		throw std::runtime_error("Input Generation Assertion Error cntr(" + std::to_string(cntr) + ") != el_size(" + std::to_string(el_size) + ") ");
 	for (size_t i = 0; i < el_size; i++)
 		if (!used[i])
-			throw std::runtime_error("Error Here");
+			throw std::runtime_error("Input Error Here");
 
 	GIDB_cntr += cntr;
 }
@@ -255,7 +255,7 @@ void Data_Generator::Generate_WDF(
 		throw std::runtime_error("Weight Generation Assertion Error cntr(" + std::to_string(cntr) + ") != el_size(" + std::to_string(el_size) + ") ");
 	for (size_t i = 0; i < el_size; i++)
 		if (!used[i])
-			throw std::runtime_error("Error Here");
+			throw std::runtime_error("Weight Error Here");
 
 	GWDB_cntr += cntr;
 }
