@@ -40,7 +40,7 @@ void	Data_Generator::Get_Wgts_info				(
 {
 	NET->Get_weight_sizes(Wgts_linfo, Wgts_minfo, Wgts_lid);
 	lids.clear();
-	lids = Inps_lid;
+	lids = Wgts_lid;
 }
 
 
