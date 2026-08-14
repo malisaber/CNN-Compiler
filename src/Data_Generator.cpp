@@ -185,9 +185,10 @@ void Data_Generator::Generate_IDF(
 		GIDF_cntr++;
 	}
 
-	// Assertion
-	if (cntr != el_size)
-		throw std::runtime_error("Input Generation Assertion Error cntr(" + std::to_string(cntr) + ") != el_size(" + std::to_string(el_size) + ") ");
+	//// Assertion
+	//if (cntr != el_size)
+	//	throw std::runtime_error("Input Generation Assertion Error cntr(" + std::to_string(cntr) + ") != el_size(" + std::to_string(el_size) + ") ");
+	// it can not be checked, because it can be coppied several times.
 	for (size_t i = 0; i < el_size; i++)
 		if (!used[i])
 			throw std::runtime_error("Input Error Here");
@@ -250,9 +251,10 @@ void Data_Generator::Generate_WDF(
 		GWDF_cntr++;
 	}
 
-	// Assertion
-	if (cntr != el_size)
-		throw std::runtime_error("Weight Generation Assertion Error cntr(" + std::to_string(cntr) + ") != el_size(" + std::to_string(el_size) + ") ");
+	//// Assertion
+	//if (cntr != el_size)
+	//	throw std::runtime_error("Weight Generation Assertion Error cntr(" + std::to_string(cntr) + ") != el_size(" + std::to_string(el_size) + ") ");
+	// it can not be checked, because it can be coppied several times.
 	for (size_t i = 0; i < el_size; i++)
 		if (!used[i])
 			throw std::runtime_error("Weight Error Here");
