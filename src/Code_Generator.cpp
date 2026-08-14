@@ -1482,6 +1482,7 @@ void Code_Generator::Generate_Platform_Peripheral_Layer_lvl(
 	files_out	<< "\t//"																		<< std::endl;
 	files_out	<< "\t//	Platform Peripheral Layer " << lvl									<< std::endl;
 	files_out	<< "\t//"																		<< std::endl;
+	files_out	<< "\t\tuart.writeString(\"Start Executing Peripheral layer "<<lvl<<".\\n\");"	<< std::endl;
 
 	std::vector<std::vector<size_t>> All_BLs;
 	size_t Bl_cntr(0);
@@ -1509,15 +1510,17 @@ void Code_Generator::Generate_Platform_Peripheral_Layer_lvl(
 	Generage_Data_Blocks_Peri_lvl(DpndL, DataL, network, lvl, All_BLs);
 	
 	
-	files_out	<< "\tfor (unsigned int bl = 0; bl < MPDR_Baseline_Count_lvl_" << lvl << "; bl++)"	<< std::endl;
+	files_out	<< "\tfor (unsigned int bls = 0; bls < MPDR_Baseline_Count_lvl_"<<lvl<<"; bls++)"	<< std::endl;
 	files_out	<< std::dec;
+	files_out	<< "\t\tuart.fprint(\"\\n\\tBaseline \%u of \%u:\\n\", bls, ";
+	files_out	<< "MPDR_Baseline_Count_lvl_" << lvl << ");"										<< std::endl;
 	files_out	<< "\t{"																			<< std::endl;
 	files_out	<< "\t\tPRI_Done_Cntr = 0;"															<< std::endl;
-	files_out	<< "\t\tunsigned int Max_count = MPDR_Thread_Counts_lvl_"	<< lvl << "[bl];"		<< std::endl << std::endl;
+	files_out	<< "\t\tunsigned int Max_count = MPDR_Thread_Counts_lvl_"	<< lvl << "[bls];"		<< std::endl << std::endl;
 	files_out	<< "\t\tBline_Initiate_MPDR(\t\t   Max_count,"										<< std::endl;
-	files_out	<< "\t\t		  MPDR_Control_word_H_lvl_"					<< lvl << "[bl],"		<< std::endl;
-	files_out	<< "\t\t		  MPDR_Control_word_L_lvl_"					<< lvl << "[bl],"		<< std::endl;
-	files_out	<< "\t\t		   MPDR_base_addr_ptr_lvl_"					<< lvl << "[bl]);"		<< std::endl;
+	files_out	<< "\t\t		  MPDR_Control_word_H_lvl_"					<< lvl << "[bls],"		<< std::endl;
+	files_out	<< "\t\t		  MPDR_Control_word_L_lvl_"					<< lvl << "[bls],"		<< std::endl;
+	files_out	<< "\t\t		   MPDR_base_addr_ptr_lvl_"					<< lvl << "[bls]);"		<< std::endl;
 	files_out	<< "\t\t"																			<< std::endl;
 	files_out	<<	"\t\twhile ( PRI_Done_Cntr != Max_count ) {}"									<< std::endl;
 	files_out	<< "\t}"																			<< std::endl;
