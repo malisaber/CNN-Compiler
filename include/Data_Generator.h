@@ -116,8 +116,7 @@ private:
 														std::vector<uint16_t> data,
 														Conv_Layer_Info linfo,
 														Conv_Layer_Info Dims,
-														Conv_Layer_Info Idxs,
-														bool* used);
+														Conv_Layer_Info Idxs);
 	
 	// returning the weight value 
 	size_t	write_Weight_value						(
@@ -125,8 +124,7 @@ private:
 														std::vector<uint16_t> data,
 														Conv_Layer_Info linfo,
 														Conv_Layer_Info Dims,
-														Conv_Layer_Info Idxs,
-														bool* used);
+														Conv_Layer_Info Idxs);
 
 	// Writing a zero data block
 	size_t	write_zero_block						(

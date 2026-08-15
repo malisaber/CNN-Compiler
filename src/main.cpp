@@ -22,6 +22,7 @@ int main											(
 
 	// Defaults (same as your original values)
 	bool								verbose		=	false;
+	bool								report		=	false;
 	std::filesystem::path				Net_Filex	=	"";		// Network to compile
 	std::filesystem::path				Hal_Direc	=	"";		//Materials;
 	std::filesystem::path				Dmp_Direc	=	"";		//Dump directory";
@@ -33,6 +34,7 @@ int main											(
 	// --- Flags / Options ---
 	// Boolean flag: --verbose / --no-verbose (or just -v to force true)
 	app.add_flag	("-v,--verbose,!--no-verbose",	verbose,	"Enable verbose output");
+	app.add_flag	("-p,--report",					report,		"Generate Reports");
 	app.add_option	("-n,--network",				Net_Filex,	"Network definition file (JSON)"			);
 	app.add_option	("-l,--hal-dir",				Hal_Direc,	"Hardware Abstraction Layer directory"		);
 	app.add_option	("-d,--dump-dir",				Dmp_Direc,	"Dump directory"							);
@@ -62,7 +64,7 @@ int main											(
 	compiler.Add_Dram_Directory		(Drm_Direc);
 	compiler.Add_Data_Gen_Directory	(Inp_names, Wgt_names);
 	compiler.Compile				(verbose);
-	compiler.Report					();
+	compiler.Report					(report);
 	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
 

@@ -15,7 +15,7 @@ Compiler::Compiler									()
 	Added_Mtr			= false;
 	Added_Out			= false;
 	Added_Drm			= false;
-	Compiled			= false;
+	// Compiled			= false;
 	All_done			= false;
 
 	DA_Dump_dest		= "";
@@ -181,21 +181,25 @@ void	Compiler::Add_Output_Directory				(
 
 
 // Reports something
-void	Compiler::Report							()
+void	Compiler::Report							(
+														bool report)
 {
 	if (!All_done)		throw std::runtime_error("The compilation has not finished yet.\n");
 	
 	std::cout << "Size of Data_Log_Eng: " << Data_Log_Eng->size() << std::endl;
 	std::cout << "Size of Dpnd_Log_Eng: " << Dpnd_Log_Eng->size() << std::endl;
-	std::cout << "Size of Data_Gen_Eng: " << Data_Gen_Eng->Generated_file_size() << std::endl;
-	std::cout << "\t\tInputs:	" << Data_Gen_Eng->Generated_Input_files_size() << std::endl;
-	std::cout << "\t\tWeights: " << Data_Gen_Eng->Generated_Weight_files_size() << std::endl;
-	std::cout << "\t\tZeros:	" << Data_Gen_Eng->Generated_Zero_files_size() << std::endl;
-	Data_Log_Eng->print_file									(DA_Dump_dest / ("DATA.txt"));
-	Dpnd_Log_Eng->print_file									(DP_Dump_dest / ("Nodes_Reshaped.txt"));
-	Dpnd_Log_Eng->print_Thread_info_file						(DP_Dump_dest / ("Threads.txt"));
-	Dpnd_Log_Eng->print_Optimized_Execution_Thread_info_file	(DP_Dump_dest / ("Threads_opt.txt"));
-	Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / ("Mapping.txt"));
+	std::cout << "Size of Data_Gen_Eng: " << Data_Gen_Eng->Generated_file_size()	<< std::endl;
+	std::cout << "\t\tInputs:	"	<< std::setw(8) << Data_Gen_Eng->Generated_Input_files_size()	<< std::endl;
+	std::cout << "\t\tWeights:  "	<< std::setw(8) << Data_Gen_Eng->Generated_Weight_files_size()	<< std::endl;
+	std::cout << "\t\tZeros:	"	<< std::setw(8) << Data_Gen_Eng->Generated_Zero_files_size()	<< std::endl;
+	if (report)
+	{
+		Data_Log_Eng->print_file									(DA_Dump_dest / ("DATA.txt"));
+		Dpnd_Log_Eng->print_file									(DP_Dump_dest / ("Nodes_Reshaped.txt"));
+		Dpnd_Log_Eng->print_Thread_info_file						(DP_Dump_dest / ("Threads.txt"));
+		Dpnd_Log_Eng->print_Optimized_Execution_Thread_info_file	(DP_Dump_dest / ("Threads_opt.txt"));
+		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / ("Mapping.txt"));
+	}
 	std::cout << std::endl << "Files are Generated" << std::endl << std::endl << std::endl;
 }
 

@@ -92,7 +92,8 @@ public:
 														std::filesystem::path	src);
 	
 	// Reports something
-	void	Report									();
+	void	Report									(
+														bool report);
 
 private:
 	// Buils the network and its dependencies

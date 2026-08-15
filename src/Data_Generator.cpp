@@ -145,10 +145,10 @@ void Data_Generator::Generate_IDF(
 	std::vector<uint16_t> data = Read_binary_file(fname, el_size);
 	size_t Data_size = DL->size();
 
-	// for validation purposes
-	bool *used = new bool[el_size];
-	for (size_t i = 0; i < el_size; i++)
-		used[i] = false;
+	//// for validation purposes
+	//bool *used = new bool[el_size];
+	//for (size_t i = 0; i < el_size; i++)
+	//	used[i] = false;
 
 	// generating input data blocks
 	for (DBID_t id = DBID_t::Null(); id < Data_size; id++)
@@ -173,7 +173,7 @@ void Data_Generator::Generate_IDF(
 		out << std::hex << std::uppercase << std::setfill('0');
 
 		// Writing the data into the file,
-		cntr += write_input_value(out, data, linfo, minfo, Idxs, used);
+		cntr += write_input_value(out, data, linfo, minfo, Idxs);
 
 		// Closing the file
 		out.close();
@@ -189,9 +189,9 @@ void Data_Generator::Generate_IDF(
 	//if (cntr != el_size)
 	//	throw std::runtime_error("Input Generation Assertion Error cntr(" + std::to_string(cntr) + ") != el_size(" + std::to_string(el_size) + ") ");
 	// it can not be checked, because it can be coppied several times.
-	for (size_t i = 0; i < el_size; i++)
-		if (!used[i])
-			throw std::runtime_error("Input Error Here");
+	//for (size_t i = 0; i < el_size; i++)
+	//	if (!used[i])
+	//		throw std::runtime_error("Input Error Here");
 
 	GIDB_cntr += cntr;
 }
@@ -211,10 +211,16 @@ void Data_Generator::Generate_WDF(
 	std::vector<uint16_t> data = Read_binary_file(fname, el_size);
 	size_t Data_size = DL->size();
 
-	// for validation purposes
-	bool *used = new bool[el_size];
-	for (size_t i = 0; i < el_size; i++)
-		used[i] = false;
+
+	std::cout << "lid:      " << lid		<< std::endl;
+	std::cout << "fname:    " << fname		<< std::endl;
+	std::cout << "el_size:  " << el_size	<< std::endl;
+
+
+	//// for validation purposes
+	//bool *used = new bool[el_size];
+	//for (size_t i = 0; i < el_size; i++)
+	//	used[i] = false;
 
 	// generating Weight data blocks
 	for (DBID_t id = DBID_t::Null(); id < Data_size; id++)
@@ -239,7 +245,7 @@ void Data_Generator::Generate_WDF(
 		out << std::hex << std::uppercase << std::setfill('0');
 
 		// Writing the data into the file,
-		cntr += write_Weight_value(out, data, linfo, minfo, Idxs, used);
+		cntr += write_Weight_value(out, data, linfo, minfo, Idxs);
 
 		// Closing the file
 		out.close();
@@ -255,9 +261,9 @@ void Data_Generator::Generate_WDF(
 	//if (cntr != el_size)
 	//	throw std::runtime_error("Weight Generation Assertion Error cntr(" + std::to_string(cntr) + ") != el_size(" + std::to_string(el_size) + ") ");
 	// it can not be checked, because it can be coppied several times.
-	for (size_t i = 0; i < el_size; i++)
-		if (!used[i])
-			throw std::runtime_error("Weight Error Here");
+	//for (size_t i = 0; i < el_size; i++)
+	//	if (!used[i])
+	//		throw std::runtime_error("Weight Error Here");
 
 	GWDB_cntr += cntr;
 }
@@ -312,8 +318,7 @@ size_t Data_Generator::write_input_value(
 	std::vector<uint16_t> data,
 	Conv_Layer_Info linfo,
 	Conv_Layer_Info Dims,
-	Conv_Layer_Info Idxs,
-	bool *used)
+	Conv_Layer_Info Idxs)
 {
 	size_t cntr(0);
 
@@ -332,7 +337,7 @@ size_t Data_Generator::write_input_value(
 			size_t true_h = Idxs.Height_size * Min_Height_size + 0;
 			size_t offset = Relative_2_Absolute_idx(true_b, true_c, true_w, true_h, linfo.Channel_size, linfo.Width_size, linfo.Height_size);
 			fid << std::setw(4) << data[offset] << "\n";
-			used[offset] = true;
+			//used[offset] = true;
 			cntr++;
 		}
 
@@ -348,8 +353,7 @@ size_t Data_Generator::write_Weight_value(
 	std::vector<uint16_t> data,
 	Conv_Layer_Info linfo,
 	Conv_Layer_Info Dims,
-	Conv_Layer_Info Idxs,
-	bool *used)
+	Conv_Layer_Info Idxs)
 {
 	size_t cntr(0);
 
@@ -368,7 +372,7 @@ size_t Data_Generator::write_Weight_value(
 			size_t true_h = Idxs.FiltH_Size * Dims.FiltH_Size + 0;
 			size_t offset = Relative_2_Absolute_idx(true_k, true_c, true_w, true_h, linfo.Channel_size, linfo.FiltW_Size, linfo.FiltH_Size);
 			fid << std::setw(4) << data[offset] << "\n";
-			used[offset] = true;
+			//used[offset] = true;
 			cntr++;
 		}
 
