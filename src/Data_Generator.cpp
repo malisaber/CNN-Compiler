@@ -86,7 +86,7 @@ void Data_Generator::Generate(
 		Generate_IDF(DG, i, dram);
 
 	// Generate Weight files:
-	for (size_t i = 0; i < Inps_lid.size(); i++)
+	for (size_t i = 0; i < Wgts_lid.size(); i++)
 		Generate_WDF(DG, i, dram);
 
 	// Generte Zero files
