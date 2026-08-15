@@ -77,7 +77,7 @@ void Data_Generator::load_Weight_files(
 
 // Generate Data files
 void Data_Generator::Generate(
-	Data_Logger *DG,
+	Data_Logger *DL,
 	std::filesystem::path dram,
 	bool verbose)
 {
@@ -85,23 +85,28 @@ void Data_Generator::Generate(
 	size_t Generated_files(0);
 	if (verbose)
 	{
-		total_files = find_generatable_files(DG);
+		total_files = find_generatable_files(DL);
 		std::cout << "\tTotal number of generatable files are: " << total_files << std::endl;
 	}
 
 	// Generate input files:
 	for (size_t i = 0; i < Inps_lid.size(); i++)
-		Generate_IDF(DG, i, dram, total_files, Generated_files, verbose);
+		Generate_IDF(DL, i, dram, total_files, Generated_files, verbose);
 
 	// Generate Weight files:
 	for (size_t i = 0; i < Wgts_lid.size(); i++)
-		Generate_WDF(DG, i, dram, total_files, Generated_files, verbose);
+		Generate_WDF(DL, i, dram, total_files, Generated_files, verbose);
 
 	// Generte Zero files
-	Generate_ZDF(DG, dram, total_files, Generated_files, verbose);
+	Generate_ZDF(DL, dram, total_files, Generated_files, verbose);
 
 	if (verbose)
-		std::cout << std::endl;
+	{
+		std::cout	<< '\r' << '['
+    				<< std::string(50, '=')
+    				<< "] " << std::setw(3) << 100 << "%"
+    				<< std::endl << std::flush;
+	}
 }
 
 // Reading a binary file of input  data
@@ -207,7 +212,7 @@ void Data_Generator::Generate_IDF(
 				std::cout << '\r' << '['
               		<< std::string(filled, '=')
               		<< std::string(50 - filled, ' ')
-              		<< "] " << std::setw(3) << i << "%"
+              		<< "] " << std::setw(3) << percent << "%"
               		<< std::flush;
 			}
 		}
@@ -297,7 +302,7 @@ void Data_Generator::Generate_WDF(
 				std::cout << '\r' << '['
               		<< std::string(filled, '=')
               		<< std::string(50 - filled, ' ')
-              		<< "] " << std::setw(3) << i << "%"
+              		<< "] " << std::setw(3) << percent << "%"
               		<< std::flush;
 			}
 		}
@@ -367,7 +372,7 @@ void Data_Generator::Generate_ZDF(
 				std::cout << '\r' << '['
               		<< std::string(filled, '=')
               		<< std::string(50 - filled, ' ')
-              		<< "] " << std::setw(3) << i << "%"
+              		<< "] " << std::setw(3) << percent << "%"
               		<< std::flush;
 			}
 		}
@@ -462,7 +467,7 @@ size_t Data_Generator::write_zero_block(
 
 // Find Generatable files.
 size_t	find_generatable_files(
-	Data_Logger* DG)
+	Data_Logger* DL)
 {
 	size_t cntr(0);
 	size_t Data_size = DL->size();
@@ -474,3 +479,4 @@ size_t	find_generatable_files(
 	
 	return cntr;
 }
+
