@@ -466,7 +466,7 @@ size_t Data_Generator::write_zero_block(
 }
 
 // Find Generatable files.
-size_t	find_generatable_files(
+size_t	Data_Generator::find_generatable_files(
 	Data_Logger* DL)
 {
 	size_t cntr(0);
