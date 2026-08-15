@@ -189,9 +189,9 @@ void	Compiler::Report							(
 	std::cout << "Size of Data_Log_Eng: " << Data_Log_Eng->size() << std::endl;
 	std::cout << "Size of Dpnd_Log_Eng: " << Dpnd_Log_Eng->size() << std::endl;
 	std::cout << "Size of Data_Gen_Eng: " << Data_Gen_Eng->Generated_file_size()	<< std::endl;
-	std::cout << "\t\tInputs:	"	<< std::setw(8) << Data_Gen_Eng->Generated_Input_files_size()	<< std::endl;
+	std::cout << "\t\tInputs:   "	<< std::setw(8) << Data_Gen_Eng->Generated_Input_files_size()	<< std::endl;
 	std::cout << "\t\tWeights:  "	<< std::setw(8) << Data_Gen_Eng->Generated_Weight_files_size()	<< std::endl;
-	std::cout << "\t\tZeros:	"	<< std::setw(8) << Data_Gen_Eng->Generated_Zero_files_size()	<< std::endl;
+	std::cout << "\t\tZeros:    "	<< std::setw(8) << Data_Gen_Eng->Generated_Zero_files_size()	<< std::endl;
 	if (report)
 	{
 		Data_Log_Eng->print_file									(DA_Dump_dest / ("DATA.txt"));
@@ -301,11 +301,11 @@ void	Compiler::Allocate							(
 					Dpnd_Log_Eng->Allocte(Data_Log_Eng);
 					Dpnd_Log_Eng->Get_Required_Spaces(Icnt, Wcnt, Ocnt, Pcnt, Ifst, Wfst, Ofst, Pfst, Efst);
 	if (verbose)	std::cout << std::dec;
-	if (verbose)	std::cout << "Number of Input	Data Block Needed: " << std::setw(8) << Icnt << "\t\tStarting At: " << std::setw(8) << Ifst << std::endl;
+	if (verbose)	std::cout << "Number of Input  Data Block Needed: " << std::setw(8) << Icnt << "\t\tStarting At: " << std::setw(8) << Ifst << std::endl;
 	if (verbose)	std::cout << "Number of Weight Data Block Needed: " << std::setw(8) << Wcnt << "\t\tStarting At: " << std::setw(8) << Wfst << std::endl;
 	if (verbose)	std::cout << "Number of Output Data Block Needed: " << std::setw(8) << Ocnt << "\t\tStarting At: " << std::setw(8) << Ofst << std::endl;
 	if (verbose)	std::cout << "Number of P-Sums Data Block Needed: " << std::setw(8) << Pcnt << "\t\tStarting At: " << std::setw(8) << Pfst << std::endl;
-	if (verbose)	std::cout << "\t\t\t\t\t\t\tEnding	At: " << std::setw(8) << Efst << std::endl;
+	if (verbose)	std::cout << "\t\t\t\t\t\t\t  Ending At: " << std::setw(8) << Efst << std::endl;
 	if (verbose)	std::cout << "Allocation Engine Done!" << std::endl << std::endl << std::endl;
 }
 

@@ -212,9 +212,9 @@ void Data_Generator::Generate_WDF(
 	size_t Data_size = DL->size();
 
 
-	std::cout << "lid:      " << lid		<< std::endl;
-	std::cout << "fname:    " << fname		<< std::endl;
-	std::cout << "el_size:  " << el_size	<< std::endl;
+	//std::cout << "lid:      " << lid		<< std::endl;
+	//std::cout << "fname:    " << fname		<< std::endl;
+	//std::cout << "el_size:  " << el_size	<< std::endl;
 
 
 	//// for validation purposes
