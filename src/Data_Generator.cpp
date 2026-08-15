@@ -78,19 +78,30 @@ void Data_Generator::load_Weight_files(
 // Generate Data files
 void Data_Generator::Generate(
 	Data_Logger *DG,
-	std::filesystem::path dram)
+	std::filesystem::path dram,
+	bool verbose)
 {
+	size_t total_files(0);
+	size_t Generated_files(0);
+	if (verbose)
+	{
+		total_files = find_generatable_files(DG);
+		std::cout << "\tTotal number of generatable files are: " << total_files << std::endl;
+	}
 
 	// Generate input files:
 	for (size_t i = 0; i < Inps_lid.size(); i++)
-		Generate_IDF(DG, i, dram);
+		Generate_IDF(DG, i, dram, total_files, Generated_files, verbose);
 
 	// Generate Weight files:
 	for (size_t i = 0; i < Wgts_lid.size(); i++)
-		Generate_WDF(DG, i, dram);
+		Generate_WDF(DG, i, dram, total_files, Generated_files, verbose);
 
 	// Generte Zero files
-	Generate_ZDF(DG, dram);
+	Generate_ZDF(DG, dram, total_files, Generated_files, verbose);
+
+	if (verbose)
+		std::cout << std::endl;
 }
 
 // Reading a binary file of input  data
@@ -134,7 +145,10 @@ size_t Data_Generator::Relative_2_Absolute_idx(
 void Data_Generator::Generate_IDF(
 	Data_Logger *DL,
 	size_t idx,
-	std::filesystem::path dest)
+	std::filesystem::path dest,
+	size_t  total,
+	size_t& generated,
+	bool verbose)
 {
 	size_t cntr = 0;
 	size_t lid = Inps_lid[idx];
@@ -144,7 +158,7 @@ void Data_Generator::Generate_IDF(
 	size_t el_size = linfo.Batch_size * linfo.Channel_size * linfo.Width_size * linfo.Height_size;
 	std::vector<uint16_t> data = Read_binary_file(fname, el_size);
 	size_t Data_size = DL->size();
-
+	size_t step = total / 100;
 	//// for validation purposes
 	//bool *used = new bool[el_size];
 	//for (size_t i = 0; i < el_size; i++)
@@ -183,6 +197,20 @@ void Data_Generator::Generate_IDF(
 
 		// Increase the generated file counter
 		GIDF_cntr++;
+		generated++;
+		if (verbose)
+		{
+			if ((generated % step) == 0)
+			{
+				size_t percent = generated / step;
+				size_t filled  = percent / 2;
+				std::cout << '\r' << '['
+              		<< std::string(filled, '=')
+              		<< std::string(50 - filled, ' ')
+              		<< "] " << std::setw(3) << i << "%"
+              		<< std::flush;
+			}
+		}
 	}
 
 	//// Assertion
@@ -200,7 +228,10 @@ void Data_Generator::Generate_IDF(
 void Data_Generator::Generate_WDF(
 	Data_Logger *DL,
 	size_t idx,
-	std::filesystem::path dest)
+	std::filesystem::path dest,
+	size_t  total,
+	size_t& generated,
+	bool verbose)
 {
 	size_t cntr = 0;
 	size_t lid = Wgts_lid[idx];
@@ -210,6 +241,7 @@ void Data_Generator::Generate_WDF(
 	size_t el_size = linfo.Kernel_size * linfo.Channel_size * linfo.FiltW_Size * linfo.FiltH_Size;
 	std::vector<uint16_t> data = Read_binary_file(fname, el_size);
 	size_t Data_size = DL->size();
+	size_t step = total / 100;
 
 
 	//std::cout << "lid:      " << lid		<< std::endl;
@@ -255,6 +287,20 @@ void Data_Generator::Generate_WDF(
 
 		// Increase the generated file counter
 		GWDF_cntr++;
+		generated++;
+		if (verbose)
+		{
+			if ((generated % step) == 0)
+			{
+				size_t percent = generated / step;
+				size_t filled  = percent / 2;
+				std::cout << '\r' << '['
+              		<< std::string(filled, '=')
+              		<< std::string(50 - filled, ' ')
+              		<< "] " << std::setw(3) << i << "%"
+              		<< std::flush;
+			}
+		}
 	}
 
 	//// Assertion
@@ -271,10 +317,14 @@ void Data_Generator::Generate_WDF(
 // Generate Zero data files
 void Data_Generator::Generate_ZDF(
 	Data_Logger *DL,
-	std::filesystem::path dest)
+	std::filesystem::path dest,
+	size_t  total,
+	size_t& generated,
+	bool verbose)
 {
 	size_t cntr = 0;
 	size_t Data_size = DL->size();
+	size_t step = total / 100;
 
 	// generating Zero data blocks
 	for (DBID_t id = DBID_t::Null(); id < Data_size; id++)
@@ -307,6 +357,20 @@ void Data_Generator::Generate_ZDF(
 
 		// Increase the generated file counter
 		GZDF_cntr++;
+		generated++;
+		if (verbose)
+		{
+			if ((generated % step) == 0)
+			{
+				size_t percent = generated / step;
+				size_t filled  = percent / 2;
+				std::cout << '\r' << '['
+              		<< std::string(filled, '=')
+              		<< std::string(50 - filled, ' ')
+              		<< "] " << std::setw(3) << i << "%"
+              		<< std::flush;
+			}
+		}
 	}
 
 	GZDB_cntr += cntr;
@@ -393,5 +457,20 @@ size_t Data_Generator::write_zero_block(
 	for (size_t i = 0; i < Block_size; i++)
 		fid << std::setw(4) << 0 << "\n";
 
+	return cntr;
+}
+
+// Find Generatable files.
+size_t	find_generatable_files(
+	Data_Logger* DG)
+{
+	size_t cntr(0);
+	size_t Data_size = DL->size();
+
+	// for each data block in the data logger
+	for (DBID_t id = DBID_t::Null(); id < Data_size; id++)
+		if ((DL->Get_Type_of_DBID(id) == DBT_DATA_IN) || (DL->Get_Type_of_DBID(id) == DBT_WGT) || (DL->Get_Type_of_DBID(id) == DBT_IZero) || (DL->Get_Type_of_DBID(id) == DBT_PZero))
+			cntr++;
+	
 	return cntr;
 }

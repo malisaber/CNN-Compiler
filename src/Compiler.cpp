@@ -93,7 +93,7 @@ void	Compiler::Rearreng_Data						(
 
 					Data_Gen_Eng->load_input_files (Inps);
 					Data_Gen_Eng->load_Weight_files(Wgts);
-					Data_Gen_Eng->Generate(Data_Log_Eng, DG_DRAM_dest);
+					Data_Gen_Eng->Generate(Data_Log_Eng, DG_DRAM_dest, verbose);
 	if (verbose)	std::cout << "Running Data Re-arrengement Engine Done!" << std::endl << std::endl << std::endl;
 
 }

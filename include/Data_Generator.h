@@ -72,7 +72,8 @@ public:
 	// Generating files
 	void	Generate								(
 														Data_Logger* DG,
-														std::filesystem::path dram);
+														std::filesystem::path dram,
+														bool verbose);
 
 
 private:
@@ -97,18 +98,27 @@ private:
 	void	Generate_IDF							(
 														Data_Logger* DG,
 														size_t idx,
-														std::filesystem::path dest);
+														std::filesystem::path dest,
+														size_t  total,
+														size_t& generated,
+														bool verbose);
 
 	// Generate Weight data file for CNN layer x
 	void	Generate_WDF							(
 														Data_Logger* DG,
 														size_t idx,
-														std::filesystem::path dest);
+														std::filesystem::path dest,
+														size_t  total,
+														size_t& generated,
+														bool verbose);
 	
 	// Generate Zero data files
 	void	Generate_ZDF							(
 														Data_Logger* DG,
-														std::filesystem::path dest);
+														std::filesystem::path dest,
+														size_t  total,
+														size_t& generated,
+														bool verbose);
 
 	// returning the input value
 	size_t	write_input_value						(
@@ -130,6 +140,10 @@ private:
 	size_t	write_zero_block						(
 														std::ofstream& fid,
 														Conv_Layer_Info Dims);
+	
+	// Find Generatable files.
+	size_t	find_generatable_files					(
+														Data_Logger* DG);
 };
 
 
