@@ -133,7 +133,7 @@ bool Input_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 		SNID_t End_Node_ID   = DpndL->Get_Ending_Point_Scheduling_Node_Idx();
 
 
-		if (verbose>0) std::cout << "[1/7]\tL" << ID << ": Input Layer;" << std::endl;
+		if (verbose>0) std::cout << "[1/7]\t\tL" << ID << ": Input Layer;" << std::endl;
 
 
 		// Preperations 
@@ -372,7 +372,7 @@ bool Conv_MKMC_2D::Map_Data_Blocks_and_Build_Dependencies(
 		outp_block_needed = map_entity.Batch_size * map_entity.Height_size * map_entity.Width_size * map_entity.Kernel_size;
 		pout_block_needed = map_entity.Batch_size * map_entity.Kernel_size * map_entity.Channel_size * map_entity.Height_size * map_entity.Width_size * map_entity.FiltH_Size * map_entity.FiltW_Size / 9;
 
-		if (verbose>0) std::cout << "[1/7]\tL" << ID << ": Convolution Layer;\t\tNumber of Needed Block for (input, weithg, partial_sum, output) : \t(";
+		if (verbose>0) std::cout << "[1/7]\t\tL" << ID << ": Convolution Layer;\t\tNumber of Needed Block for (input, weithg, partial_sum, output) : \t(";
 		std::cout << inpt_block_needed << ", " << wght_block_needed << ", " << pout_block_needed << ", " << outp_block_needed << ")" << std::endl;
 
 
@@ -768,7 +768,7 @@ bool MPDR_MC_2D::Map_Data_Blocks_and_Build_Dependencies(
 		mapped = true;
 
 
-		if (verbose>0) std::cout << "[1/7]\tL" << ID << ": Max Pooling Layer;" << std::endl;
+		if (verbose>0) std::cout << "[1/7]\t\tL" << ID << ": Max Pooling Layer;" << std::endl;
 
 
 		// Preperations 
@@ -927,7 +927,7 @@ bool Output_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 
 
 
-		if (verbose>0)	std::cout << "[1/7]\tL" << ID << ": Output Layer;" << std::endl;
+		if (verbose>0)	std::cout << "[1/7]\t\tL" << ID << ": Output Layer;" << std::endl;
 
 
 

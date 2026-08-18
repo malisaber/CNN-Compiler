@@ -458,8 +458,7 @@ size_t Dependency_Logger::Schedule_Nodes			(
 		}
 		if ((has) && (verbose > 0))
 		{
-			std::cout << "\033[2K\r" << std::flush;
-			std::cout << "[2/7]\tBuilding Level #" << level;
+			std::cout << "[2/7]\t\tBuilding Level #" << level;
 			std::cout << "\t\tNode of this Level: " << std::setw(6) << Scheduled_ID_list[level].size();
 			std::cout << "\t\tProgress: " << (tot * 100) / (size() - 1) << "%" << std::endl;
 		}
@@ -477,11 +476,11 @@ size_t Dependency_Logger::Schedule_Nodes			(
 		scheduled_cntr += Scheduled_ID_list[i].size();
 
 	Scheduled = true;
-	std::cout << "[2/7]\tCompiling ..." << std::endl;
+	std::cout << "[2/7]\t\tCompiling ..." << std::endl;
 	Clear_Scheduling_Node_Spacing_Info();
 	Calculation_Scheduling_Node_Spaces();
 	Compile_Schedule_Nodes();
-	std::cout << "[2/7]\tCompilation Complete." << std::endl;
+	std::cout << "[2/7]\t\tCompilation Complete." << std::endl;
 	return scheduled_cntr;
 }
 
@@ -507,7 +506,7 @@ bool Dependency_Logger::Build_Threads				(
 	for (size_t lvl = 0; lvl < Scheduled_ID_list.size(); lvl++)
 	{
 		if (verbose > 0)
-			std::cout << "[3/7]\tBuilding Execution Threads:\tLeveL#" << lvl << std::endl;
+			std::cout << "[3/7]\t\tBuilding Execution Threads:\tLeveL#" << lvl << std::endl;
 		
 		std::vector<Execution_Thread_Info> EXE_Threads;
 		EXE_Threads.clear();
@@ -555,7 +554,7 @@ bool Dependency_Logger::Build_Threads				(
 		Execution_Threads.push_back(EXE_Threads);
 	}
 	if (verbose > 0)
-		std::cout << "[3/7]\tBuilding Execution Threads:\tDone!" << std::endl;
+		std::cout << "[3/7]\t\tBuilding Execution Threads:\tDone!" << std::endl;
 	
 
 	// Sch_Activation, Sch_MPDR
@@ -563,7 +562,7 @@ bool Dependency_Logger::Build_Threads				(
 	for (size_t lvl = 0; lvl < Scheduled_ID_list.size(); lvl++)
 	{
 		if (verbose > 0)
-			std::cout << "[3/7]\tBuilding Periphral Threads:\tLeveL#" << lvl << std::endl;
+			std::cout << "[3/7]\t\tBuilding Periphral Threads:\tLeveL#" << lvl << std::endl;
 		
 		std::vector<Periphral_Thread_Info> ACC_Threads;
 		ACC_Threads.clear();
@@ -621,7 +620,7 @@ bool Dependency_Logger::Build_Threads				(
 		Periphral_Threads.push_back(ACC_Threads);
 	}
 	if (verbose > 0)
-		std::cout << "[3/7]\tBuilding Periphral Threads:\tDone!" << std::endl;
+		std::cout << "[3/7]\t\tBuilding Periphral Threads:\tDone!" << std::endl;
 
 	Threaded = true;
 	return true;
@@ -633,19 +632,20 @@ bool Dependency_Logger::Build_Threads				(
 bool Dependency_Logger::Optimizing_Execution_Threads(
 														size_t verbose)
 {
+	verbose--;
 	//Doing for each levels
 	for (size_t lvl = 0; lvl < Scheduled_ID_list.size(); lvl++)
 	{
 		size_t reorder_cntr(0);
 		std::vector<std::vector<Execution_Thread_Info>> Execution_Threads_Level_OPT;
-		if (verbose > 0)
-			std::cout << "[3/7]\tOptimizing Execution Threads -> \tLeveL: " << lvl << std::endl;
+		if (verbose > 1)
+			std::cout << "[3/7]\t\tOptimizing Execution Threads -> \tLeveL: " << lvl << std::endl;
 
 		// Doing for each baseline:
 		for (size_t bl = 0; bl < Execution_Threads[lvl].size(); bl++)
 		{
-			if (verbose > 1)
-				std::cout << "[3/7]\tOptimizing Execution Threads -> \tLeveL: " << lvl << ",\tThread:" << bl << std::endl;
+			if (verbose > 2)
+				std::cout << "[3/7]\t\tOptimizing Execution Threads -> \tLeveL: " << lvl << ",\tThread:" << bl << std::endl;
 			
 			//	Reordering Execution Nodes in this baseline
 			std::vector<Execution_Thread_Info> O1_EXE_Threads;
@@ -653,8 +653,8 @@ bool Dependency_Logger::Optimizing_Execution_Threads(
 			{
 				if ((reorder_cntr % 100) == 0)
 				{
-					if (verbose > 2)
-						std::cout << "[3/7]\tOptimizing Execution Threads -> \tLeveL: " << lvl << ",\tThread:" << bl << ",\tReordered:" << reorder_cntr << std::endl;
+					if (verbose > 3)
+						std::cout << "[3/7]\t\tOptimizing Execution Threads -> \tLeveL: " << lvl << ",\tThread:" << bl << ",\tReordered:" << reorder_cntr << std::endl;
 				}
 				Execution_Thread_Info opt_thread;
 				for (size_t node = 0; node < Execution_Threads[lvl][bl].Nodes.size(); node++)
@@ -716,8 +716,8 @@ bool Dependency_Logger::Optimizing_Execution_Threads(
 		// Storing Thread Info of this level
 		Execution_Threads_OPT.push_back(Execution_Threads_Level_OPT);
 	}
-	if (verbose > 0)
-		std::cout << "[3/7]\tOptimizing Execution Threads:\tDone!" << std::endl;
+	if (verbose > 1)
+		std::cout << "[3/7]\t\tOptimizing Execution Threads:\tDone!" << std::endl;
 
 	return true;
 }
@@ -892,15 +892,15 @@ size_t Dependency_Logger::Map						(
 
 	if (Planes > 4)
 	{
-		std::cout << "[4/7]\tE: Error in Hardware configuration of mapper:" << std::endl;
-		std::cout << "[4/7]\t\t Number of Planes (" << Planes << ") succeeds 4, setting to 4" << std::endl;
+		std::cout << "[4/7]\t\tE: Error in Hardware configuration of mapper:" << std::endl;
+		std::cout << "[4/7]\t\t\t Number of Planes (" << Planes << ") succeeds 4, setting to 4" << std::endl;
 		Planes = 4;
 	}
 	if (Vaults != 16)
 	{
-		std::cout << "[4/7]\tE: Error in Hardware configuration of mapper:" << std::endl;
-		std::cout << "[4/7]\t\t Number of Vaults (" << Planes << ") should be less than or equal to 16." << std::endl;
-		std::cout << "[4/7]\t\t Other Configuration does not support yet, , setting to 16" << std::endl;
+		std::cout << "[4/7]\t\tE: Error in Hardware configuration of mapper:" << std::endl;
+		std::cout << "[4/7]\t\t\t Number of Vaults (" << Planes << ") should be less than or equal to 16." << std::endl;
+		std::cout << "[4/7]\t\t\t Other Configuration does not support yet, , setting to 16" << std::endl;
 		Vaults = 16;
 	}
 
@@ -931,7 +931,7 @@ size_t Dependency_Logger::Map						(
 	{
 		// printing info
 		if (verbose> 0)
-			std::cout << "[4/7]\tMapping Level #" << std::setw(4) << lvl << std::endl;
+			std::cout << "[4/7]\t\tMapping Level #" << std::setw(4) << lvl << std::endl;
 		
 		level = lvl;
 		
@@ -1333,20 +1333,20 @@ bool Dependency_Logger::Allocte						(
 	size_t Efst = 1;
 	
 	if (verbose >0)
-		std::cout << "[5/7]\tMapping Input Data Blocks ..." << std::endl;
+		std::cout << "[5/7]\t\tMapping Input Data Blocks ..." << std::endl;
 	maloc_DATA_IN (DataL, Ifst, Wfst);
 	
 	if (verbose >0)
-		std::cout << "[5/7]\tMapping Weight Blocks ..." << std::endl;
+		std::cout << "[5/7]\t\tMapping Weight Blocks ..." << std::endl;
 	maloc_WEIGHT  (DataL, Wfst, Ofst);
 	
 	if (verbose >0)
-		std::cout << "[5/7]\tMapping Output Data Blocks ..." << std::endl;
+		std::cout << "[5/7]\t\tMapping Output Data Blocks ..." << std::endl;
 	maloc_DATA_OUT(DataL, Ofst, Pfst);
 	
 	if (verbose >0)
-		std::cout << "[5/7]\tMapping Partial Result Blocks ..." << std::endl;
-	maloc_PSUM    (DataL, Pfst, Efst);
+		std::cout << "[5/7]\t\tMapping Partial Result Blocks ..." << std::endl;
+	maloc_PSUM    (DataL, Pfst, Efst, --verbose);
 
 
 	Input_Location_Offset	= Ifst;
@@ -2220,7 +2220,8 @@ void Dependency_Logger::maloc_DATA_OUT				(
 void Dependency_Logger::maloc_PSUM					(
 														Data_Logger* DataL,
 														size_t Offset,
-														size_t& Next_Offset)
+														size_t& Next_Offset,
+														size_t  verbose)
 {
 	/*
 	Programmer's Log:
@@ -2238,20 +2239,22 @@ void Dependency_Logger::maloc_PSUM					(
 		SoBI[i] = Offset;
 
 	// 1- Allocate its inputs
-	std::cout << "\tConstructing Data Block Usage Matrix for: ";
+	if (verbose > 0)
+		std::cout << "[5/7]\t\tConstructing Data Block Usage Matrix for: " << std::endl;
+	verbose --;
+	
 	for (size_t lvl = 0; lvl < Ordering.size(); lvl++)
 	{
-	
-		std::cout << std::endl << "\t\tLevel: " << std::setw(3) << lvl + 1 << "/" << std::setw(3) << Ordering.size() << ",\t\t";
+		if (verbose > 1)
+			std::cout << "[5/7]\t\t\tLevel: " << std::setw(3) << lvl + 1 << "/" << std::setw(3) << Ordering.size() << std::endl;
 	
 		size_t ival = (Ordering[lvl].size() / 100) + 1;
 		for (size_t bline = 0; bline < Ordering[lvl].size(); bline++)
 		{
-			if ((bline % ival) == 0)
+			if (((bline % ival) == 0) && (verbose > 2))
 			{
-				std::cout << "\033[2K\r"	<< std::flush;
-				std::cout << "\t\tLevel: "	<< std::setw(3) << lvl + 1		<< "/" << std::setw(3) << Ordering.size() << ",\t\t";
-				std::cout << "Baseline: "	<< std::setw(6) << bline + 1	<< "/" << std::setw(6) << Ordering[lvl].size() << ",\t\t";
+				std::cout << "[5/7]\t\t\tLevel: "	<< std::setw(3) << lvl + 1		<< "/" << std::setw(3) << Ordering.size() << ",\t\t";
+				std::cout << "Baseline: "	<< std::setw(6) << bline + 1	<< "/" << std::setw(6) << Ordering[lvl].size() << std::endl;
 			}
 	
 			for (size_t node = 0; node < Ordering[lvl][bline].size(); node++)
@@ -2325,10 +2328,9 @@ void Dependency_Logger::maloc_PSUM					(
 			}
 		}
 	
-		std::cout << "\033[2K\r"	<< std::flush;
-		std::cout << "\t\tLevel: "	<< std::setw(3) << lvl + 1 << "/" << std::setw(3) << Ordering.size() << ", \tDone!";
+		if (verbose > 1)
+			std::cout << "[5/7]\t\t\tLevel: "	<< std::setw(3) << lvl + 1 << "/" << std::setw(3) << Ordering.size() << ", \tDone!" << std::endl;
 	}
-	std::cout << std::endl;
 	
 	// 2- Allocate its output
 	for (size_t lvl = 0; lvl < Ordering.size(); lvl++)

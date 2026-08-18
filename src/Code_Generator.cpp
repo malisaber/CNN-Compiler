@@ -928,7 +928,7 @@ void Code_Generator::Generate_Codes					(
 	// Generating the initialization functions, every thing shoud kept simple as fuck.
 	// copying the basic files
 	if (verbose > 0)
-		std::cout << "[6/7]\tCoppying Header and Source files" << std::endl;
+		std::cout << "[6/7]\t\tCoppying Header and Source files" << std::endl;
 	
 	Copy_File(Mtr_fname, Out_fname);
 
@@ -939,20 +939,20 @@ void Code_Generator::Generate_Codes					(
 	Data_H_file.open(Out_fname / ("include")	/ ("Data.h"));
 	Data_C_file.open(Out_fname / ("src")		/ ("Data.cpp"));
 	if (verbose > 0)
-		std::cout << "[6/7]\tGenerating Main.cpp Source file:" << std::endl;
+		std::cout << "[6/7]\t\tGenerating Main.cpp Source file:" << std::endl;
 	Generate_Main_P1(files_main);
 	
 
 	// Generate "Platform_Execute_Layer" function
 	if (verbose > 1)
-		std::cout << "[6/7]\tGenerating platform Convolutional Layer execution functions ..." << std::endl;
+		std::cout << "[6/7]\t\tGenerating platform Convolutional Layer execution functions ..." << std::endl;
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		if (!CG_PEs[lvl].empty())
 			Generate_Platform_Execute_Layer_lvl(files_main, lvl);
 
 	// Generate "Platform_Peripheral_Layer" function
 	if (verbose > 1)
-		std::cout << "[6/7]\tGenerating platform Max Pooling   Layer execution functions ..." << std::endl;
+		std::cout << "[6/7]\t\tGenerating platform Max Pooling   Layer execution functions ..." << std::endl;
 	for (size_t lvl = 0; lvl < CG_MPDRs.size(); lvl++)
 		if (!CG_MPDRs[lvl].empty())
 			Generate_Platform_Peripheral_Layer_lvl(DpndL, DataL, network, files_main, lvl);
@@ -969,7 +969,7 @@ void Code_Generator::Generate_Codes					(
 
 	// Generate "Platform_Execute" neccessary data block
 	if (verbose > 0)
-		std::cout << "[6/7]\tGenerating Data.h Header file:" << std::endl;
+		std::cout << "[6/7]\t\tGenerating Data.h Header file:" << std::endl;
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
 			if (!CG_PEs[lvl][bline].empty())
@@ -2148,7 +2148,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Node Count of this baseline
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const unsigned int";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Capacity[" << size << "]\t=\t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Capacity[" << size << "]\t\t=\t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2161,7 +2161,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// PE Config values
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const S_PE_cofig";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Conf_PE[" << size << "]\t=\t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Conf_PE[" << size << "]\t\t=\t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2173,7 +2173,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 
 	// STA config values
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const S_CONF_STA_info";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "STA_info[" << size << "]\t=\t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "STA_info[" << size << "]\t\t=\t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2186,7 +2186,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Control Word
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Control_word[" << size << "]\t=\t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Control_word[" << size << "]\t\t=\t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2199,7 +2199,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Counts
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Counts[" << size << "]\t=\t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Counts[" << size << "]\t\t=\t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2212,7 +2212,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Intervals
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Ivals[" << size << "]\t=\t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Ivals[" << size << "]\t\t=\t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2225,7 +2225,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Input Base Address
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Inp_base_addr_ptr[" << size << "]\t=\t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Inp_base_addr_ptr[" << size << "]\t\t=\t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2238,7 +2238,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Weights Base Address
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*UPA_Wgt_base_addr_ptr[" << std::to_string(size) << "])[9" << "]\t = \t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*UPA_Wgt_base_addr_ptr[" << std::to_string(size) << "])[9" << "]\t\t = \t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2251,7 +2251,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Output Base Address
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Out_base_addr_ptr[" << size << "]\t=\t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Out_base_addr_ptr[" << size << "]\t\t=\t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2264,7 +2264,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Accumulate Base Address
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Acc_base_addr_ptr[" << size << "]\t=\t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Acc_base_addr_ptr[" << size << "]\t\t=\t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2277,7 +2277,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// DMA Transfer size
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const unsigned int";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "DMA_max_thread[" << size << "]\t=\t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "DMA_max_thread[" << size << "]\t\t=\t";
 	Data_H_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2290,7 +2290,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// DMA Transfer info
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*DMA_ZDB_Control[" << size << "])[2" << "]\t = \t";
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*DMA_ZDB_Control[" << size << "])[2" << "]\t\t = \t";
 	Data_H_file << std::endl << "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)

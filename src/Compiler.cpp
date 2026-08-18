@@ -211,7 +211,7 @@ void	Compiler::Report							(
 		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / ("Mapping.txt"));
 		std::cout << "Spacing       information report file:" 		<< std::endl;
 		Code_Gen_Eng->Print_Spacing									(Data_Log_Eng, CG_Dump_dest);
-		std::cout << std::endl <<   "Files are Generated" 			<< std::endl << std::endl << std::endl;
+		std::cout << std::endl <<   "Files are Generated" 			<< std::endl;
 	}
 }
 
@@ -235,7 +235,7 @@ void	Compiler::Build_Network						(
 	// Building the network
 	if (verbose>0)	std::cout << "[1/7] Compiling the Network ... " << std::endl;
 	bit =			Network->Build_Network(Data_Log_Eng, Dpnd_Log_Eng, --verbose);
-	if (verbose>0)	std::cout << "[1/7] Network Compilation Was " << Res_Dec(bit) << std::endl << std::endl << std::endl;
+	if (verbose>0)	std::cout << "[1/7] Network Compilation Was " << Res_Dec(bit) << std::endl;
 }
 
 
@@ -250,7 +250,7 @@ void	Compiler::Schedule_Dependencies				(
 	if (verbose>0)	std::cout << "[2/7] Total Node: " << Dpnd_Log_Eng->size() << std::endl;
 	tmp =			Dpnd_Log_Eng->Schedule_Nodes(--verbose);
 	if (verbose>0)	std::cout << "[2/7] Scheduling Engine Done!" << std::endl;
-	if (verbose>0)	std::cout << "[2/7] Nodes that did not scheduled: " << Dpnd_Log_Eng->size() - tmp << std::endl << std::endl << std::endl;
+	if (verbose>0)	std::cout << "[2/7] Nodes that did not scheduled: " << Dpnd_Log_Eng->size() - tmp << std::endl;
 }
 
 
@@ -267,7 +267,7 @@ void	Compiler::Build_Threads						(
 	if (verbose>0)	std::cout << "[3/7] Result of Thread Building Engine: " << Res_Dec(bit) << std::endl;
 	if (verbose>0)	std::cout << "[3/7] Running Thread Optimization Engine ..." << std::endl;
 	bit =			Dpnd_Log_Eng->Optimizing_Execution_Threads(--verbose);
-	if (verbose>0)	std::cout << "[3/7] Thread Optimization Engine Done!" << std::endl << std::endl << std::endl;
+	if (verbose>0)	std::cout << "[3/7] Thread Optimization Engine Done!" << std::endl;
 }
 
 
@@ -286,7 +286,7 @@ void	Compiler::Map								(
 	if (verbose>0)	std::cout << "[4/7] Calculating Timing ..." << std::endl;
 	tmp =			Dpnd_Log_Eng->Calculate_Data_Block_Timing(Data_Log_Eng);
 	if (verbose>0)	std::cout << "[4/7] Timing Calculation Done!" << std::endl;
-	if (verbose>0)	std::cout << "[4/7] Last Time: " << tmp << std::endl << std::endl << std::endl;
+	if (verbose>0)	std::cout << "[4/7] Last Time: " << tmp << std::endl;
 }
 
 
@@ -315,8 +315,8 @@ void	Compiler::Allocate							(
 	if (verbose>0)	std::cout << "[5/7] Number of Weight Data Block Needed: " << std::setw(8) << Wcnt << "\t\tStarting At: " << std::setw(8) << Wfst << std::endl;
 	if (verbose>0)	std::cout << "[5/7] Number of Output Data Block Needed: " << std::setw(8) << Ocnt << "\t\tStarting At: " << std::setw(8) << Ofst << std::endl;
 	if (verbose>0)	std::cout << "[5/7] Number of P-Sums Data Block Needed: " << std::setw(8) << Pcnt << "\t\tStarting At: " << std::setw(8) << Pfst << std::endl;
-	if (verbose>0)	std::cout << "[5/7] \t\t\t\t\t\t\t  Ending At: " << std::setw(8) << Efst << std::endl;
-	if (verbose>0)	std::cout << "[5/7] Allocation Engine Done!" << std::endl << std::endl << std::endl;
+	if (verbose>0)	std::cout << "[5/7]\t\t\t\t\t\t\t\t\t\t\t\t\t  Ending At: " << std::setw(8) << Efst << std::endl;
+	if (verbose>0)	std::cout << "[5/7] Allocation Engine Done!" << std::endl;
 }
 
 
@@ -328,7 +328,7 @@ void	Compiler::Generate_Codes					(
 	if (verbose>0)	std::cout << "[6/7] Running Code Generator Engine ..." << std::endl;
 					Code_Gen_Eng->Extract_PE_Execution_Info(Dpnd_Log_Eng);
 					Code_Gen_Eng->Code_Wizard(Dpnd_Log_Eng, Data_Log_Eng, Network, CG_Matr_file, CG_Outp_dest, --verbose);
-	if (verbose>0)	std::cout << "[6/7] Code Generator Engine Done!" << std::endl << std::endl << std::endl;
+	if (verbose>0)	std::cout << "[6/7] Code Generator Engine Done!" << std::endl;
 }
 
 

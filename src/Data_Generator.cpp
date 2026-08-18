@@ -86,7 +86,7 @@ void Data_Generator::Generate(
 	if (verbose > 0)
 	{
 		total_files = find_generatable_files(DL);
-		std::cout << "[7/7]\tTotal number of generatable files are: " << total_files << std::endl;
+		std::cout << "[7/7]\t\tTotal number of generatable files are: " << total_files << std::endl;
 	}
 
 	// Generate input files:
@@ -102,7 +102,7 @@ void Data_Generator::Generate(
 
 	if (verbose > 1)
 	{
-		std::cout	<< '\r' << "[7/7]\t["
+		std::cout	<< '\r' << "[7/7]\t\t["
     				<< std::string(50, '=')
     				<< "] " << std::setw(3) << 100 << "%"
     				<< std::endl << std::flush;

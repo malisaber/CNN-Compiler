@@ -359,7 +359,8 @@ private:
 	void	maloc_PSUM								(
 														Data_Logger* DataL,
 														size_t Offset,
-														size_t& Next_Offset);
+														size_t& Next_Offset,
+														size_t  verbose);
 
 	// Allocate a specific DATA_IN node, duplicating if needed.
 	void	maloc_DATA_IN_Node						(
