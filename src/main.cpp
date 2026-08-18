@@ -33,7 +33,7 @@ int main											(
 
 	// --- Flags / Options ---
 	// Boolean flag: --verbose / --no-verbose (or just -v to force true)
-	app.add_option	("-v,--verbose", 				verbose, 	"Verbosity level")	->check(CLI::Range(0, 4));
+	app.add_option	("-v,--verbose", 				verbose, 	"Verbosity level"							);
 	app.add_flag	("-p,--report",					report,		"Generate Reports"							);
 	app.add_option	("-n,--network",				Net_Filex,	"Network definition file (JSON)"			);
 	app.add_option	("-l,--hal-dir",				Hal_Direc,	"Hardware Abstraction Layer directory"		);
