@@ -79,30 +79,30 @@ void Data_Generator::load_Weight_files(
 void Data_Generator::Generate(
 	Data_Logger *DL,
 	std::filesystem::path dram,
-	bool verbose)
+	size_t verbose)
 {
 	size_t total_files(0);
 	size_t Generated_files(0);
-	if (verbose)
+	if (verbose > 0)
 	{
 		total_files = find_generatable_files(DL);
-		std::cout << "\tTotal number of generatable files are: " << total_files << std::endl;
+		std::cout << "[7/7]\tTotal number of generatable files are: " << total_files << std::endl;
 	}
 
 	// Generate input files:
 	for (size_t i = 0; i < Inps_lid.size(); i++)
-		Generate_IDF(DL, i, dram, total_files, Generated_files, verbose);
+		Generate_IDF(DL, i, dram, total_files, Generated_files, --verbose);
 
 	// Generate Weight files:
 	for (size_t i = 0; i < Wgts_lid.size(); i++)
-		Generate_WDF(DL, i, dram, total_files, Generated_files, verbose);
+		Generate_WDF(DL, i, dram, total_files, Generated_files, --verbose);
 
 	// Generte Zero files
-	Generate_ZDF(DL, dram, total_files, Generated_files, verbose);
+	Generate_ZDF(DL, dram, total_files, Generated_files, --verbose);
 
-	if (verbose)
+	if (verbose > 1)
 	{
-		std::cout	<< '\r' << '['
+		std::cout	<< '\r' << "[7/7]\t["
     				<< std::string(50, '=')
     				<< "] " << std::setw(3) << 100 << "%"
     				<< std::endl << std::flush;
@@ -153,7 +153,7 @@ void Data_Generator::Generate_IDF(
 	std::filesystem::path dest,
 	size_t  total,
 	size_t& generated,
-	bool verbose)
+	size_t  verbose)
 {
 	size_t cntr = 0;
 	size_t lid = Inps_lid[idx];
@@ -203,7 +203,7 @@ void Data_Generator::Generate_IDF(
 		// Increase the generated file counter
 		GIDF_cntr++;
 		generated++;
-		if (verbose)
+		if (verbose > 0)
 		{
 			if ((generated % step) == 0)
 			{
@@ -236,7 +236,7 @@ void Data_Generator::Generate_WDF(
 	std::filesystem::path dest,
 	size_t  total,
 	size_t& generated,
-	bool verbose)
+	size_t  verbose)
 {
 	size_t cntr = 0;
 	size_t lid = Wgts_lid[idx];
@@ -293,7 +293,7 @@ void Data_Generator::Generate_WDF(
 		// Increase the generated file counter
 		GWDF_cntr++;
 		generated++;
-		if (verbose)
+		if (verbose > 0)
 		{
 			if ((generated % step) == 0)
 			{
@@ -325,7 +325,7 @@ void Data_Generator::Generate_ZDF(
 	std::filesystem::path dest,
 	size_t  total,
 	size_t& generated,
-	bool verbose)
+	size_t  verbose)
 {
 	size_t cntr = 0;
 	size_t Data_size = DL->size();
@@ -363,7 +363,7 @@ void Data_Generator::Generate_ZDF(
 		// Increase the generated file counter
 		GZDF_cntr++;
 		generated++;
-		if (verbose)
+		if (verbose > 0)
 		{
 			if ((generated % step) == 0)
 			{

@@ -99,20 +99,232 @@ bool Code_Generator::Code_Wizard					(
 														Data_Logger* DataL,
 														NETWORK* network,
 														std::filesystem::path Mtr_fname,
-														std::filesystem::path Dmp_fname,
-														std::filesystem::path Out_fname)
+														std::filesystem::path Out_fname,
+														size_t verbose)
 {
 	if (!Extracted)
 		return false;
 
 	// Modifing the structure of extracted information to simpify the code generation
-	Modify_All(DataL, Dmp_fname);
+	Modify_All(DataL);
 	
 	// Generate Codes.
-	Generate_Codes(DpndL, DataL, network, Mtr_fname, Out_fname);
+	Generate_Codes(DpndL, DataL, network, Mtr_fname, Out_fname, verbose);
 
 	return true;
 }
+
+
+// Write detailed spacing diagnostics for PE/MPDR blocks into report files.
+// - fname_PE.txt: detailed per-output PE spacing.
+// - fname_MPDR.txt: detailed MPDR spacing.
+// - fname_PE_Summary.txt: condensed PE summary.
+void Code_Generator::Print_Spacing					(
+														Data_Logger* DataL,
+														std::filesystem::path Dmp_fname)
+{
+	std::ofstream files_out_PE;
+	std::ofstream files_out_MPDR;
+	std::ofstream files_out_PESum;
+
+	files_out_PE	.open(Dmp_fname / ("CG_PE.txt"));
+	files_out_MPDR	.open(Dmp_fname / ("CG_MPDR.txt"));
+	files_out_PESum	.open(Dmp_fname / ("CG_PE_Summary.txt"));
+	
+
+	files_out_PE	<< "\t( "			<< std::setw(3) << "P";
+	files_out_PE	<< ", "				<< std::setw(3) << "V";
+	files_out_PE	<< ")\t("			<< std::setw(4) << "lvl";
+	files_out_PE	<< ","				<< std::setw(4) << "bsl";
+	files_out_PE	<< ","				<< std::setw(4) << "nod";
+	files_out_PE	<< ")\t("			<< std::setw(4) << "ESI";
+	files_out_PE	<< ","				<< std::setw(4) << "ESO";
+	files_out_PE	<< ","				<< std::setw(4) << "ESP";
+	files_out_PE	<< ")"				<< std::endl;
+
+	files_out_MPDR	<< "\t( "			<< std::setw(3) << "-";
+	files_out_MPDR	<< ", "				<< std::setw(3) << "V";
+	files_out_MPDR	<< ")\t("			<< std::setw(4) << "lvl";
+	files_out_MPDR	<< ","				<< std::setw(4) << "bsl";
+	files_out_MPDR	<< ","				<< std::setw(4) << "nod";
+	files_out_MPDR	<< ")\t("			<< std::setw(4) << "ESI";
+	files_out_MPDR	<< ","				<< std::setw(4) << "ESO";
+	files_out_MPDR	<< ")"				<< std::endl;
+
+	files_out_PESum	<< "\t( "			<< std::setw(3) << "P";
+	files_out_PESum	<< ", "				<< std::setw(3) << "V";
+	files_out_PESum	<< ")\t("			<< std::setw(4) << "lvl";
+	files_out_PESum	<< ","				<< std::setw(4) << "bsl";
+	files_out_PESum	<< ","				<< std::setw(4) << "nod";
+	files_out_PESum	<< ")\t("			<< std::setw(4) << "ESI";
+	files_out_PESum	<< ","				<< std::setw(4) << "ESO";
+	files_out_PESum	<< ","				<< std::setw(4) << "ESP";
+	files_out_PESum	<< ")"				<< std::endl;
+
+
+	for (size_t lvl=0; lvl< CG_PEs.size(); lvl++)
+	{
+		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
+		{
+			for (size_t node = 0; node < CG_PEs[lvl][bline].size(); node++)
+			{
+				size_t pln = CG_PEs[lvl][bline][node].Plane;
+				size_t vlt = CG_PEs[lvl][bline][node].Vault;
+
+				size_t idx;
+				for (idx = 0; idx < CG_PEs[lvl][bline][node].Output_ID.size(); idx++)
+				{
+					files_out_PE	<< "\t( "			<< std::setw(3) << pln;
+					files_out_PE	<< ", "				<< std::setw(3) << vlt;
+					files_out_PE	<< ")\t( "			<< std::setw(3) << lvl;
+					files_out_PE	<< ", "				<< std::setw(3) << bline;
+					files_out_PE	<< ", "				<< std::setw(3) << node;
+					files_out_PE	<< ")\t( "			<< std::setw(3) << CG_PEs[lvl][bline][node].ESI;
+					files_out_PE	<< ", "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESO;
+					files_out_PE	<< ", "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESP;
+					files_out_PE	<< ")\t";
+
+					files_out_PE	<< "\t@Inp\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Inputs_ID[idx];
+					files_out_PE	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
+					files_out_PE	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
+					files_out_PE	<< ")\tDiff: "		<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Inputs_ID[idx], CG_PEs[lvl][bline][node].Inputs_ID[idx + 1]);
+					
+
+					files_out_PE	<< " \t\t@Out\tB1:" << std::setw(6) << CG_PEs[lvl][bline][node].Output_ID[idx];
+					files_out_PE	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Output_ID[idx]);
+					files_out_PE	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Output_ID[idx]);
+					files_out_PE	<< ")\tDiff: ";
+					if (idx < (CG_PEs[lvl][bline][node].Output_ID.size()-1))
+						files_out_PE					<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Output_ID[idx], CG_PEs[lvl][bline][node].Output_ID[idx + 1]);
+					else
+						files_out_PE << 0;
+
+					files_out_PE	<< " \t\t@Acc\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Acum_DBID[idx];
+					files_out_PE	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Acum_DBID[idx]);
+					files_out_PE	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Acum_DBID[idx]);
+					files_out_PE	<< ")\tDiff: ";
+					if (idx < (CG_PEs[lvl][bline][node].Output_ID.size()-1))
+						files_out_PE					<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Acum_DBID[idx], CG_PEs[lvl][bline][node].Acum_DBID[idx + 1]);
+					else
+						files_out_PE << 0;
+
+					files_out_PE << std::endl;
+				}
+
+
+
+				files_out_PE		<< "\t( "				<< std::setw(3) << pln;
+				files_out_PE		<< ", "					<< std::setw(3) << vlt;
+				files_out_PE		<< ")\t( "				<< std::setw(3) << lvl;
+				files_out_PE		<< ", "					<< std::setw(3) << bline;
+				files_out_PE		<< ", "					<< std::setw(3) << node;
+				files_out_PE		<< ")\t( "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESI;
+				files_out_PE		<< ", "					<< std::setw(3) << CG_PEs[lvl][bline][node].ESO;
+				files_out_PE		<< ", "					<< std::setw(3) << CG_PEs[lvl][bline][node].ESP;
+				files_out_PE		<< ") \t\t@Inp\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Inputs_ID[idx];
+				files_out_PE		<< "\t("				<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
+				files_out_PE		<< ", "					<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
+				files_out_PE		<< ")\tDiff: "			<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Inputs_ID[idx], CG_PEs[lvl][bline][node].Inputs_ID[idx + 1]) << std::endl;
+					
+
+				idx++;
+				files_out_PE		<< "\t( "				<< std::setw(3) << pln;
+				files_out_PE		<< ", "					<< std::setw(3) << vlt;
+				files_out_PE		<< ")\t( "				<< std::setw(3) << lvl;
+				files_out_PE		<< ", "					<< std::setw(3) << bline;
+				files_out_PE		<< ", "					<< std::setw(3) << node;
+				files_out_PE		<< ")\t( "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESI;
+				files_out_PE		<< ", "					<< std::setw(3) << CG_PEs[lvl][bline][node].ESO;
+				files_out_PE		<< ", "					<< std::setw(3) << CG_PEs[lvl][bline][node].ESP;
+				files_out_PE		<< ") \t\t@Inp\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Inputs_ID[idx];
+				files_out_PE		<< "\t("				<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
+				files_out_PE		<< ", "					<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
+				files_out_PE		<< ")\tDiff: "			<< 0 << std::endl << std::endl << std::endl;
+			}
+		}
+	}
+	
+	for (size_t lvl = 0; lvl < CG_MPDRs.size(); lvl++)
+	{
+		for (size_t bline = 0; bline < CG_MPDRs[lvl].size(); bline++)
+		{
+			for (size_t node = 0; node < CG_MPDRs[lvl][bline].size(); node++)
+			{
+				files_out_MPDR	<< "\t( "			<< std::setw(3) << "-";
+				files_out_MPDR	<< ", "				<< std::setw(3) << "-";
+				files_out_MPDR	<< ")\t( "			<< std::setw(3) << lvl;
+				files_out_MPDR	<< ", "				<< std::setw(3) << bline;
+				files_out_MPDR	<< ", "				<< std::setw(3) << node;
+				files_out_MPDR	<< ")\t( "			<< std::setw(3) << CG_MPDRs[lvl][bline][node].ESI;
+				files_out_MPDR	<< ", "				<< std::setw(3) << CG_MPDRs[lvl][bline][node].ESO;
+				files_out_MPDR	<< ")\t";
+				for (size_t idx = 0; idx < CG_MPDRs[lvl][bline][node].Inputs.size(); idx++)
+				{
+					files_out_MPDR	<< "\t\tBI: "	<< std::setw(6) << CG_MPDRs[lvl][bline][node].Inputs[idx];
+					files_out_MPDR	<< " ("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_MPDRs[lvl][bline][node].Inputs[idx]);
+					files_out_MPDR	<< ", "			<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_MPDRs[lvl][bline][node].Inputs[idx]);
+					files_out_MPDR	<< ") ";
+				}
+				files_out_MPDR	<< ")\t\tBO: "		<< std::setw(6) << CG_MPDRs[lvl][bline][node].Output;
+				files_out_MPDR	<< " ("				<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_MPDRs[lvl][bline][node].Output);
+				files_out_MPDR	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_MPDRs[lvl][bline][node].Output);
+				files_out_MPDR	<< ")\tDiff: ";
+				if (node < (CG_MPDRs[lvl][bline].size() - 1))
+					files_out_MPDR					<< DataL->Calculate_Space_Between(CG_MPDRs[lvl][bline][node].Output, CG_MPDRs[lvl][bline][node+1].Output);
+				else
+					files_out_MPDR	<< 0;
+				files_out_MPDR		<< "\t"			<< std::endl;
+			}
+
+			files_out_MPDR << std::endl;
+		}
+	}
+	
+	for (size_t lvl=0; lvl< CG_PEs.size(); lvl++)
+	{
+		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
+		{
+			for (size_t node = 0; node < CG_PEs[lvl][bline].size(); node++)
+			{
+				size_t pln = CG_PEs[lvl][bline][node].Plane;
+				size_t vlt = CG_PEs[lvl][bline][node].Vault;
+
+				size_t idx = 0;
+				
+				files_out_PESum	<< "\t( "			<< std::setw(3) << pln;
+				files_out_PESum	<< ", "				<< std::setw(3) << vlt;
+				files_out_PESum	<< ")\t( "			<< std::setw(3) << lvl;
+				files_out_PESum	<< ", "				<< std::setw(3) << bline;
+				files_out_PESum	<< ", "				<< std::setw(3) << node;
+				files_out_PESum	<< ")\t( "			<< std::setw(3) << CG_PEs[lvl][bline][node].ESI;
+				files_out_PESum	<< ", "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESO;
+				files_out_PESum	<< ", "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESP;
+				files_out_PESum	<< ")\t\t@Inp\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Inputs_ID[idx];
+				files_out_PESum	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
+				files_out_PESum	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
+				files_out_PESum	<< ")\tDiff: "		<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Inputs_ID[idx], CG_PEs[lvl][bline][node].Inputs_ID[idx + 1]);
+				files_out_PESum	<< " \t\t@Out\tB1:" << std::setw(6) << CG_PEs[lvl][bline][node].Output_ID[idx];
+				files_out_PESum	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Output_ID[idx]);
+				files_out_PESum	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Output_ID[idx]);
+				files_out_PESum	<< ")\tDiff: "		<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Output_ID[idx], CG_PEs[lvl][bline][node].Output_ID[idx + 1]);
+				files_out_PESum	<< " \t\t@Acc\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Acum_DBID[idx];
+				files_out_PESum	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Acum_DBID[idx]);
+				files_out_PESum	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Acum_DBID[idx]);
+				files_out_PESum	<< ")\tDiff: "		<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Acum_DBID[idx], CG_PEs[lvl][bline][node].Acum_DBID[idx + 1]);
+				files_out_PESum	<< std::endl;
+			}
+			files_out_PESum		<< std::endl;
+		}
+		files_out_PESum			<< std::endl;
+	}
+
+	files_out_PE.close();
+	files_out_MPDR.close();
+	files_out_PESum.close();
+}
+
+
+
 
 
 
@@ -651,8 +863,7 @@ void Code_Generator::Modify_Zero_Blocks				(
 // - For each MPDR baseline: set ESI/ESO.
 // - Print spacing reports and compute Max_PZero_per_Vault.
 void Code_Generator::Modify_All						(
-														Data_Logger* DataL,
-														std::filesystem::path Dmp_fname)
+														Data_Logger* DataL)
 {
 	//bool PE_print_en	(true);
 	//bool MPDR_print_en	(true);
@@ -702,217 +913,6 @@ void Code_Generator::Modify_All						(
 			Equal_Spaced_Check_MPDR(DataL, lvl, bline);
 		}
 	}
-
-	Print_Spacing(DataL, Dmp_fname);
-}
-
-
-// Write detailed spacing diagnostics for PE/MPDR blocks into report files.
-// - fname_PE.txt: detailed per-output PE spacing.
-// - fname_MPDR.txt: detailed MPDR spacing.
-// - fname_PE_Summary.txt: condensed PE summary.
-void Code_Generator::Print_Spacing					(
-														Data_Logger* DataL,
-														std::filesystem::path Dmp_fname)
-{
-	std::ofstream files_out_PE;
-	std::ofstream files_out_MPDR;
-	std::ofstream files_out_PESum;
-
-	files_out_PE	.open(Dmp_fname / ("CG_PE.txt"));
-	files_out_MPDR	.open(Dmp_fname / ("CG_MPDR.txt"));
-	files_out_PESum	.open(Dmp_fname / ("CG_PE_Summary.txt"));
-	
-
-	files_out_PE	<< "\t( "			<< std::setw(3) << "P";
-	files_out_PE	<< ", "				<< std::setw(3) << "V";
-	files_out_PE	<< ")\t("			<< std::setw(4) << "lvl";
-	files_out_PE	<< ","				<< std::setw(4) << "bsl";
-	files_out_PE	<< ","				<< std::setw(4) << "nod";
-	files_out_PE	<< ")\t("			<< std::setw(4) << "ESI";
-	files_out_PE	<< ","				<< std::setw(4) << "ESO";
-	files_out_PE	<< ","				<< std::setw(4) << "ESP";
-	files_out_PE	<< ")"				<< std::endl;
-
-	files_out_MPDR	<< "\t( "			<< std::setw(3) << "-";
-	files_out_MPDR	<< ", "				<< std::setw(3) << "V";
-	files_out_MPDR	<< ")\t("			<< std::setw(4) << "lvl";
-	files_out_MPDR	<< ","				<< std::setw(4) << "bsl";
-	files_out_MPDR	<< ","				<< std::setw(4) << "nod";
-	files_out_MPDR	<< ")\t("			<< std::setw(4) << "ESI";
-	files_out_MPDR	<< ","				<< std::setw(4) << "ESO";
-	files_out_MPDR	<< ")"				<< std::endl;
-
-	files_out_PESum	<< "\t( "			<< std::setw(3) << "P";
-	files_out_PESum	<< ", "				<< std::setw(3) << "V";
-	files_out_PESum	<< ")\t("			<< std::setw(4) << "lvl";
-	files_out_PESum	<< ","				<< std::setw(4) << "bsl";
-	files_out_PESum	<< ","				<< std::setw(4) << "nod";
-	files_out_PESum	<< ")\t("			<< std::setw(4) << "ESI";
-	files_out_PESum	<< ","				<< std::setw(4) << "ESO";
-	files_out_PESum	<< ","				<< std::setw(4) << "ESP";
-	files_out_PESum	<< ")"				<< std::endl;
-
-
-	for (size_t lvl=0; lvl< CG_PEs.size(); lvl++)
-	{
-		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
-		{
-			for (size_t node = 0; node < CG_PEs[lvl][bline].size(); node++)
-			{
-				size_t pln = CG_PEs[lvl][bline][node].Plane;
-				size_t vlt = CG_PEs[lvl][bline][node].Vault;
-
-				size_t idx;
-				for (idx = 0; idx < CG_PEs[lvl][bline][node].Output_ID.size(); idx++)
-				{
-					files_out_PE	<< "\t( "			<< std::setw(3) << pln;
-					files_out_PE	<< ", "				<< std::setw(3) << vlt;
-					files_out_PE	<< ")\t( "			<< std::setw(3) << lvl;
-					files_out_PE	<< ", "				<< std::setw(3) << bline;
-					files_out_PE	<< ", "				<< std::setw(3) << node;
-					files_out_PE	<< ")\t( "			<< std::setw(3) << CG_PEs[lvl][bline][node].ESI;
-					files_out_PE	<< ", "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESO;
-					files_out_PE	<< ", "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESP;
-					files_out_PE	<< ")\t";
-
-					files_out_PE	<< "\t@Inp\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Inputs_ID[idx];
-					files_out_PE	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
-					files_out_PE	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
-					files_out_PE	<< ")\tDiff: "		<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Inputs_ID[idx], CG_PEs[lvl][bline][node].Inputs_ID[idx + 1]);
-					
-
-					files_out_PE	<< " \t\t@Out\tB1:" << std::setw(6) << CG_PEs[lvl][bline][node].Output_ID[idx];
-					files_out_PE	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Output_ID[idx]);
-					files_out_PE	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Output_ID[idx]);
-					files_out_PE	<< ")\tDiff: ";
-					if (idx < (CG_PEs[lvl][bline][node].Output_ID.size()-1))
-						files_out_PE					<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Output_ID[idx], CG_PEs[lvl][bline][node].Output_ID[idx + 1]);
-					else
-						files_out_PE << 0;
-
-					files_out_PE	<< " \t\t@Acc\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Acum_DBID[idx];
-					files_out_PE	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Acum_DBID[idx]);
-					files_out_PE	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Acum_DBID[idx]);
-					files_out_PE	<< ")\tDiff: ";
-					if (idx < (CG_PEs[lvl][bline][node].Output_ID.size()-1))
-						files_out_PE					<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Acum_DBID[idx], CG_PEs[lvl][bline][node].Acum_DBID[idx + 1]);
-					else
-						files_out_PE << 0;
-
-					files_out_PE << std::endl;
-				}
-
-
-
-				files_out_PE		<< "\t( "				<< std::setw(3) << pln;
-				files_out_PE		<< ", "					<< std::setw(3) << vlt;
-				files_out_PE		<< ")\t( "				<< std::setw(3) << lvl;
-				files_out_PE		<< ", "					<< std::setw(3) << bline;
-				files_out_PE		<< ", "					<< std::setw(3) << node;
-				files_out_PE		<< ")\t( "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESI;
-				files_out_PE		<< ", "					<< std::setw(3) << CG_PEs[lvl][bline][node].ESO;
-				files_out_PE		<< ", "					<< std::setw(3) << CG_PEs[lvl][bline][node].ESP;
-				files_out_PE		<< ") \t\t@Inp\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Inputs_ID[idx];
-				files_out_PE		<< "\t("				<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
-				files_out_PE		<< ", "					<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
-				files_out_PE		<< ")\tDiff: "			<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Inputs_ID[idx], CG_PEs[lvl][bline][node].Inputs_ID[idx + 1]) << std::endl;
-					
-
-				idx++;
-				files_out_PE		<< "\t( "				<< std::setw(3) << pln;
-				files_out_PE		<< ", "					<< std::setw(3) << vlt;
-				files_out_PE		<< ")\t( "				<< std::setw(3) << lvl;
-				files_out_PE		<< ", "					<< std::setw(3) << bline;
-				files_out_PE		<< ", "					<< std::setw(3) << node;
-				files_out_PE		<< ")\t( "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESI;
-				files_out_PE		<< ", "					<< std::setw(3) << CG_PEs[lvl][bline][node].ESO;
-				files_out_PE		<< ", "					<< std::setw(3) << CG_PEs[lvl][bline][node].ESP;
-				files_out_PE		<< ") \t\t@Inp\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Inputs_ID[idx];
-				files_out_PE		<< "\t("				<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
-				files_out_PE		<< ", "					<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
-				files_out_PE		<< ")\tDiff: "			<< 0 << std::endl << std::endl << std::endl;
-			}
-		}
-	}
-	
-	for (size_t lvl = 0; lvl < CG_MPDRs.size(); lvl++)
-	{
-		for (size_t bline = 0; bline < CG_MPDRs[lvl].size(); bline++)
-		{
-			for (size_t node = 0; node < CG_MPDRs[lvl][bline].size(); node++)
-			{
-				files_out_MPDR	<< "\t( "			<< std::setw(3) << "-";
-				files_out_MPDR	<< ", "				<< std::setw(3) << "-";
-				files_out_MPDR	<< ")\t( "			<< std::setw(3) << lvl;
-				files_out_MPDR	<< ", "				<< std::setw(3) << bline;
-				files_out_MPDR	<< ", "				<< std::setw(3) << node;
-				files_out_MPDR	<< ")\t( "			<< std::setw(3) << CG_MPDRs[lvl][bline][node].ESI;
-				files_out_MPDR	<< ", "				<< std::setw(3) << CG_MPDRs[lvl][bline][node].ESO;
-				files_out_MPDR	<< ")\t";
-				for (size_t idx = 0; idx < CG_MPDRs[lvl][bline][node].Inputs.size(); idx++)
-				{
-					files_out_MPDR	<< "\t\tBI: "	<< std::setw(6) << CG_MPDRs[lvl][bline][node].Inputs[idx];
-					files_out_MPDR	<< " ("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_MPDRs[lvl][bline][node].Inputs[idx]);
-					files_out_MPDR	<< ", "			<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_MPDRs[lvl][bline][node].Inputs[idx]);
-					files_out_MPDR	<< ") ";
-				}
-				files_out_MPDR	<< ")\t\tBO: "		<< std::setw(6) << CG_MPDRs[lvl][bline][node].Output;
-				files_out_MPDR	<< " ("				<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_MPDRs[lvl][bline][node].Output);
-				files_out_MPDR	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_MPDRs[lvl][bline][node].Output);
-				files_out_MPDR	<< ")\tDiff: ";
-				if (node < (CG_MPDRs[lvl][bline].size() - 1))
-					files_out_MPDR					<< DataL->Calculate_Space_Between(CG_MPDRs[lvl][bline][node].Output, CG_MPDRs[lvl][bline][node+1].Output);
-				else
-					files_out_MPDR	<< 0;
-				files_out_MPDR		<< "\t"			<< std::endl;
-			}
-
-			files_out_MPDR << std::endl;
-		}
-	}
-	
-	for (size_t lvl=0; lvl< CG_PEs.size(); lvl++)
-	{
-		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
-		{
-			for (size_t node = 0; node < CG_PEs[lvl][bline].size(); node++)
-			{
-				size_t pln = CG_PEs[lvl][bline][node].Plane;
-				size_t vlt = CG_PEs[lvl][bline][node].Vault;
-
-				size_t idx = 0;
-				
-				files_out_PESum	<< "\t( "			<< std::setw(3) << pln;
-				files_out_PESum	<< ", "				<< std::setw(3) << vlt;
-				files_out_PESum	<< ")\t( "			<< std::setw(3) << lvl;
-				files_out_PESum	<< ", "				<< std::setw(3) << bline;
-				files_out_PESum	<< ", "				<< std::setw(3) << node;
-				files_out_PESum	<< ")\t( "			<< std::setw(3) << CG_PEs[lvl][bline][node].ESI;
-				files_out_PESum	<< ", "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESO;
-				files_out_PESum	<< ", "				<< std::setw(3) << CG_PEs[lvl][bline][node].ESP;
-				files_out_PESum	<< ")\t\t@Inp\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Inputs_ID[idx];
-				files_out_PESum	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
-				files_out_PESum	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
-				files_out_PESum	<< ")\tDiff: "		<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Inputs_ID[idx], CG_PEs[lvl][bline][node].Inputs_ID[idx + 1]);
-				files_out_PESum	<< " \t\t@Out\tB1:" << std::setw(6) << CG_PEs[lvl][bline][node].Output_ID[idx];
-				files_out_PESum	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Output_ID[idx]);
-				files_out_PESum	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Output_ID[idx]);
-				files_out_PESum	<< ")\tDiff: "		<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Output_ID[idx], CG_PEs[lvl][bline][node].Output_ID[idx + 1]);
-				files_out_PESum	<< " \t\t@Acc\tB1:"	<< std::setw(6) << CG_PEs[lvl][bline][node].Acum_DBID[idx];
-				files_out_PESum	<< "\t("			<< std::setw(2) << DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Acum_DBID[idx]);
-				files_out_PESum	<< ", "				<< std::setw(4) << DataL->Get_Starting_Index_of_Data_Block(CG_PEs[lvl][bline][node].Acum_DBID[idx]);
-				files_out_PESum	<< ")\tDiff: "		<< DataL->Calculate_Space_Between(CG_PEs[lvl][bline][node].Acum_DBID[idx], CG_PEs[lvl][bline][node].Acum_DBID[idx + 1]);
-				files_out_PESum	<< std::endl;
-			}
-			files_out_PESum		<< std::endl;
-		}
-		files_out_PESum			<< std::endl;
-	}
-
-	files_out_PE.close();
-	files_out_MPDR.close();
-	files_out_PESum.close();
 }
 
 
@@ -922,10 +922,13 @@ void Code_Generator::Generate_Codes					(
 														Data_Logger* DataL,
 														NETWORK* network,
 														std::filesystem::path Mtr_fname,
-														std::filesystem::path Out_fname)
+														std::filesystem::path Out_fname,
+														size_t verbose)
 {
 	// Generating the initialization functions, every thing shoud kept simple as fuck.
 	// copying the basic files
+	if (verbose > 0)
+		std::cout << "[6/7]\tCoppying Header and Source files" << std::endl;
 	
 	Copy_File(Mtr_fname, Out_fname);
 
@@ -935,15 +938,21 @@ void Code_Generator::Generate_Codes					(
 	files_main .open(Out_fname / ("src")		/ ("main.cpp"));
 	Data_H_file.open(Out_fname / ("include")	/ ("Data.h"));
 	Data_C_file.open(Out_fname / ("src")		/ ("Data.cpp"));
+	if (verbose > 0)
+		std::cout << "[6/7]\tGenerating Main.cpp Source file:" << std::endl;
 	Generate_Main_P1(files_main);
 	
 
 	// Generate "Platform_Execute_Layer" function
+	if (verbose > 1)
+		std::cout << "[6/7]\tGenerating platform Convolutional Layer execution functions ..." << std::endl;
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		if (!CG_PEs[lvl].empty())
 			Generate_Platform_Execute_Layer_lvl(files_main, lvl);
 
 	// Generate "Platform_Peripheral_Layer" function
+	if (verbose > 1)
+		std::cout << "[6/7]\tGenerating platform Max Pooling   Layer execution functions ..." << std::endl;
 	for (size_t lvl = 0; lvl < CG_MPDRs.size(); lvl++)
 		if (!CG_MPDRs[lvl].empty())
 			Generate_Platform_Peripheral_Layer_lvl(DpndL, DataL, network, files_main, lvl);
@@ -959,6 +968,8 @@ void Code_Generator::Generate_Codes					(
 
 
 	// Generate "Platform_Execute" neccessary data block
+	if (verbose > 0)
+		std::cout << "[6/7]\tGenerating Data.h Header file:" << std::endl;
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
 			if (!CG_PEs[lvl][bline].empty())
@@ -1800,6 +1811,8 @@ void Code_Generator::Generage_Data_Blocks_Exe_lvl_bline(
 		size_t Wgt_Ival = 0;
 		size_t Out_Ival = CG_PEs[lvl][bline][node].Out_Seqnc;
 		size_t Acc_Ival = CG_PEs[lvl][bline][node].Acc_Seqnc;
+		if ((Inp_Ival > 255) || (Wgt_Ival > 255) || (Out_Ival > 255) || (Acc_Ival > 255))
+			throw std::runtime_error("Apperantly, something occurred that i did not anticipated. I'm So SORRY.\n");
 		size_t tmp		= (Inp_Ival << 24) + (Wgt_Ival << 16) + (Out_Ival << 8) + Acc_Ival;
 		Data_H_file << std::hex << "0x" << std::right << std::setw(8) << std::setfill('0') << tmp << ",\t";
 		if ((((node + 1) % 8) == 0) && (node != (node_count - 1)))

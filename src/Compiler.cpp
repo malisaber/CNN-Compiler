@@ -36,7 +36,7 @@ Compiler::~Compiler									()
 
 
 void	Compiler::Compile							(
-														bool verbose)
+														size_t verbose)
 {
 	if (!Added_Lyr)			throw std::runtime_error("No Layers were added to the network;\nPlrase add some layers using ""Add_Layer_to_Notwork"" member.\n");
 	if (!Added_Dir)			throw std::runtime_error("No Dump Directory were added;\nPlrase add a Dump directory using ""Add_Dump_Directory"" member.\n");
@@ -74,7 +74,7 @@ void	Compiler::Compile							(
 
 // Rearrenges the dataset and weights
 void	Compiler::Rearreng_Data						(
-														bool verbose,
+														size_t verbose,
 														std::vector<std::filesystem::path>	Inps,
 														std::vector<std::filesystem::path>	Wgts)
 {
@@ -84,7 +84,7 @@ void	Compiler::Rearreng_Data						(
 	std::vector<size_t> Wlids;
 
 	// Data re-arrangement
-	if (verbose)	std::cout << "Running Data Re-arrengement Engine ..." << std::endl;
+	if (verbose>0)	std::cout << "[7/7] Running Data Re-arrengement Engine ..." << std::endl;
 					Data_Gen_Eng->Get_Inps_info(Network, Ilids);
 					Data_Gen_Eng->Get_Wgts_info(Network, Wlids);
 	
@@ -93,8 +93,8 @@ void	Compiler::Rearreng_Data						(
 
 					Data_Gen_Eng->load_input_files (Inps);
 					Data_Gen_Eng->load_Weight_files(Wgts);
-					Data_Gen_Eng->Generate(Data_Log_Eng, DG_DRAM_dest, verbose);
-	if (verbose)	std::cout << "Running Data Re-arrengement Engine Done!" << std::endl << std::endl << std::endl;
+					Data_Gen_Eng->Generate(Data_Log_Eng, DG_DRAM_dest, --verbose);
+	if (verbose>0)	std::cout << "[7/7] Running Data Re-arrengement Engine Done!" << std::endl << std::endl << std::endl;
 
 }
 
@@ -194,13 +194,25 @@ void	Compiler::Report							(
 	std::cout << "\t\tZeros:    "	<< std::setw(8) << Data_Gen_Eng->Generated_Zero_files_size()	<< std::endl;
 	if (report)
 	{
+		std::cout << "Generating report files:" << std::endl;
+		std::cout << "Nodes         information report file:" 		<< std::endl;
+		Dpnd_Log_Eng->print_file									(DP_Dump_dest / "Nodes.txt");
+		std::cout << "Data Blocks   information report file:" 		<< std::endl;
 		Data_Log_Eng->print_file									(DA_Dump_dest / ("DATA.txt"));
+		std::cout << "Nodes (RS)    information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_file									(DP_Dump_dest / ("Nodes_Reshaped.txt"));
+		std::cout << "Threads       information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_Thread_info_file						(DP_Dump_dest / ("Threads.txt"));
+		std::cout << "Threads (OPT) information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_Optimized_Execution_Thread_info_file	(DP_Dump_dest / ("Threads_opt.txt"));
+		std::cout << "Mapping (RAW) information report file:" 		<< std::endl;
+		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / "Mapping_Raw.txt");
+		std::cout << "Mapping       information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / ("Mapping.txt"));
+		std::cout << "Spacing       information report file:" 		<< std::endl;
+		Code_Gen_Eng->Print_Spacing									(Data_Log_Eng, CG_Dump_dest);
+		std::cout << std::endl <<   "Files are Generated" 			<< std::endl << std::endl << std::endl;
 	}
-	std::cout << std::endl << "Files are Generated" << std::endl << std::endl << std::endl;
 }
 
 
@@ -216,73 +228,71 @@ void	Compiler::Report							(
 
 // Builds the network and its dependencies
 void	Compiler::Build_Network						(
-														bool verbose)
+														size_t verbose)
 {
 	bool bit;
 
 	// Building the network
-	if (verbose)	std::cout << "Compiling the Network ... " << std::endl;
-	bit =			Network->Build_Network(Data_Log_Eng, Dpnd_Log_Eng);
-	if (verbose)	std::cout << "Network Compilation Was " << Res_Dec(bit) << std::endl << std::endl << std::endl;
+	if (verbose>0)	std::cout << "[1/7] Compiling the Network ... " << std::endl;
+	bit =			Network->Build_Network(Data_Log_Eng, Dpnd_Log_Eng, --verbose);
+	if (verbose>0)	std::cout << "[1/7] Network Compilation Was " << Res_Dec(bit) << std::endl << std::endl << std::endl;
 }
 
 
 // Schedules the dependencies
 void	Compiler::Schedule_Dependencies				(
-														bool verbose)
+														size_t verbose)
 {
 	size_t tmp;
 
 	//	Scheduling 
-	if (verbose)	std::cout << "Running Scheduling Engine ..." << std::endl;
-	if (verbose)	std::cout << "Total Node: " << Dpnd_Log_Eng->size() << std::endl;
-	tmp =			Dpnd_Log_Eng->Schedule_Nodes();
-	if (verbose)	std::cout << "Scheduling Engine Done!" << std::endl;
-	if (verbose)	std::cout << "Nodes that did not scheduled: " << Dpnd_Log_Eng->size() - tmp << std::endl << std::endl << std::endl;
+	if (verbose>0)	std::cout << "[2/7] Running Scheduling Engine ..." << std::endl;
+	if (verbose>0)	std::cout << "[2/7] Total Node: " << Dpnd_Log_Eng->size() << std::endl;
+	tmp =			Dpnd_Log_Eng->Schedule_Nodes(--verbose);
+	if (verbose>0)	std::cout << "[2/7] Scheduling Engine Done!" << std::endl;
+	if (verbose>0)	std::cout << "[2/7] Nodes that did not scheduled: " << Dpnd_Log_Eng->size() - tmp << std::endl << std::endl << std::endl;
 }
 
 
 // Builds Executing threads
 void	Compiler::Build_Threads						(
-														bool verbose)
+														size_t verbose)
 {
 	bool bit;
 
 	// Building Threads
-	if (verbose)	std::cout << "Running Thread Building Engine ..." << std::endl;
-	bit =			Dpnd_Log_Eng->Build_Threads();
-	if (verbose)	std::cout << "Thread Building Engine Done!" << std::endl;
-	if (verbose)	std::cout << "Result of Thread Building Engine: " << Res_Dec(bit) << std::endl;
-	if (verbose)	std::cout << "Running Thread Optimization Engine ..." << std::endl;
-	bit =			Dpnd_Log_Eng->Optimizing_Execution_Threads();
-	if (verbose)	std::cout << "Thread Optimization Engine Done!" << std::endl << std::endl << std::endl;
+	if (verbose>0)	std::cout << "[3/7] Running Thread Building Engine ..." << std::endl;
+	bit =			Dpnd_Log_Eng->Build_Threads(--verbose);
+	if (verbose>0)	std::cout << "[3/7] Thread Building Engine Done!" << std::endl;
+	if (verbose>0)	std::cout << "[3/7] Result of Thread Building Engine: " << Res_Dec(bit) << std::endl;
+	if (verbose>0)	std::cout << "[3/7] Running Thread Optimization Engine ..." << std::endl;
+	bit =			Dpnd_Log_Eng->Optimizing_Execution_Threads(--verbose);
+	if (verbose>0)	std::cout << "[3/7] Thread Optimization Engine Done!" << std::endl << std::endl << std::endl;
 }
 
 
 // Maps the Nodes on the actual Hardware
 void	Compiler::Map								(
-														bool verbose)
+														size_t verbose)
 {
 	//bool bit;
 	size_t tmp;
 
 	// Mapping
-	if (verbose)	std::cout << "Running Mapping Engine ..." << std::endl;
-	tmp =			Dpnd_Log_Eng->Map(Data_Log_Eng, HW, DP_Dump_dest / ("Mapper_Dump.txt"));
-					Dpnd_Log_Eng->print_mapping_file(DP_Dump_dest / "Mapping_Raw.txt");
-	if (verbose)	std::cout << "Mapping Engine Done!" << std::endl;
-	if (verbose)	std::cout << "Nodes that did not Mapped: " << Dpnd_Log_Eng->size() - tmp << std::endl;
-	if (verbose)	std::cout << "Calculating Timing ..." << std::endl;
+	if (verbose>0)	std::cout << "[4/7] Running Mapping Engine ..." << std::endl;
+	tmp =			Dpnd_Log_Eng->Map(Data_Log_Eng, HW, --verbose);
+	if (verbose>0)	std::cout << "[4/7] Mapping Engine Done!" << std::endl;
+	if (verbose>0)	std::cout << "[4/7] Nodes that did not Mapped: " << Dpnd_Log_Eng->size() - tmp << std::endl;
+	if (verbose>0)	std::cout << "[4/7] Calculating Timing ..." << std::endl;
 	tmp =			Dpnd_Log_Eng->Calculate_Data_Block_Timing(Data_Log_Eng);
-	if (verbose)	std::cout << "Timing Calculation Done!" << std::endl;
-	if (verbose)	std::cout << "Last Time: " << tmp << std::endl << std::endl << std::endl;
-					Dpnd_Log_Eng->print_file(DP_Dump_dest / "Nodes.txt");
+	if (verbose>0)	std::cout << "[4/7] Timing Calculation Done!" << std::endl;
+	if (verbose>0)	std::cout << "[4/7] Last Time: " << tmp << std::endl << std::endl << std::endl;
 }
 
 
 // Allocates the memory blocks
 void	Compiler::Allocate							(
-														bool verbose)
+														size_t verbose)
 {
 	//bool bit;
 	size_t Icnt;	// Input	Data Block Count
@@ -297,28 +307,28 @@ void	Compiler::Allocate							(
 
 
 	//	Allocation
-	if (verbose)	std::cout << "Running Allocation Engine ..." << std::endl;
-					Dpnd_Log_Eng->Allocte(Data_Log_Eng);
+	if (verbose>0)	std::cout << "[5/7] Running Allocation Engine ..." << std::endl;
+					Dpnd_Log_Eng->Allocte(Data_Log_Eng, --verbose);
 					Dpnd_Log_Eng->Get_Required_Spaces(Icnt, Wcnt, Ocnt, Pcnt, Ifst, Wfst, Ofst, Pfst, Efst);
-	if (verbose)	std::cout << std::dec;
-	if (verbose)	std::cout << "Number of Input  Data Block Needed: " << std::setw(8) << Icnt << "\t\tStarting At: " << std::setw(8) << Ifst << std::endl;
-	if (verbose)	std::cout << "Number of Weight Data Block Needed: " << std::setw(8) << Wcnt << "\t\tStarting At: " << std::setw(8) << Wfst << std::endl;
-	if (verbose)	std::cout << "Number of Output Data Block Needed: " << std::setw(8) << Ocnt << "\t\tStarting At: " << std::setw(8) << Ofst << std::endl;
-	if (verbose)	std::cout << "Number of P-Sums Data Block Needed: " << std::setw(8) << Pcnt << "\t\tStarting At: " << std::setw(8) << Pfst << std::endl;
-	if (verbose)	std::cout << "\t\t\t\t\t\t\t  Ending At: " << std::setw(8) << Efst << std::endl;
-	if (verbose)	std::cout << "Allocation Engine Done!" << std::endl << std::endl << std::endl;
+	if (verbose>0)	std::cout << std::dec;
+	if (verbose>0)	std::cout << "[5/7] Number of Input  Data Block Needed: " << std::setw(8) << Icnt << "\t\tStarting At: " << std::setw(8) << Ifst << std::endl;
+	if (verbose>0)	std::cout << "[5/7] Number of Weight Data Block Needed: " << std::setw(8) << Wcnt << "\t\tStarting At: " << std::setw(8) << Wfst << std::endl;
+	if (verbose>0)	std::cout << "[5/7] Number of Output Data Block Needed: " << std::setw(8) << Ocnt << "\t\tStarting At: " << std::setw(8) << Ofst << std::endl;
+	if (verbose>0)	std::cout << "[5/7] Number of P-Sums Data Block Needed: " << std::setw(8) << Pcnt << "\t\tStarting At: " << std::setw(8) << Pfst << std::endl;
+	if (verbose>0)	std::cout << "[5/7] \t\t\t\t\t\t\t  Ending At: " << std::setw(8) << Efst << std::endl;
+	if (verbose>0)	std::cout << "[5/7] Allocation Engine Done!" << std::endl << std::endl << std::endl;
 }
 
 
 // Generats the code
 void	Compiler::Generate_Codes					(
-														bool verbose)
+														size_t verbose)
 {
 	// Code Geneneration
-	if (verbose)	std::cout << "Running Code Generator Engine ..." << std::endl;
+	if (verbose>0)	std::cout << "[6/7] Running Code Generator Engine ..." << std::endl;
 					Code_Gen_Eng->Extract_PE_Execution_Info(Dpnd_Log_Eng);
-					Code_Gen_Eng->Code_Wizard(Dpnd_Log_Eng, Data_Log_Eng, Network, CG_Matr_file, CG_Dump_dest, CG_Outp_dest);
-	if (verbose)	std::cout << "Code Generator Engine Done!" << std::endl << std::endl << std::endl;
+					Code_Gen_Eng->Code_Wizard(Dpnd_Log_Eng, Data_Log_Eng, Network, CG_Matr_file, CG_Outp_dest, --verbose);
+	if (verbose>0)	std::cout << "[6/7] Code Generator Engine Done!" << std::endl << std::endl << std::endl;
 }
 
 

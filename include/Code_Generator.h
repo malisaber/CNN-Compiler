@@ -48,8 +48,13 @@ public:
 														Data_Logger* DataL,
 														NETWORK* network,
 														std::filesystem::path Mtr_fname,
-														std::filesystem::path Dmp_fname,
-														std::filesystem::path Out_fname);
+														std::filesystem::path Out_fname,
+														size_t verbose);
+
+	// Emit a spacing diagnostics report file.
+	void	Print_Spacing							(
+														Data_Logger* DataL,
+														std::filesystem::path Dmp_fname);
 
 
 private:
@@ -119,13 +124,7 @@ private:
 
 	// Apply all normalization/spacing/zero-block fixes and dump intermediate files.
 	void	Modify_All							 	(
-														Data_Logger* DataL,
-														std::filesystem::path Dmp_fname);
-
-	// Emit a spacing diagnostics report file.
-	void	Print_Spacing							(
-														Data_Logger* DataL,
-														std::filesystem::path Dmp_fname);
+														Data_Logger* DataL);
 
 	//// Build spacing pattern for PE outputs; returns false if inconsistent.
 	//bool	Get_PE_Out_Spacing_Pattern				(Data_Logger* DataL, size_t lvl, size_t bline, size_t node, std::vector<size_t>& pattern);
@@ -139,7 +138,8 @@ private:
 														Data_Logger* DataL,
 														NETWORK* network,
 														std::filesystem::path Mtr_fname,
-														std::filesystem::path Out_fname);
+														std::filesystem::path Out_fname,
+														size_t verbose);
 
 	// Copy template source files from srce to dest	(overwrite if present).
 	void	Copy_File								(

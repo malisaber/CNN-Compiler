@@ -61,7 +61,8 @@ public:
 	// REQUIRED interface: map data blocks and create scheduling dependencies.
 	virtual bool Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
-														Dependency_Logger* DpndL) = 0;
+														Dependency_Logger* DpndL,
+														size_t verbose) = 0;
 
 	//	No Need To Call This Member
 	//	This function returns the scheduling info of the output of this layer:
@@ -102,7 +103,8 @@ public:
 	//	To map input data blocks and then make the dependency graph.
 	bool Map_Data_Blocks_and_Build_Dependencies		(
 														Data_Logger* DataL,
-														Dependency_Logger* DpndL) override;
+														Dependency_Logger* DpndL,
+														size_t verbose) override;
 
 	//	This function returns the scheduling info of the output of this layer.
 	bool Get_output_scheduling_info					(
@@ -133,7 +135,8 @@ public:
 	//	Map inputs/weights/partials/output and build scheduling dependencies.
 	bool Map_Data_Blocks_and_Build_Dependencies		(
 														Data_Logger* DataL,
-														Dependency_Logger* DpndL) override;
+														Dependency_Logger* DpndL,
+														size_t verbose) override;
 	
 	//	This function returns the scheduling info of the output of this layer.
 	bool Get_output_scheduling_info					(
@@ -165,7 +168,8 @@ public:
 	//	Map MP/DR outputs and build scheduling dependencies for windowed inputs.
 	bool Map_Data_Blocks_and_Build_Dependencies		(
 														Data_Logger* DataL,
-														Dependency_Logger* DpndL) override;
+														Dependency_Logger* DpndL,
+														size_t verbose) override;
 
 	//	This function returns the scheduling info of the output of this layer.
 	bool Get_output_scheduling_info					(
@@ -196,7 +200,8 @@ public:
 	//	Finalize output data blocks and attach dependencies to the end node.
 	bool Map_Data_Blocks_and_Build_Dependencies		(
 														Data_Logger* DataL,
-														Dependency_Logger* DpndL) override;
+														Dependency_Logger* DpndL,
+														size_t verbose) override;
 	
 	//	This function returns the scheduling info of the output of this layer.
 	bool Get_output_scheduling_info					(
@@ -238,7 +243,8 @@ public:
 	// Enforces: first layer is input, last layer is output, and only one output layer.
 	bool	Build_Network							(
 														Data_Logger* DataL,
-														Dependency_Logger* DpndL);
+														Dependency_Logger* DpndL,
+														size_t verbose);
 
 	// Return maxes info for a given layer.
 	Conv_Layer_Info Get_Maxes_info					(

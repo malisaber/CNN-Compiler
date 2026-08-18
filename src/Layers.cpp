@@ -118,7 +118,8 @@ bool Input_Layer_2D::IsInput						() const
 
 bool Input_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
-														Dependency_Logger* DpndL)
+														Dependency_Logger* DpndL,
+														size_t verbose)
 {
 	if (mapped)
 	{
@@ -132,7 +133,7 @@ bool Input_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 		SNID_t End_Node_ID   = DpndL->Get_Ending_Point_Scheduling_Node_Idx();
 
 
-		std::cout << "\tL" << ID << ": Input Layer;" << std::endl;
+		if (verbose>0) std::cout << "[1/7]\tL" << ID << ": Input Layer;" << std::endl;
 
 
 		// Preperations 
@@ -270,7 +271,8 @@ bool Conv_MKMC_2D::IsConv							() const
 
 bool Conv_MKMC_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
-														Dependency_Logger* DpndL)
+														Dependency_Logger* DpndL,
+														size_t verbose)
 {
 	if (mapped)
 	{
@@ -370,7 +372,7 @@ bool Conv_MKMC_2D::Map_Data_Blocks_and_Build_Dependencies(
 		outp_block_needed = map_entity.Batch_size * map_entity.Height_size * map_entity.Width_size * map_entity.Kernel_size;
 		pout_block_needed = map_entity.Batch_size * map_entity.Kernel_size * map_entity.Channel_size * map_entity.Height_size * map_entity.Width_size * map_entity.FiltH_Size * map_entity.FiltW_Size / 9;
 
-		std::cout << "\tL" << ID << ": Convolution Layer;\t\tNumber of Needed Block for (input, weithg, partial_sum, output) : \t(";
+		if (verbose>0) std::cout << "[1/7]\tL" << ID << ": Convolution Layer;\t\tNumber of Needed Block for (input, weithg, partial_sum, output) : \t(";
 		std::cout << inpt_block_needed << ", " << wght_block_needed << ", " << pout_block_needed << ", " << outp_block_needed << ")" << std::endl;
 
 
@@ -747,7 +749,8 @@ bool MPDR_MC_2D::IsMPDR								() const
 
 bool MPDR_MC_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
-														Dependency_Logger* DpndL)
+														Dependency_Logger* DpndL,
+														size_t verbose)
 {
 	if (mapped)
 	{
@@ -765,7 +768,7 @@ bool MPDR_MC_2D::Map_Data_Blocks_and_Build_Dependencies(
 		mapped = true;
 
 
-		std::cout << "\tL" << ID << ": Max Pooling Layer;" << std::endl;
+		if (verbose>0) std::cout << "[1/7]\tL" << ID << ": Max Pooling Layer;" << std::endl;
 
 
 		// Preperations 
@@ -902,7 +905,8 @@ bool Output_Layer_2D::IsOutput						() const
 
 bool Output_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
-														Dependency_Logger* DpndL)
+														Dependency_Logger* DpndL,
+														size_t verbose)
 {
 	if (mapped)
 	{
@@ -923,7 +927,7 @@ bool Output_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 
 
 
-		std::cout << "\tL" << ID << ": Output Layer;" << std::endl;
+		if (verbose>0)	std::cout << "[1/7]\tL" << ID << ": Output Layer;" << std::endl;
 
 
 
@@ -1082,7 +1086,8 @@ size_t NETWORK::Add_Layer							(
 
 bool NETWORK::Build_Network							(
 														Data_Logger* DataL,
-														Dependency_Logger* DpndL)
+														Dependency_Logger* DpndL,
+														size_t verbose)
 {
 	size_t OLCntr(0);
 
@@ -1102,7 +1107,7 @@ bool NETWORK::Build_Network							(
 		if (i != 0)
 			NET[i]->Get_previous_output_scheduling_info(NET[i - 1].get());
 		
-		NET[i]->Map_Data_Blocks_and_Build_Dependencies(DataL, DpndL);
+		NET[i]->Map_Data_Blocks_and_Build_Dependencies(DataL, DpndL, verbose);
 	}
 
 	// Check if the Last layer is Output layer

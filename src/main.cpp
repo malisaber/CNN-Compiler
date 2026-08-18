@@ -21,7 +21,7 @@ int main											(
 	CLI::App app{"CNN Compiler for custom CNN accelerator"};
 
 	// Defaults (same as your original values)
-	bool								verbose		=	false;
+	size_t								verbose		=	false;
 	bool								report		=	false;
 	std::filesystem::path				Net_Filex	=	"";		// Network to compile
 	std::filesystem::path				Hal_Direc	=	"";		//Materials;
@@ -33,8 +33,8 @@ int main											(
 
 	// --- Flags / Options ---
 	// Boolean flag: --verbose / --no-verbose (or just -v to force true)
-	app.add_flag	("-v,--verbose,!--no-verbose",	verbose,	"Enable verbose output");
-	app.add_flag	("-p,--report",					report,		"Generate Reports");
+	app.add_option	("-v,--verbose", 				verbose, 	"Verbosity level")	->check(CLI::Range(0, 4));
+	app.add_flag	("-p,--report",					report,		"Generate Reports"							);
 	app.add_option	("-n,--network",				Net_Filex,	"Network definition file (JSON)"			);
 	app.add_option	("-l,--hal-dir",				Hal_Direc,	"Hardware Abstraction Layer directory"		);
 	app.add_option	("-d,--dump-dir",				Dmp_Direc,	"Dump directory"							);

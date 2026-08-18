@@ -73,7 +73,7 @@ public:
 	void	Generate								(
 														Data_Logger* DL,
 														std::filesystem::path dram,
-														bool verbose);
+														size_t verbose);
 
 
 private:
@@ -101,7 +101,7 @@ private:
 														std::filesystem::path dest,
 														size_t  total,
 														size_t& generated,
-														bool verbose);
+														size_t  verbose);
 
 	// Generate Weight data file for CNN layer x
 	void	Generate_WDF							(
@@ -110,7 +110,7 @@ private:
 														std::filesystem::path dest,
 														size_t  total,
 														size_t& generated,
-														bool verbose);
+														size_t  verbose);
 	
 	// Generate Zero data files
 	void	Generate_ZDF							(
@@ -118,7 +118,7 @@ private:
 														std::filesystem::path dest,
 														size_t  total,
 														size_t& generated,
-														bool verbose);
+														size_t  verbose);
 
 	// returning the input value
 	size_t	write_input_value						(

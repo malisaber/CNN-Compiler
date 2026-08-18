@@ -422,7 +422,8 @@ size_t Dependency_Logger::size						()
 
 // Schedule dependency nodes level-by-level until no further nodes are ready.
 // Computes spacing info and compiles reverse edges.
-size_t Dependency_Logger::Schedule_Nodes			()
+size_t Dependency_Logger::Schedule_Nodes			(
+														size_t verbose)
 														//Data_Logger* DL)
 {
 	size_t tot(0);
@@ -455,10 +456,10 @@ size_t Dependency_Logger::Schedule_Nodes			()
 			SNID_t SNode = Scheduled_ID_list[level][i];
 			Nodes[SNode.index()].scheduled = true;
 		}
-		if (has)
+		if ((has) && (verbose > 0))
 		{
 			std::cout << "\033[2K\r" << std::flush;
-			std::cout << "\tBuilding Level #" << level;
+			std::cout << "[2/7]\tBuilding Level #" << level;
 			std::cout << "\t\tNode of this Level: " << std::setw(6) << Scheduled_ID_list[level].size();
 			std::cout << "\t\tProgress: " << (tot * 100) / (size() - 1) << "%" << std::endl;
 		}
@@ -476,19 +477,19 @@ size_t Dependency_Logger::Schedule_Nodes			()
 		scheduled_cntr += Scheduled_ID_list[i].size();
 
 	Scheduled = true;
-	std::cout << "\tCompiling ...";
+	std::cout << "[2/7]\tCompiling ..." << std::endl;
 	Clear_Scheduling_Node_Spacing_Info();
 	Calculation_Scheduling_Node_Spaces();
 	Compile_Schedule_Nodes();
-	std::cout << "\033[2K\r" << std::flush;
-	std::cout << "\tCompilation Complete." << std::endl;
+	std::cout << "[2/7]\tCompilation Complete." << std::endl;
 	return scheduled_cntr;
 }
 
 
 // Build execution and peripheral threads from scheduled nodes.
 // Groups Sch_Process nodes by similar weights, and Sch_Activation/Sch_MPDR by type.
-bool Dependency_Logger::Build_Threads				()
+bool Dependency_Logger::Build_Threads				(
+														size_t verbose)
 {
 	//	Sch_Null,		Sch_Start,		Sch_Input,		Sch_Process,	Sch_PE_Store,	Sch_Accumulate,		
 	//	********,		*********,		*********,		***********,	************,	**************,	
@@ -505,8 +506,9 @@ bool Dependency_Logger::Build_Threads				()
 	Execution_Threads.clear();
 	for (size_t lvl = 0; lvl < Scheduled_ID_list.size(); lvl++)
 	{
-		std::cout << "\033[2K\r" << std::flush;
-		std::cout << "\tBuilding Execution Threads:\tLeveL#" << lvl;
+		if (verbose > 0)
+			std::cout << "[3/7]\tBuilding Execution Threads:\tLeveL#" << lvl << std::endl;
+		
 		std::vector<Execution_Thread_Info> EXE_Threads;
 		EXE_Threads.clear();
 		for (size_t pt = 0; pt < Scheduled_ID_list[lvl].size(); pt++)
@@ -552,15 +554,17 @@ bool Dependency_Logger::Build_Threads				()
 		}
 		Execution_Threads.push_back(EXE_Threads);
 	}
-	std::cout << "\033[2K\r" << std::flush;
-	std::cout << "\tBuilding Execution Threads:\tDone!" << std::endl;
+	if (verbose > 0)
+		std::cout << "[3/7]\tBuilding Execution Threads:\tDone!" << std::endl;
+	
 
 	// Sch_Activation, Sch_MPDR
 	Periphral_Threads.clear();
 	for (size_t lvl = 0; lvl < Scheduled_ID_list.size(); lvl++)
 	{
-		std::cout << "\033[2K\r" << std::flush;
-		std::cout << "\tBuilding Periphral Threads:\tLeveL#" << lvl;
+		if (verbose > 0)
+			std::cout << "[3/7]\tBuilding Periphral Threads:\tLeveL#" << lvl << std::endl;
+		
 		std::vector<Periphral_Thread_Info> ACC_Threads;
 		ACC_Threads.clear();
 		for (size_t pt = 0; pt < Scheduled_ID_list[lvl].size(); pt++)
@@ -616,8 +620,8 @@ bool Dependency_Logger::Build_Threads				()
 		}
 		Periphral_Threads.push_back(ACC_Threads);
 	}
-	std::cout << "\033[2K\r" << std::flush;
-	std::cout << "\tBuilding Periphral Threads:\tDone!" << std::endl;
+	if (verbose > 0)
+		std::cout << "[3/7]\tBuilding Periphral Threads:\tDone!" << std::endl;
 
 	Threaded = true;
 	return true;
@@ -626,21 +630,22 @@ bool Dependency_Logger::Build_Threads				()
 
 // Optimize execution threads by reordering nodes with sequential inputs.
 // Builds Execution_Threads_OPT per level.
-bool Dependency_Logger::Optimizing_Execution_Threads()
+bool Dependency_Logger::Optimizing_Execution_Threads(
+														size_t verbose)
 {
 	//Doing for each levels
 	for (size_t lvl = 0; lvl < Scheduled_ID_list.size(); lvl++)
 	{
 		size_t reorder_cntr(0);
 		std::vector<std::vector<Execution_Thread_Info>> Execution_Threads_Level_OPT;
-		std::cout << "\033[2K\r" << std::flush;
-		std::cout << "\tOptimizing Execution Threads -> \tLeveL: " << lvl;
+		if (verbose > 0)
+			std::cout << "[3/7]\tOptimizing Execution Threads -> \tLeveL: " << lvl << std::endl;
 
 		// Doing for each baseline:
 		for (size_t bl = 0; bl < Execution_Threads[lvl].size(); bl++)
 		{
-			std::cout << "\033[2K\r" << std::flush;
-			std::cout << "\tOptimizing Execution Threads -> \tLeveL: " << lvl << ",\tThread:" << bl;
+			if (verbose > 1)
+				std::cout << "[3/7]\tOptimizing Execution Threads -> \tLeveL: " << lvl << ",\tThread:" << bl << std::endl;
 			
 			//	Reordering Execution Nodes in this baseline
 			std::vector<Execution_Thread_Info> O1_EXE_Threads;
@@ -648,8 +653,8 @@ bool Dependency_Logger::Optimizing_Execution_Threads()
 			{
 				if ((reorder_cntr % 100) == 0)
 				{
-					std::cout << "\033[2K\r" << std::flush;
-					std::cout << "\tOptimizing Execution Threads -> \tLeveL: " << lvl << ",\tThread:" << bl << ",\tReordered:" << reorder_cntr;
+					if (verbose > 2)
+						std::cout << "[3/7]\tOptimizing Execution Threads -> \tLeveL: " << lvl << ",\tThread:" << bl << ",\tReordered:" << reorder_cntr << std::endl;
 				}
 				Execution_Thread_Info opt_thread;
 				for (size_t node = 0; node < Execution_Threads[lvl][bl].Nodes.size(); node++)
@@ -711,8 +716,8 @@ bool Dependency_Logger::Optimizing_Execution_Threads()
 		// Storing Thread Info of this level
 		Execution_Threads_OPT.push_back(Execution_Threads_Level_OPT);
 	}
-	std::cout << "\033[2K\r" << std::flush;
-	std::cout << "\tOptimizing Execution Threads:\tDone!" << std::endl;
+	if (verbose > 0)
+		std::cout << "[3/7]\tOptimizing Execution Threads:\tDone!" << std::endl;
 
 	return true;
 }
@@ -871,10 +876,10 @@ size_t Dependency_Logger::print_Optimized_Execution_Thread_info_file(
 size_t Dependency_Logger::Map						(
 														Data_Logger* DataL,
 														Hardware* HW,
-														std::filesystem::path mappr_Dump_Dir)
+														size_t verbose)
 {
-	std::ofstream file_out;
-	file_out.open(mappr_Dump_Dir); 
+	//std::ofstream file_out;
+	//file_out.open(mappr_Dump_Dir); 
 
 	size_t Planes = HW->Get_Number_of_Available_Planes();
 	size_t Vaults = HW->Get_Number_of_Available_Vaults();
@@ -887,15 +892,15 @@ size_t Dependency_Logger::Map						(
 
 	if (Planes > 4)
 	{
-		std::cout << "\tE: Error in Hardware configuration of mapper:" << std::endl;
-		std::cout << "\t\t Number of Planes (" << Planes << ") succeeds 4, setting to 4";
+		std::cout << "[4/7]\tE: Error in Hardware configuration of mapper:" << std::endl;
+		std::cout << "[4/7]\t\t Number of Planes (" << Planes << ") succeeds 4, setting to 4" << std::endl;
 		Planes = 4;
 	}
 	if (Vaults != 16)
 	{
-		std::cout << "\tE: Error in Hardware configuration of mapper:" << std::endl;
-		std::cout << "\t\t Number of Vaults (" << Planes << ") should be 16." << std::endl;
-		std::cout << "\t\t Other Configuration does not support yet, , setting to 16";
+		std::cout << "[4/7]\tE: Error in Hardware configuration of mapper:" << std::endl;
+		std::cout << "[4/7]\t\t Number of Vaults (" << Planes << ") should be less than or equal to 16." << std::endl;
+		std::cout << "[4/7]\t\t Other Configuration does not support yet, , setting to 16" << std::endl;
 		Vaults = 16;
 	}
 
@@ -925,7 +930,9 @@ size_t Dependency_Logger::Map						(
 	for (size_t lvl = 0; lvl < Execution_Threads.size(); lvl++)
 	{
 		// printing info
-		std::cout << "\tMapping Level #" << std::setw(4) << lvl << std::endl;
+		if (verbose> 0)
+			std::cout << "[4/7]\tMapping Level #" << std::setw(4) << lvl << std::endl;
+		
 		level = lvl;
 		
 		// if this thread contains Execution Unit
@@ -940,21 +947,21 @@ size_t Dependency_Logger::Map						(
 				size_t map_Vault	= calculate_vault_map(Baselines);
 				size_t mul_Vault	= Vaults / map_Vault;
 
-				file_out << "\n\n";
-				file_out << "\t";
-				file_out << std::setw(4) << "" << "\t";
-				file_out << std::setw(4) << "" << "\t";
-				file_out << std::setw(4) << "" << "\t";
-				file_out << std::setw(4) << Baselines << ",\t";
-				file_out << std::setw(4) << Threads << ",\t";
-				file_out << std::setw(4) << Sequence << std::endl;
-				file_out << "\t";
-				file_out << std::setw(4) << "lvl" << ",\t";
-				file_out << std::setw(4) << "P" << ",\t";
-				file_out << std::setw(4) << "pes" << ",\t";
-				file_out << std::setw(4) << "bls" << ",\t";
-				file_out << std::setw(4) << "trd" << ",\t";
-				file_out << std::setw(4) << "seq" << std::endl;
+				//file_out << "\n\n";
+				//file_out << "\t";
+				//file_out << std::setw(4) << "" << "\t";
+				//file_out << std::setw(4) << "" << "\t";
+				//file_out << std::setw(4) << "" << "\t";
+				//file_out << std::setw(4) << Baselines << ",\t";
+				//file_out << std::setw(4) << Threads << ",\t";
+				//file_out << std::setw(4) << Sequence << std::endl;
+				//file_out << "\t";
+				//file_out << std::setw(4) << "lvl" << ",\t";
+				//file_out << std::setw(4) << "P" << ",\t";
+				//file_out << std::setw(4) << "pes" << ",\t";
+				//file_out << std::setw(4) << "bls" << ",\t";
+				//file_out << std::setw(4) << "trd" << ",\t";
+				//file_out << std::setw(4) << "seq" << std::endl;
 
 				size_t BSLN = Baselines;
 				size_t BLEX = 0;
@@ -992,13 +999,13 @@ size_t Dependency_Logger::Map						(
 								size_t p = ((pln / mul_Vault) % Planes);
 								size_t seq = Execution_Threads_OPT[lvl][bls][trd].Nodes.size();
 
-								file_out << "\t";
-								file_out << std::setw(4) << lvl << ",\t";
-								file_out << std::setw(4) << p << ",\t";
-								file_out << std::setw(4) << pes << ",\t";
-								file_out << std::setw(4) << bls << ",\t";
-								file_out << std::setw(4) << trd << ",\t";
-								file_out << std::setw(4) << seq << std::endl;
+								//file_out << "\t";
+								//file_out << std::setw(4) << lvl << ",\t";
+								//file_out << std::setw(4) << p << ",\t";
+								//file_out << std::setw(4) << pes << ",\t";
+								//file_out << std::setw(4) << bls << ",\t";
+								//file_out << std::setw(4) << trd << ",\t";
+								//file_out << std::setw(4) << seq << std::endl;
 
 								PEs[p][pes].active = true;
 								PEs[p][pes].baseline = bls;
@@ -1099,12 +1106,70 @@ size_t Dependency_Logger::Map						(
 	
 
 
+	//file_out.close();
 	Mapped = true;
 	size_t out(0);
 	for (size_t idx = 0; idx < Nodes.size(); idx++)
 		out += (size_t)(Nodes[idx].mapped);
 	return out;
 }
+
+
+//// print the mapped baseline info 
+//size_t	Dependency_Logger::print_bl_mapping_info	(
+//														std::filesystem::path mappr_Dump_Dir)
+//{
+//	std::ofstream file_out;
+//	file_out.open(mappr_Dump_Dir); 
+//
+//	for (size_t lvl = 0; lvl < Execution_Threads.size(); lvl++)
+//	{
+//		// if this thread contains Execution Unit
+//		if (Execution_Threads[lvl].size() > 0)
+//		{
+//			if (!USE_CHATGPT_CODE)
+//			{
+//				file_out << "\n\n";
+//				file_out << "\t";
+//				file_out << std::setw(4) << "" << "\t";
+//				file_out << std::setw(4) << "" << "\t";
+//				file_out << std::setw(4) << "" << "\t";
+//				file_out << std::setw(4) << Baselines << ",\t";
+//				file_out << std::setw(4) << Threads << ",\t";
+//				file_out << std::setw(4) << Sequence << std::endl;
+//				file_out << "\t";
+//				file_out << std::setw(4) << "lvl" << ",\t";
+//				file_out << std::setw(4) << "P" << ",\t";
+//				file_out << std::setw(4) << "pes" << ",\t";
+//				file_out << std::setw(4) << "bls" << ",\t";
+//				file_out << std::setw(4) << "trd" << ",\t";
+//				file_out << std::setw(4) << "seq" << std::endl;
+//
+//				while (BSLN > 0)
+//				{
+//					for (size_t pln = 0; pln < Threads; pln += mul_Vault)
+//					{
+//						for (size_t m = 0; m < mul_Vault; m++)
+//						{
+//							for (size_t i = 0; i < std::min(map_Vault, BSLN); i++)
+//							{
+//								file_out << "\t";
+//								file_out << std::setw(4) << lvl << ",\t";
+//								file_out << std::setw(4) << p << ",\t";
+//								file_out << std::setw(4) << pes << ",\t";
+//								file_out << std::setw(4) << bls << ",\t";
+//								file_out << std::setw(4) << trd << ",\t";
+//								file_out << std::setw(4) << seq << std::endl;
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+//	
+//	file_out.close();
+//}
 
 
 // Dump mapping and ordering info to a text file (appends .txt).
@@ -1252,7 +1317,8 @@ size_t Dependency_Logger::Calculate_Data_Block_Timing(
 
 // Allocate data blocks into vault address space.
 bool Dependency_Logger::Allocte						(
-														Data_Logger* DataL)
+														Data_Logger* DataL,
+														size_t verbose)
 {
 	Calculate_Required_Spaces(DataL);
 	need_to_copy = 0;
@@ -1266,16 +1332,20 @@ bool Dependency_Logger::Allocte						(
 	size_t Pfst = 1;
 	size_t Efst = 1;
 	
-	std::cout << "\tMapping Input Data Blocks ..." << std::endl;
+	if (verbose >0)
+		std::cout << "[5/7]\tMapping Input Data Blocks ..." << std::endl;
 	maloc_DATA_IN (DataL, Ifst, Wfst);
 	
-	std::cout << "\tMapping Weight Blocks ..." << std::endl;
+	if (verbose >0)
+		std::cout << "[5/7]\tMapping Weight Blocks ..." << std::endl;
 	maloc_WEIGHT  (DataL, Wfst, Ofst);
 	
-	std::cout << "\tMapping Output Data Blocks ..." << std::endl;
+	if (verbose >0)
+		std::cout << "[5/7]\tMapping Output Data Blocks ..." << std::endl;
 	maloc_DATA_OUT(DataL, Ofst, Pfst);
 	
-	std::cout << "\tMapping Partial Result Blocks ..." << std::endl;
+	if (verbose >0)
+		std::cout << "[5/7]\tMapping Partial Result Blocks ..." << std::endl;
 	maloc_PSUM    (DataL, Pfst, Efst);
 
 
