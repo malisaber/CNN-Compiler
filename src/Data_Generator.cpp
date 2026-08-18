@@ -209,7 +209,7 @@ void Data_Generator::Generate_IDF(
 			{
 				size_t percent = generated / step;
 				size_t filled  = percent / 2;
-				std::cout << '\r' << '['
+				std::cout << '\r' << "[7/7]\t\t["
               		<< std::string(filled, '=')
               		<< std::string(50 - filled, ' ')
               		<< "] " << std::setw(3) << percent << "%"
@@ -299,7 +299,7 @@ void Data_Generator::Generate_WDF(
 			{
 				size_t percent = generated / step;
 				size_t filled  = percent / 2;
-				std::cout << '\r' << '['
+				std::cout << '\r' << "[7/7]\t\t["
               		<< std::string(filled, '=')
               		<< std::string(50 - filled, ' ')
               		<< "] " << std::setw(3) << percent << "%"
@@ -369,7 +369,7 @@ void Data_Generator::Generate_ZDF(
 			{
 				size_t percent = generated / step;
 				size_t filled  = percent / 2;
-				std::cout << '\r' << '['
+				std::cout << '\r' << "[7/7]\t\t["
               		<< std::string(filled, '=')
               		<< std::string(50 - filled, ' ')
               		<< "] " << std::setw(3) << percent << "%"

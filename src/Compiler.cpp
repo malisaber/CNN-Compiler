@@ -315,7 +315,7 @@ void	Compiler::Allocate							(
 	if (verbose>0)	std::cout << "[5/7] Number of Weight Data Block Needed: " << std::setw(8) << Wcnt << "\t\tStarting At: " << std::setw(8) << Wfst << std::endl;
 	if (verbose>0)	std::cout << "[5/7] Number of Output Data Block Needed: " << std::setw(8) << Ocnt << "\t\tStarting At: " << std::setw(8) << Ofst << std::endl;
 	if (verbose>0)	std::cout << "[5/7] Number of P-Sums Data Block Needed: " << std::setw(8) << Pcnt << "\t\tStarting At: " << std::setw(8) << Pfst << std::endl;
-	if (verbose>0)	std::cout << "[5/7]\t\t\t\t\t\t\t\t\t\t\t\t\t  Ending At: " << std::setw(8) << Efst << std::endl;
+	if (verbose>0)	std::cout << "[5/7] \t\t\t\t\t\t\t  Ending At: " << std::setw(8) << Efst << std::endl;
 	if (verbose>0)	std::cout << "[5/7] Allocation Engine Done!" << std::endl;
 }
 
