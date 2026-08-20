@@ -43,7 +43,7 @@ int main											(
 	app.add_option	("-r,--dram-dir",				Drm_Direc,		"Output DRAM directory"								);
 	app.add_option	("-i,--input",					Inp_names,		"Input layer file(s), one per input layer"			);
 	app.add_option	("-w,--weight",					Wgt_names,		"Weight file(s), one per CNN layer"					);
-	app.add_option	("--help-report", 				help_report, 	"Show detailed report help"							);
+	app.add_flag	("--help-report", 				help_report, 	"Show detailed report help"							);
 
 
 	if (help_report)
