@@ -63,7 +63,7 @@ int main											(
 		    Generate report file of each internal part of the compiler.
 
 		-p 1   -> Generate Nodes               information report file
-		-p 2   -> Generate Nodes (Reshaped)    information report file
+		-p 2   -> Generate Nodes   (Reshaped)  information report file
 		-p 4   -> Generate Data Blocks         information report file
 		-p 8   -> Generate Threads             information report file
 		-p 16  -> Generate Threads (Optimized) information report file
@@ -71,8 +71,7 @@ int main											(
 		-p 64  -> Generate Mapping             information report file
 		-p 128 -> Generate Spacing             information report file
 		
-		or any combination of those for generating multiple report files.
-		)";
+		or any combination of those for generating multiple report files)" << std::endl;
     	std::exit(0);
 	};
 	
