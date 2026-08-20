@@ -1395,7 +1395,8 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	files_out	<< "\t\t\t\t			UPA_Inp_base_addr_ptr[bline],"							<< std::endl;
 	files_out	<< "\t\t\t\t			UPA_Wgt_base_addr_ptr[bline],"							<< std::endl;
 	files_out	<< "\t\t\t\t			UPA_Out_base_addr_ptr[bline],"							<< std::endl;
-	files_out	<< "\t\t\t\t			UPA_Acc_base_addr_ptr[bline]);"							<< std::endl << std::endl << std::endl;
+	files_out	<< "\t\t\t\t			UPA_Acc_base_addr_ptr[bline],"							<< std::endl;
+	files_out	<< "\t\t\t\t				 All_Net_SUU_cnts);"								<< std::endl << std::endl << std::endl;
 
 
 	// Config Holder 
@@ -1412,7 +1413,8 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	//files_out	<< "\t}"																		<< std::endl << std::endl << std::endl;
 	files_out	<< std::dec;
 	files_out	<< "\tBline_CONF_HOLDER_set_conf(\t\t\t Capacity[bline],"						<< std::endl;
-	files_out	<< "\t\t\t\t					 Control_word[bline]);"							<< std::endl;
+	files_out	<< "\t\t\t\t					 Control_word[bline],"							<< std::endl;
+	files_out	<< "\t\t\t\t				 All_Net_PEs_Conf);"								<< std::endl;
 	files_out	<< "\tCONF_HOLDER_refresh (PLANE_0);"											<< std::endl;
 	files_out	<< "\tCONF_HOLDER_refresh (PLANE_1);"											<< std::endl;
 	files_out	<< "\tCONF_HOLDER_refresh (PLANE_2);"											<< std::endl;
@@ -1433,7 +1435,8 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	files_out	<< "\tPSU_EC_reset_all	(PLANE_2);"												<< std::endl;
 	files_out	<< "\tPSU_EC_reset_all	(PLANE_3);"												<< std::endl;
 	files_out	<< "\tBline_Initiate_STA_ECs(\t\t\t\t Capacity[bline],"							<< std::endl;
-	files_out	<< "\t\t\t\t\t\t			 Control_word[bline]);"								<< std::endl << std::endl << std::endl;
+	files_out	<< "\t\t\t\t\t\t			 Control_word[bline],"								<< std::endl;
+	files_out	<< "\t\t\t\t\t\t		 All_Net_STA_info);"									<< std::endl << std::endl << std::endl;
 	
 
 	// Waiting for Completion of DMA transfers
