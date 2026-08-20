@@ -93,7 +93,7 @@ public:
 	
 	// Reports something
 	void	Report									(
-														bool report);
+														size_t report);
 
 private:
 	// Buils the network and its dependencies

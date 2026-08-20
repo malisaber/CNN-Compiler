@@ -182,7 +182,7 @@ void	Compiler::Add_Output_Directory				(
 
 // Reports something
 void	Compiler::Report							(
-														bool report)
+														size_t report)
 {
 	if (!All_done)		throw std::runtime_error("The compilation has not finished yet.\n");
 	
@@ -192,27 +192,55 @@ void	Compiler::Report							(
 	std::cout << "\t\tInputs:   "	<< std::setw(8) << Data_Gen_Eng->Generated_Input_files_size()	<< std::endl;
 	std::cout << "\t\tWeights:  "	<< std::setw(8) << Data_Gen_Eng->Generated_Weight_files_size()	<< std::endl;
 	std::cout << "\t\tZeros:    "	<< std::setw(8) << Data_Gen_Eng->Generated_Zero_files_size()	<< std::endl;
-	if (report)
-	{
+
+	
+	if ((report & 255) != 0) 
 		std::cout << "Generating report files:" << std::endl;
+	
+	if ((report & 1) != 0)
+	{
 		std::cout << "Nodes         information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_file									(DP_Dump_dest / "Nodes.txt");
-		std::cout << "Data Blocks   information report file:" 		<< std::endl;
-		Data_Log_Eng->print_file									(DA_Dump_dest / ("DATA.txt"));
+	}
+	if ((report & 2) != 0)
+	{
 		std::cout << "Nodes (RS)    information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_file									(DP_Dump_dest / ("Nodes_Reshaped.txt"));
+	}
+	if ((report & 4) != 0)
+	{
+		std::cout << "Data Blocks   information report file:" 		<< std::endl;
+		Data_Log_Eng->print_file									(DA_Dump_dest / ("DATA.txt"));
+	}
+	if ((report & 8) != 0)
+	{
 		std::cout << "Threads       information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_Thread_info_file						(DP_Dump_dest / ("Threads.txt"));
+	}
+	if ((report & 16) != 0)
+	{
 		std::cout << "Threads (OPT) information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_Optimized_Execution_Thread_info_file	(DP_Dump_dest / ("Threads_opt.txt"));
+	}
+	if ((report & 32) != 0)
+	{
 		std::cout << "Mapping (RAW) information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / "Mapping_Raw.txt");
+	}
+	if ((report & 64) != 0)
+	{
 		std::cout << "Mapping       information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / ("Mapping.txt"));
+	}
+	if ((report & 128) != 0)
+	{
 		std::cout << "Spacing       information report file:" 		<< std::endl;
 		Code_Gen_Eng->Print_Spacing									(Data_Log_Eng, CG_Dump_dest);
-		std::cout << std::endl <<   "Files are Generated" 			<< std::endl;
 	}
+
+	if ((report & 255) != 0) 
+		std::cout << std::endl <<   "Files are Generated" 			<< std::endl;
+	
 }
 
 
