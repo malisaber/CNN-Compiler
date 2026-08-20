@@ -55,23 +55,23 @@ int main											(
 
 	if (help_report)
 	{
-    	std::cout << R"(
-		REPORT HELP
-		===========
-
-		-p, --report
-		    Generate report file of each internal part of the compiler.
-
-		-p 1   -> Generate Nodes               information report file
-		-p 2   -> Generate Nodes   (Reshaped)  information report file
-		-p 4   -> Generate Data Blocks         information report file
-		-p 8   -> Generate Threads             information report file
-		-p 16  -> Generate Threads (Optimized) information report file
-		-p 32  -> Generate Mapping (Raw)       information report file
-		-p 64  -> Generate Mapping             information report file
-		-p 128 -> Generate Spacing             information report file
-		
-		or any combination of those for generating multiple report files)" << std::endl;
+    	std::cout << std::endl << "REPORT HELP";
+		std::cout << std::endl << "===========";
+		std::cout << std::endl << "	";
+		std::cout << std::endl << "-p, --report";
+		std::cout << std::endl << "    Generate report file of each internal part of the compiler.";
+		std::cout << std::endl << "	";
+		std::cout << std::endl << "-p 1   -> Generate Nodes               information report file";
+		std::cout << std::endl << "-p 2   -> Generate Nodes   (Reshaped)  information report file";
+		std::cout << std::endl << "-p 4   -> Generate Data Blocks         information report file";
+		std::cout << std::endl << "-p 8   -> Generate Threads             information report file";
+		std::cout << std::endl << "-p 16  -> Generate Threads (Optimized) information report file";
+		std::cout << std::endl << "-p 32  -> Generate Mapping (Raw)       information report file";
+		std::cout << std::endl << "-p 64  -> Generate Mapping             information report file";
+		std::cout << std::endl << "-p 128 -> Generate Spacing             information report file";
+		std::cout << std::endl << "	";
+		std::cout << std::endl << "or any combination of those for generating multiple report files";
+		std::cout << std::endl;
     	std::exit(0);
 	};
 	
