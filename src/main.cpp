@@ -23,7 +23,7 @@ int main											(
 	// Defaults (same as your original values)
 	size_t								verbose		=	0;
 	size_t								report		=	0;
-	bool								help_report = false;
+	bool								help_report =	false;
 	std::filesystem::path				Net_Filex	=	"";		// Network to compile
 	std::filesystem::path				Hal_Direc	=	"";		//Materials;
 	std::filesystem::path				Dmp_Direc	=	"";		//Dump directory";
@@ -44,6 +44,13 @@ int main											(
 	app.add_option	("-i,--input",					Inp_names,		"Input layer file(s), one per input layer"			);
 	app.add_option	("-w,--weight",					Wgt_names,		"Weight file(s), one per CNN layer"					);
 	app.add_flag	("--help-report", 				help_report, 	"Show detailed report help"							);
+
+
+	CLI11_PARSE(app, argc, argv);
+	
+	//->required()->check(CLI::ExistingFile);
+	//->required()->check(CLI::ExistingDirectory);
+	
 
 
 	if (help_report)
@@ -68,13 +75,6 @@ int main											(
 		)";
     	std::exit(0);
 	};
-	//->required()->check(CLI::ExistingFile);
-	//->required()->check(CLI::ExistingDirectory);
-	
-
-
-	CLI11_PARSE(app, argc, argv);
-
 	
 	Compiler	compiler;
 
