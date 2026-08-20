@@ -975,8 +975,14 @@ void Code_Generator::Generate_Codes					(
 			if (!CG_PEs[lvl][bline].empty())
 				Generage_Data_Blocks_Exe_lvl_bline(DataL, lvl, bline);
 
+
+	// Generate per config data
+	Generate_per_Config_Data_Blocks();
+
+
 	// Generate "Platform_Execute" Vectors of data
 	Generage_Data_Blocks_Exe_Baseline();
+
 
 	// Last part of the main function
 	Generate_Main_P2(files_main);
@@ -1384,7 +1390,7 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	files_out	<< std::dec;
 	files_out	<< "\tBline_Initiate_STA_UPA(\t\t\t\t Capacity[bline],"							<< std::endl;
 	files_out	<< "\t\t\t\t					 Control_word[bline],"							<< std::endl;
-	files_out	<< "\t\t\t\t						   Counts[bline],"							<< std::endl;
+	//files_out	<< "\t\t\t\t						   Counts[bline],"							<< std::endl;
 	files_out	<< "\t\t\t\t							Ivals[bline],"							<< std::endl;
 	files_out	<< "\t\t\t\t			UPA_Inp_base_addr_ptr[bline],"							<< std::endl;
 	files_out	<< "\t\t\t\t			UPA_Wgt_base_addr_ptr[bline],"							<< std::endl;
@@ -1398,12 +1404,19 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	Config Holder "	 														<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
-	files_out	<< "\tfor (size_t pln = 0; pln < " << Ava_Planes << "; pln++)"					<< std::endl;
-	files_out	<< "\t{"																		<< std::endl;
-	files_out	<< "\t\tfor (size_t vlt = 0; vlt < " << Ava_Vaults << "; vlt++)"				<< std::endl;
-	files_out	<< "\t\t\tCONFH_set_conf(pln, vlt, Conf_PE[bline]);"	<< std::endl;
-	files_out	<< "\t\tCONFH_refresh (pln); "													<< std::endl;
-	files_out	<< "\t}"																		<< std::endl << std::endl << std::endl;
+	//files_out	<< "\tfor (size_t pln = 0; pln < " << Ava_Planes << "; pln++)"					<< std::endl;
+	//files_out	<< "\t{"																		<< std::endl;
+	//files_out	<< "\t\tfor (size_t vlt = 0; vlt < " << Ava_Vaults << "; vlt++)"				<< std::endl;
+	//files_out	<< "\t\t\tCONF_HOLDER_set_conf(pln, vlt, Conf_PE[bline]);"						<< std::endl;
+	//files_out	<< "\t\tCONF_HOLDER_refresh (pln); "											<< std::endl;
+	//files_out	<< "\t}"																		<< std::endl << std::endl << std::endl;
+	files_out	<< std::dec;
+	files_out	<< "\tBline_CONF_HOLDER_set_conf(\t\t\t Capacity[bline],"						<< std::endl;
+	files_out	<< "\t\t\t\t					 Control_word[bline]);"							<< std::endl;
+	files_out	<< "\tCONF_HOLDER_refresh (PLANE_0);"											<< std::endl;
+	files_out	<< "\tCONF_HOLDER_refresh (PLANE_1);"											<< std::endl;
+	files_out	<< "\tCONF_HOLDER_refresh (PLANE_2);"											<< std::endl;
+	files_out	<< "\tCONF_HOLDER_refresh (PLANE_3);"											<< std::endl << std::endl << std::endl;
 
 
 	// Plannar Event Counter Configuration
@@ -1436,8 +1449,8 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	files_out	<< "\t	Plannar Processing Element Control"	 									<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
 	files_out	<< "\tBline_Initiate_PE_Start(\t\t\t Capacity[bline],"							<< std::endl;
-	files_out	<< "\t\t\t\t					 Control_word[bline],"							<< std::endl;
-	files_out	<< "\t\t\t\t						 STA_info[bline]);"							<< std::endl << std::endl << std::endl;
+	files_out	<< "\t\t\t\t					 Control_word[bline]);"							<< std::endl << std::endl << std::endl;
+	//files_out	<< "\t\t\t\t						 STA_info[bline]);"							<< std::endl << std::endl << std::endl;
 
 
 	// Wait for Completion of this baseline 
@@ -1460,10 +1473,10 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	Destructor of Config Holder"		 									<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
-	files_out	<< "\tCONFH_reset_all(PLANE_0);"												<< std::endl;
-	files_out	<< "\tCONFH_reset_all(PLANE_1);"												<< std::endl;
-	files_out	<< "\tCONFH_reset_all(PLANE_2);"												<< std::endl;
-	files_out	<< "\tCONFH_reset_all(PLANE_3);"												<< std::endl << std::endl << std::endl;
+	files_out	<< "\tCONF_HOLDER_reset_all(PLANE_0);"											<< std::endl;
+	files_out	<< "\tCONF_HOLDER_reset_all(PLANE_1);"											<< std::endl;
+	files_out	<< "\tCONF_HOLDER_reset_all(PLANE_2);"											<< std::endl;
+	files_out	<< "\tCONF_HOLDER_reset_all(PLANE_3);"											<< std::endl << std::endl << std::endl;
 	files_out	<< "\t/*\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\"		<< std::endl;
 	files_out	<< "\t	Destructor of System Control"		 									<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
@@ -1691,7 +1704,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_lvl_bline(
 	// initialization, node_count
 	size_t node_count = CG_PEs[lvl][bline].size();
 
-
+	
 	// initialization, Zero Data Block Array
 	size_t PZmax(0);
 	size_t max_vlt(0);
@@ -1740,25 +1753,6 @@ void Code_Generator::Generage_Data_Blocks_Exe_lvl_bline(
 	Data_H_file << std::endl;
 
 
-	// PE Config values
-	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const S_PE_cofig";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Conf_PE_lvl_";
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd(lvl, bline) << "\t=\t"		<< std::endl;
-	Data_H_file << "\t\t\t{"	<< std::endl	<< "\t\t\t\t\t";
-	Data_H_file << "(unsigned int)FSM_CNN_1,	(unsigned int)16,	(unsigned int)FULL,	(unsigned int)IUNSIGN,	(unsigned int)WUNSIGN,	(unsigned int)3,	(unsigned int)15,	(unsigned int)15,	(unsigned int)15";
-	Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
-
-
-	// STA config values
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const S_CONF_STA_info";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "STA_info_lvl_";
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd(lvl, bline) << "\t=\t"		<< std::endl;
-	Data_H_file << "\t\t\t{"	<< std::endl << "\t\t\t\t\t";
-	Data_H_file	<< "0x00000000,	0x00000000,	0x00000001,	0x00000000,	0x00000000,	0x00000000,	0x00000000,	0x00000001,	0x00000000,	0x00000001, ";
-	Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
-
-
 	// Control Word
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const unsigned int";
@@ -1767,33 +1761,20 @@ void Code_Generator::Generage_Data_Blocks_Exe_lvl_bline(
 	Data_H_file << "\t\t\t{"	<< std::endl	<< "\t\t\t\t\t";
 	for (size_t node = 0; node < node_count; node++)
 	{
-		size_t cnt = CG_PEs[lvl][bline][node].Output_ID.size();
-		size_t pln = CG_PEs[lvl][bline][node].Plane;
-		size_t vlt = CG_PEs[lvl][bline][node].Vault;
-		size_t tmp = (cnt << 16) + (pln << 4) + vlt;
+		size_t cnt		= CG_PEs[lvl][bline][node].Output_ID.size();
+		// TODO: update this based on the network configuration
+		size_t cnf_sel	= 0;
+		size_t cnt_sel	= 0;
+		// STA_sel = 0 -> STA_Info_Network_1 :                            store the generated output
+		// STA_sel = 1 -> STA_Info_Network_2 :                            store the generated output + activation
+		// STA_sel = 2 -> STA_Info_Network_3 : loads the previous block + store the generated output
+		// STA_sel = 3 -> STA_Info_Network_4 : loads the previous block + store the generated output + activation
+		size_t STA_sel	= 2 * (CG_PEs[lvl][bline][node].Acum_DBID.size() != 0);
+		size_t pln		= CG_PEs[lvl][bline][node].Plane;
+		size_t vlt		= CG_PEs[lvl][bline][node].Vault;
+		size_t tmp		= (cnt << 20) + (STA_sel << 16) + (cnf_sel << 12) + (cnt_sel << 8) + (pln << 4) + vlt;
 		Data_H_file << std::hex << "0x" << std::right << std::setw(8) << std::setfill('0') << tmp << ",\t";
 		if ((((node+1) % 8) == 0) && (node != (node_count-1)))
-			Data_H_file			<< std::endl	<< "\t\t\t\t\t";
-	}
-	Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
-
-
-	// Counts
-	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const unsigned int";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Counts_lvl_";
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd_array(lvl, bline, node_count) << "\t=\t" << std::endl;
-	Data_H_file << "\t\t\t{"	<< std::endl	<< "\t\t\t\t\t";
-	for (size_t node = 0; node < node_count; node++)
-	{
-		// TODO : Optimize this
-		size_t Inp_count = 0xFF;
-		size_t Wgt_count = 0xFF;
-		size_t Out_count = 0xFF;
-		size_t Acc_count = 0xFF;
-		size_t tmp		 = (Inp_count << 24) + (Wgt_count << 16) + (Out_count << 8) + Acc_count;
-		Data_H_file << std::hex << "0x" << std::right << std::setw(8) << std::setfill('0') << tmp << ",\t";
-		if ((((node + 1) % 8) == 0) && (node != (node_count - 1)))
 			Data_H_file			<< std::endl	<< "\t\t\t\t\t";
 	}
 	Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
@@ -2153,33 +2134,37 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
 			if (!CG_PEs[lvl][bline].empty())
-					Data_H_file << std::endl << "\t\t\t\t\t" << std::setw(40) << "Capacity_lvl_" << embedd(lvl, bline) << ",\t";
+				Data_H_file << std::endl << "\t\t\t\t\t" << std::setw(40) << "Capacity_lvl_" << embedd(lvl, bline) << ",\t";
 	Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
 	
 	
 
-	// PE Config values
-	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const S_PE_cofig";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Conf_PE[" << size << "]\t\t=\t";
-	Data_H_file << std::endl	<< "\t\t\t{";
-	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
-		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
-			if (!CG_PEs[lvl][bline].empty())
-					Data_H_file << std::endl << "\t\t\t\t\t" << std::setw(40) << "Conf_PE_lvl_" << embedd(lvl, bline) << ",\t";
-	Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
+	//// PE Config values
+	//Data_H_file << std::dec;
+	//Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "unsigned int";
+	//Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Conf_PE[" << size << "]\t\t=\t";
+	//Data_H_file << std::endl	<< "\t\t\t{";
+	//for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
+	//	for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
+	//		if (!CG_PEs[lvl][bline].empty())
+	//		{
+	//			// TODO: Config Support 
+	//			//Data_H_file << std::endl << "\t\t\t\t\t" << std::setw(40) << "Conf_PE_lvl_" << embedd(lvl, bline) << ",\t";
+	//			Data_H_file << std::endl << "\t\t\t\t\t" << std::setw(40) << "" << "Conf_Network_1" << ",\t";
+	//		}
+	//Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
 
 	
 
-	// STA config values
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const S_CONF_STA_info";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "STA_info[" << size << "]\t\t=\t";
-	Data_H_file << std::endl	<< "\t\t\t{";
-	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
-		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
-			if (!CG_PEs[lvl][bline].empty())
-					Data_H_file << std::endl << "\t\t\t\t\t" << std::setw(40) << "STA_info_lvl_" << embedd(lvl, bline) << ",\t";
-	Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
+	//// STA config values
+	//Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const S_CONF_STA_info";
+	//Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "STA_info[" << size << "]\t\t=\t";
+	//Data_H_file << std::endl	<< "\t\t\t{";
+	//for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
+	//	for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
+	//		if (!CG_PEs[lvl][bline].empty())
+	//			Data_H_file << std::endl << "\t\t\t\t\t" << std::setw(40) << "STA_info_lvl_" << embedd(lvl, bline) << ",\t";
+	//Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
 
 
 
@@ -2196,16 +2181,17 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 
 
 
-	// Counts
-	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Counts[" << size << "]\t\t=\t";
-	Data_H_file << std::endl	<< "\t\t\t{";
-	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
-		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
-			if (!CG_PEs[lvl][bline].empty())
-					Data_H_file << std::endl << "\t\t\t\t\t" << std::setw(40) << "Counts_lvl_" << embedd(lvl, bline) << ",\t";
-	Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
+	//// Counts
+	//Data_H_file << std::dec;
+	//Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "static const unsigned int*";
+	//Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Counts[" << size << "]\t\t=\t";
+	//Data_H_file << std::endl	<< "\t\t\t{";
+	//for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
+	//	for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
+	//		if (!CG_PEs[lvl][bline].empty())
+	//			// TODO: Config Support 
+	//			Data_H_file << std::endl << "\t\t\t\t\t" << std::setw(40) << "Counts_Network_1,\t";
+	//Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
 
 
 
@@ -2300,6 +2286,179 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 }
 
 
+// add per config datablocks
+void	Code_Generator::Generate_per_Config_Data_Blocks()
+{
+	// TODO: Add config identifier to the code generator
+	// but for now, I'll keep it simple
 
+
+	//// Counts
+	//Data_H_file << std::dec;
+	//Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const unsigned int";
+	//Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Counts_lvl_";
+	//Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd_array(lvl, bline, node_count) << "\t=\t" << std::endl;
+	//Data_H_file << "\t\t\t{"	<< std::endl	<< "\t\t\t\t\t";
+	//for (size_t node = 0; node < node_count; node++)
+	//{
+	//	// TODO : Optimize this
+	//	size_t Inp_count = 0xFF;
+	//	size_t Wgt_count = 0xFF;
+	//	size_t Out_count = 0xFF;
+	//	size_t Acc_count = 0xFF;
+	//	size_t tmp		 = (Inp_count << 24) + (Wgt_count << 16) + (Out_count << 8) + Acc_count;
+	//	Data_H_file << std::hex << "0x" << std::right << std::setw(8) << std::setfill('0') << tmp << ",\t";
+	//	if ((((node + 1) % 8) == 0) && (node != (node_count - 1)))
+	//		Data_H_file			<< std::endl	<< "\t\t\t\t\t";
+	//}
+	//Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
+
+	//for all configs
+	Data_H_file << std::dec;
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "const unsigned int";
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "SUU_cnts_Network_1" << "\t=\t0xFFFFFFFF;";
+	Data_H_file << std::endl			<< std::endl;
+
+
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "const unsigned int";
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_SUU_cnts" << "[16]\t\t=\t";
+	Data_H_file << std::endl			<< "\t\t\t{";
+	for (size_t cnf_cnt = 0; cnf_cnt < 16; cnf_cnt++)
+		Data_H_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "SUU_cnts_Network_1" << ",\t";
+	Data_H_file	<< std::endl			<< "\t\t\t};"	<< std::endl		<< std::endl;
+
+
+
+
+
+	//// PE Config values
+	//Data_H_file << std::dec;
+	//Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const S_PE_cofig";
+	//Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Conf_PE_lvl_";
+	//Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd(lvl, bline) << "\t=\t"		<< std::endl;
+	//Data_H_file << "\t\t\t{"	<< std::endl	<< "\t\t\t\t\t";
+	//Data_H_file << "(unsigned int)FSM_CNN_1,	(unsigned int)16,	(unsigned int)FULL,	(unsigned int)IUNSIGN,	(unsigned int)WUNSIGN,	(unsigned int)3,	(unsigned int)15,	(unsigned int)15,	(unsigned int)15";
+	//Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
+	
+	// for all configs
+	Data_H_file << std::dec;
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "const unsigned int";
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "PEs_Conf_Network_1" << "\t=\t0x20001FFF;";
+	Data_H_file << std::endl			<< std::endl;
+
+	
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "const unsigned int";
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_PEs_Conf" << "[16]\t\t=\t";
+	Data_H_file << std::endl			<< "\t\t\t{";
+	for (size_t cnf_cnt = 0; cnf_cnt < 16; cnf_cnt++)
+		Data_H_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "PEs_Conf_Network_1" << ",\t";
+	Data_H_file	<< std::endl			<< "\t\t\t};"	<< std::endl		<< std::endl;
+
+
+
+
+
+	//// STA config values
+	//Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << "const S_CONF_STA_info";
+	//Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "STA_info_lvl_";
+	//Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd(lvl, bline) << "\t=\t"		<< std::endl;
+	//Data_H_file << "\t\t\t{"	<< std::endl << "\t\t\t\t\t";
+	//Data_H_file	<< "0x00000000,	0x00000000,	0x00000001,	0x00000000,	0x00000000,	0x00000000,	0x00000000,	0x00000001,	0x00000000,	0x00000001, ";
+	//Data_H_file << std::endl	<< "\t\t\t};"	<< std::endl	<< std::endl;
+	
+	size_t tmp(0);
+	// for all configs
+	// TODO: Add other configuration 
+	tmp = 0;
+	tmp |= (1 <<  C_Update_Store_Base_Address_pos	);
+	tmp |= (0 <<  C_Update_load_Base_Address_pos	);
+	tmp |= (1 <<  C_Store_Row_pos					);
+	tmp |= (0 <<  C_Enable_Activation_pos			);
+	tmp |= (0 <<  C_Save_Row_pos					);
+	tmp |= (0 <<  C_Bias_Accumulation_Enable_pos	);
+	tmp |= (1 <<  C_PEout_Accumulation_Enable_pos	);
+	tmp |= (0 <<  C_Buffer_Accumulation_Enable_pos	);
+	tmp |= (0 <<  C_Load_Row_pos					);
+	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
+	Data_H_file << std::dec;
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "const unsigned int";
+	Data_H_file << std::hex;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_1" << "\t=\t0x" << std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_H_file << std::endl			<< std::endl;
+
+
+	tmp = 0;
+	tmp |= (1 <<  C_Update_Store_Base_Address_pos	);
+	tmp |= (0 <<  C_Update_load_Base_Address_pos	);
+	tmp |= (1 <<  C_Store_Row_pos					);
+	tmp |= (0 <<  C_Enable_Activation_pos			);
+	tmp |= (0 <<  C_Save_Row_pos					);
+	tmp |= (0 <<  C_Bias_Accumulation_Enable_pos	);
+	tmp |= (1 <<  C_PEout_Accumulation_Enable_pos	);
+	tmp |= (0 <<  C_Buffer_Accumulation_Enable_pos	);
+	tmp |= (0 <<  C_Load_Row_pos					);
+	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
+	Data_H_file << std::dec;
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "const unsigned int";
+	Data_H_file << std::hex;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_2" << "\t=\t0x" << std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_H_file << std::endl			<< std::endl;
+
+
+	tmp = 0;
+	tmp |= (1 <<  C_Update_Store_Base_Address_pos	);
+	tmp |= (1 <<  C_Update_load_Base_Address_pos	);
+	tmp |= (1 <<  C_Store_Row_pos					);
+	tmp |= (0 <<  C_Enable_Activation_pos			);
+	tmp |= (0 <<  C_Save_Row_pos					);
+	tmp |= (0 <<  C_Bias_Accumulation_Enable_pos	);
+	tmp |= (1 <<  C_PEout_Accumulation_Enable_pos	);
+	tmp |= (1 <<  C_Buffer_Accumulation_Enable_pos	);
+	tmp |= (1 <<  C_Load_Row_pos					);
+	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
+	Data_H_file << std::dec;
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "const unsigned int";
+	Data_H_file << std::hex;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_3" << "\t=\t0x" << std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_H_file << std::endl			<< std::endl;
+
+
+	tmp = 0;
+	tmp |= (1 <<  C_Update_Store_Base_Address_pos	);
+	tmp |= (1 <<  C_Update_load_Base_Address_pos	);
+	tmp |= (1 <<  C_Store_Row_pos					);
+	tmp |= (0 <<  C_Enable_Activation_pos			);
+	tmp |= (0 <<  C_Save_Row_pos					);
+	tmp |= (1 <<  C_Bias_Accumulation_Enable_pos	);
+	tmp |= (1 <<  C_PEout_Accumulation_Enable_pos	);
+	tmp |= (1 <<  C_Buffer_Accumulation_Enable_pos	);
+	tmp |= (1 <<  C_Load_Row_pos					);
+	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
+	Data_H_file << std::dec;
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "const unsigned int";
+	Data_H_file << std::hex;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_4" << "\t=\t0x" << std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_H_file << std::endl			<< std::endl;
+
+	
+	Data_H_file << std::dec;
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "const unsigned int";
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_STA_info" << "[16]\t\t=\t";
+	Data_H_file << std::endl			<< "\t\t\t{";
+	for (size_t cnf_cnt = 0; cnf_cnt < 4; cnf_cnt++)
+	{
+		Data_H_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "STA_Info_Network_1" << ",\t";
+		Data_H_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "STA_Info_Network_2" << ",\t";
+		Data_H_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "STA_Info_Network_3" << ",\t";
+		Data_H_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "STA_Info_Network_4" << ",\t";
+	}
+	Data_H_file	<< std::endl			<< "\t\t\t};"	<< std::endl		<< std::endl;
+
+	// STA_Info_Network_1 : 						   store the generated output
+	// STA_Info_Network_2 : 						   store the generated output + activation
+	// STA_Info_Network_3 : loads the previous block + store the generated output
+	// STA_Info_Network_4 : loads the previous block + store the generated output + activation
+
+}
 
 

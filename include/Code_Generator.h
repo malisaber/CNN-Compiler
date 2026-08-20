@@ -195,6 +195,9 @@ private:
 	
 	// adding datablocks
 	void	Generage_Data_Blocks_Exe_Baseline		();
+
+	// add per config datablocks
+	void	Generate_per_Config_Data_Blocks			();
 			
 };
 
