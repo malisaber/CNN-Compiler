@@ -861,9 +861,9 @@ size_t Dependency_Logger::print_Optimized_Execution_Thread_info_file(
 				SNID_t first = Execution_Threads_OPT[lvl][bl][trds].Nodes[0];
 				size_t pln	 = Nodes[first.index()].Alc_Info.Allocated_Plane;
 				size_t vlt	 = Nodes[first.index()].Alc_Info.Allocated_Vault;
-				file_out	 << "\t\tThread "	<< std::setw(4) <<  ("%" + trds);
-				file_out	 << ",\t"			<< std::setw(4) <<  ("#" +this_size);
-				file_out	 << ",\t("			<< std::setw(2) <<  pln;
+				file_out	 << "\t\tThread: "	<< std::setw(4) <<  trds;
+				file_out	 << ",\tsize: "		<< std::setw(4) <<  this_size;
+				file_out	 << ",\tmapped( "	<< std::setw(2) <<  pln;
 				file_out	 << ","				<< std::setw(2) <<  vlt;
 				file_out	 << ")"				<< std::endl;
 				tot += this_size;
