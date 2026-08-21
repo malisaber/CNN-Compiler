@@ -372,7 +372,8 @@ bool Conv_MKMC_2D::Map_Data_Blocks_and_Build_Dependencies(
 		outp_block_needed = map_entity.Batch_size * map_entity.Height_size * map_entity.Width_size * map_entity.Kernel_size;
 		pout_block_needed = map_entity.Batch_size * map_entity.Kernel_size * map_entity.Channel_size * map_entity.Height_size * map_entity.Width_size * map_entity.FiltH_Size * map_entity.FiltW_Size / 9;
 
-		if (verbose>0) std::cout << "[1/7]\t\tL" << ID << ": Convolution Layer;\t\tNumber of Needed Block for (input, weithg, partial_sum, output) : \t(";
+		if (verbose>0) std::cout << "[1/7]\t\tL" << ID << ": Convolution Layer;\tNumber of Needed Block for (Inp, Wgt, PSum, Out) : \t(";
+		//if (verbose>0) std::cout << "[1/7]\t\tL" << ID << ": Convolution Layer;\t\tNumber of Needed Block for (input, weithg, partial_sum, output) : \t(";
 		std::cout << inpt_block_needed << ", " << wght_block_needed << ", " << pout_block_needed << ", " << outp_block_needed << ")" << std::endl;
 
 
