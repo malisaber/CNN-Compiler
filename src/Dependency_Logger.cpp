@@ -2228,7 +2228,7 @@ void Dependency_Logger::maloc_PSUM					(
 														Data_Logger* DataL,
 														size_t Offset,
 														size_t& Next_Offset,
-														size_t  verbose)
+														int verbose)
 {
 	/*
 	Programmer's Log:

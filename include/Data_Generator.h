@@ -101,7 +101,7 @@ private:
 														std::filesystem::path dest,
 														size_t  total,
 														size_t& generated,
-														size_t  verbose);
+														int verbose);
 
 	// Generate Weight data file for CNN layer x
 	void	Generate_WDF							(
@@ -110,7 +110,7 @@ private:
 														std::filesystem::path dest,
 														size_t  total,
 														size_t& generated,
-														size_t  verbose);
+														int verbose);
 	
 	// Generate Zero data files
 	void	Generate_ZDF							(
@@ -118,7 +118,7 @@ private:
 														std::filesystem::path dest,
 														size_t  total,
 														size_t& generated,
-														size_t  verbose);
+														int verbose);
 
 	// returning the input value
 	size_t	write_input_value						(

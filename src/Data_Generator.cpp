@@ -153,7 +153,7 @@ void Data_Generator::Generate_IDF(
 	std::filesystem::path dest,
 	size_t  total,
 	size_t& generated,
-	size_t  verbose)
+	int  verbose)
 {
 	size_t cntr = 0;
 	size_t lid = Inps_lid[idx];
@@ -236,7 +236,7 @@ void Data_Generator::Generate_WDF(
 	std::filesystem::path dest,
 	size_t  total,
 	size_t& generated,
-	size_t  verbose)
+	int  verbose)
 {
 	size_t cntr = 0;
 	size_t lid = Wgts_lid[idx];
@@ -325,7 +325,7 @@ void Data_Generator::Generate_ZDF(
 	std::filesystem::path dest,
 	size_t  total,
 	size_t& generated,
-	size_t  verbose)
+	int  verbose)
 {
 	size_t cntr = 0;
 	size_t Data_size = DL->size();
