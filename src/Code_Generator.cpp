@@ -2051,7 +2051,7 @@ void Code_Generator::Generage_Data_Blocks_Peri_lvl	(
 		Data_H_file << std::dec;
 		Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
 		Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "MPDR_Control_word_H_lvl_";
-		Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< embedd_array(lvl, bl, All_BLs[bl].size()) << ";";
+		Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< embedd_array(lvl, bl, All_BLs[bl].size()) << ";" << std::endl;
 		Data_H_file << std::endl;
 		
 		Data_C_file << std::dec;
@@ -2089,13 +2089,13 @@ void Code_Generator::Generage_Data_Blocks_Peri_lvl	(
 	}
 
 	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const static unsigned int*";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "MPDR_Control_word_H_lvl_";
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd_array(lvl, All_BLs.size()) << ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
-	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const static unsigned int*";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
 	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "MPDR_Control_word_H_lvl_";
 	Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd_array(lvl, All_BLs.size()) << "\t=\t" << std::endl;
 	Data_C_file << "\t\t\t{"	<< std::endl	<< "\t\t\t\t\t";
@@ -2144,13 +2144,13 @@ void Code_Generator::Generage_Data_Blocks_Peri_lvl	(
 	}
 
 	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const static unsigned int*";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "MPDR_Control_word_L_lvl_";
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd_array(lvl, All_BLs.size()) << ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
-	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const static unsigned int*";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
 	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "MPDR_Control_word_L_lvl_";
 	Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << embedd_array(lvl, All_BLs.size()) << "\t=\t" << std::endl;
 	Data_C_file << "\t\t\t{"	<< std::endl	<< "\t\t\t\t\t";
@@ -2300,12 +2300,12 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 
 	// Control Word
 	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const static unsigned int*";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Control_word[" << size << "];" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
-	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const static unsigned int*";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
 	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "Control_word[" << size << "]\t\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
@@ -2332,12 +2332,12 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 
 	// Intervals
 	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const static unsigned int*";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Ivals[" << size << "];" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
-	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const static unsigned int*";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
 	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "Ivals[" << size << "]\t\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
@@ -2350,12 +2350,12 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 
 	// Input Base Address
 	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const static unsigned int*";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Inp_base_addr_ptr[" << size << "];" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
-	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const static unsigned int*";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
 	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Inp_base_addr_ptr[" << size << "]\t\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
@@ -2368,12 +2368,12 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 
 	// Weights Base Address
 	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const static unsigned int";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int";
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*UPA_Wgt_base_addr_ptr[" << std::to_string(size) << "])[9];" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
-	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const static unsigned int";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int";
 	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*UPA_Wgt_base_addr_ptr[" << std::to_string(size) << "])[9" << "]\t\t = \t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
@@ -2386,12 +2386,12 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 
 	// Output Base Address
 	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const static unsigned int*";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Out_base_addr_ptr[" << size << "];" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
-	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const static unsigned int*";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
 	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Out_base_addr_ptr[" << size << "]\t\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
@@ -2404,12 +2404,12 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 
 	// Accumulate Base Address
 	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const static unsigned int*";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Acc_base_addr_ptr[" << size << "];" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
-	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const static unsigned int*";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
 	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Acc_base_addr_ptr[" << size << "]\t\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
@@ -2440,12 +2440,12 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
  
 	// DMA Transfer info
 	Data_H_file << std::dec;
-	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const static unsigned int";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int";
 	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*DMA_ZDB_Control[" << size << "])[2];" << std::endl;
 	Data_H_file << std::endl;
 	
 	Data_C_file << std::dec;
-	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const static unsigned int";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int";
 	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*DMA_ZDB_Control[" << size << "])[2" << "]\t\t = \t";
 	Data_C_file << std::endl << "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
@@ -2486,22 +2486,26 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	//for all configs
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
-	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "SUU_cnts_Network_1;" << std::endl;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "SUU_cnts_Network_1";
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
-	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "SUU_cnts_Network_1" << "\t=\t0xFFFFFFFF;" << std::endl;
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "SUU_cnts_Network_1";
+	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "\t=\t0xFFFFFFFF;" << std::endl;
 	Data_C_file << std::endl;
 
 
 
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
-	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_SUU_cnts" << "[16];" << std::endl;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_SUU_cnts";
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "[16];" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
-	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_SUU_cnts" << "[16]\t\t=\t";
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_SUU_cnts";
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "[16]\t\t=\t" << std::endl;
 	Data_C_file << std::endl			<< "\t\t\t{";
 	for (size_t cnf_cnt = 0; cnf_cnt < 16; cnf_cnt++)
 		Data_C_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "SUU_cnts_Network_1" << ",\t";
@@ -2523,22 +2527,26 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	// for all configs
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
-	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "PEs_Conf_Network_1;" << std::endl;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "PEs_Conf_Network_1";
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
-	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "PEs_Conf_Network_1" << "\t=\t0x20001FFF;" << std::endl;
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "PEs_Conf_Network_1";
+	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "\t=\t0x20001FFF;" << std::endl;
 	Data_C_file << std::endl;
 
 
 	
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
-	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_PEs_Conf" << "[16];" << std::endl;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_PEs_Conf";
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "[16];" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
-	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_PEs_Conf" << "[16]\t\t=\t";
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_PEs_Conf";
+	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "[16]\t\t=\t";
 	Data_C_file << std::endl			<< "\t\t\t{";
 	for (size_t cnf_cnt = 0; cnf_cnt < 16; cnf_cnt++)
 		Data_C_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "PEs_Conf_Network_1" << ",\t";
@@ -2572,14 +2580,14 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
-	Data_H_file << std::hex;
-	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_1;" << std::endl;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_1";
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
-	Data_C_file << std::hex;
-	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_1" << "\t=\t0x" << std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_1";
+	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "\t=\t0x" << std::hex<< std::setw(8) << std::setfill('0') << tmp << ";";
 	Data_C_file << std::endl			<< std::endl;
 
 
@@ -2597,14 +2605,14 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
-	Data_H_file << std::hex;
-	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_2;" << std::endl;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_2";
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
-	Data_C_file << std::hex;
-	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_2" << "\t=\t0x" << std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_2";
+	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "\t=\t0x" << std::hex << std::setw(8) << std::setfill('0') << tmp << ";";
 	Data_C_file << std::endl			<< std::endl;
 
 
@@ -2622,14 +2630,14 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
-	Data_H_file << std::hex;
-	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_3;" << std::endl;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_3";
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
-	Data_C_file << std::hex;
-	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_3" << "\t=\t0x" << std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_3";
+	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "\t=\t0x" << std::hex << std::setw(8) << std::setfill('0') << tmp << ";";
 	Data_C_file << std::endl			<< std::endl;
 
 
@@ -2647,26 +2655,28 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
-	Data_H_file << std::hex;
-	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_4;" << std::endl;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_4";
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
-	Data_C_file << std::hex;
-	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_4" << "\t=\t0x" << std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_4";
+	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "\t=\t0x" << std::hex << std::setw(8) << std::setfill('0') << tmp << ";";
 	Data_C_file << std::endl			<< std::endl;
 
 	
 
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
-	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_STA_info" << "[16];" << std::endl;
+	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_STA_info";
+	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "[16];" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
-	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_STA_info" << "[16]\t\t=\t";
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_STA_info";
+	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "[16]\t\t=\t";
 	Data_C_file << std::endl			<< "\t\t\t{";
 	for (size_t cnf_cnt = 0; cnf_cnt < 4; cnf_cnt++)
 	{
