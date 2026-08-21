@@ -317,7 +317,7 @@ size_t Data_Logger::Print_Generatable_Data_files	(
 		{
 			file_out							<< std::setw(8)	<< ("D" + std::to_string(i.index()));
 			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i);
-			file_out							<< std::dec		<< std::setfill(' ');
+			file_out							<< std::dec		<< std::setfill(' ') << std::endl;
 		}
 	}
 
