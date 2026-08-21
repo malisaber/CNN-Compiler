@@ -2247,7 +2247,7 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 			Data_C_file << std::dec;
 			Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int";
 			Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "Capacity_lvl_";
-			Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << "" << "\t=\t" << CG_PEs[lvl].size() << ";" << std::endl;
+			Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << lvl << "\t=\t" << CG_PEs[lvl].size() << ";" << std::endl;
 			Data_C_file << std::endl;
 		}
 

@@ -374,7 +374,7 @@ bool Conv_MKMC_2D::Map_Data_Blocks_and_Build_Dependencies(
 
 		if (verbose>0) std::cout << "[1/7]\t\tL" << ID << ": Convolution Layer;\tNumber of Needed Block for (Inp, Wgt, PSum, Out) : \t(";
 		//if (verbose>0) std::cout << "[1/7]\t\tL" << ID << ": Convolution Layer;\t\tNumber of Needed Block for (input, weithg, partial_sum, output) : \t(";
-		std::cout << inpt_block_needed << ", " << wght_block_needed << ", " << pout_block_needed << ", " << outp_block_needed << ")" << std::endl;
+		if (verbose>0) std::cout << inpt_block_needed << ", " << wght_block_needed << ", " << pout_block_needed << ", " << outp_block_needed << ")" << std::endl;
 
 
 

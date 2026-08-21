@@ -2248,7 +2248,7 @@ void Dependency_Logger::maloc_PSUM					(
 	// 1- Allocate its inputs
 	if (verbose > 0)
 		std::cout << "[5/7]\t\tConstructing Data Block Usage Matrix for: " << std::endl;
-	verbose --;
+	
 	
 	for (size_t lvl = 0; lvl < Ordering.size(); lvl++)
 	{
