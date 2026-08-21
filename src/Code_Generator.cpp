@@ -2240,12 +2240,14 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 		{
 			Data_H_file << std::dec;
 			Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int";
-			Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Capacity_lvl_" << lvl << ";" << std::endl;
+			Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Capacity_lvl_";
+			Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << lvl << ";" << std::endl;
 			Data_H_file << std::endl;
 
 			Data_C_file << std::dec;
 			Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int";
-			Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "Capacity_lvl_" << lvl << "\t=\t" << CG_PEs[lvl].size() << ";" << std::endl;
+			Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "Capacity_lvl_";
+			Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << "" << "\t=\t" << CG_PEs[lvl].size() << ";" << std::endl;
 			Data_C_file << std::endl;
 		}
 
@@ -2254,12 +2256,14 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Node Count of this baseline
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Capacity[" << size << "];" << std::endl;
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Capacity";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << ";" << std::endl;
 	Data_H_file << std::endl;
 	
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int";
-	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "Capacity[" << size << "]\t\t=\t";
+	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "Capacity";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << "\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2301,12 +2305,14 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Control Word
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Control_word[" << size << "];" << std::endl;
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Control_word";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
-	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "Control_word[" << size << "]\t\t=\t";
+	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "Control_word";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << "\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2333,12 +2339,14 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Intervals
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Ivals[" << size << "];" << std::endl;
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "Ivals";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
-	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "Ivals[" << size << "]\t\t=\t";
+	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "Ivals";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << "\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2351,12 +2359,14 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Input Base Address
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Inp_base_addr_ptr[" << size << "];" << std::endl;
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Inp_base_addr_ptr";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
-	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Inp_base_addr_ptr[" << size << "]\t\t=\t";
+	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Inp_base_addr_ptr";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << "\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2369,12 +2379,14 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Weights Base Address
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*UPA_Wgt_base_addr_ptr[" << std::to_string(size) << "])[9];" << std::endl;
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*UPA_Wgt_base_addr_ptr";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "])[9]") << ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int";
-	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*UPA_Wgt_base_addr_ptr[" << std::to_string(size) << "])[9" << "]\t\t = \t";
+	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*UPA_Wgt_base_addr_ptr";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "])[9]") << "\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2387,12 +2399,14 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Output Base Address
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Out_base_addr_ptr[" << size << "];" << std::endl;
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Out_base_addr_ptr";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
-	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Out_base_addr_ptr[" << size << "]\t\t=\t";
+	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Out_base_addr_ptr";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << "\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2405,12 +2419,14 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// Accumulate Base Address
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int*";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Acc_base_addr_ptr[" << size << "];" << std::endl;
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Acc_base_addr_ptr";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int*";
-	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Acc_base_addr_ptr[" << size << "]\t\t=\t";
+	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "UPA_Acc_base_addr_ptr";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << "\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2423,12 +2439,14 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// DMA Transfer size
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "DMA_max_thread[" << size << "];" << std::endl;
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "DMA_max_thread";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << ";" << std::endl;
 	Data_H_file << std::endl;
 
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int";
-	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "DMA_max_thread[" << size << "]\t\t=\t";
+	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "DMA_max_thread";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "]") << "\t=\t";
 	Data_C_file << std::endl	<< "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2441,12 +2459,14 @@ void Code_Generator::Generage_Data_Blocks_Exe_Baseline()
 	// DMA Transfer info
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ') << std::left	<< std::setw(36) << "extern const unsigned int";
-	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*DMA_ZDB_Control[" << size << "])[2];" << std::endl;
+	Data_H_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*DMA_ZDB_Control";
+	Data_H_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "])[2]") << ";" << std::endl;
 	Data_H_file << std::endl;
 	
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ') << std::left	<< std::setw(36) << "const unsigned int";
-	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*DMA_ZDB_Control[" << size << "])[2" << "]\t\t = \t";
+	Data_C_file << std::setfill(' ') << std::right	<< std::setw(32) << "(*DMA_ZDB_Control";
+	Data_C_file << std::setfill(' ') << std::left	<< std::setw(28) << ("[" + std::to_string(size) + "])[2]") << "\t=\t";
 	Data_C_file << std::endl << "\t\t\t{";
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
@@ -2505,7 +2525,7 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
 	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "All_Net_SUU_cnts";
-	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "[16]" << "\t=\t" << std::endl;
+	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "[16]" << "\t=\t";
 	Data_C_file << std::endl			<< "\t\t\t{";
 	for (size_t cnf_cnt = 0; cnf_cnt < 16; cnf_cnt++)
 		Data_C_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "SUU_cnts_Network_1" << ",\t";
@@ -2680,10 +2700,10 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	Data_C_file << std::endl			<< "\t\t\t{";
 	for (size_t cnf_cnt = 0; cnf_cnt < 4; cnf_cnt++)
 	{
-		Data_C_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "STA_Info_Network_1" << ",\t";
-		Data_C_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "STA_Info_Network_2" << ",\t";
-		Data_C_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "STA_Info_Network_3" << ",\t";
-		Data_C_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40)	<< "STA_Info_Network_4" << ",\t";
+		Data_C_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40) << std::right << "STA_Info_Network_1" << ",\t";
+		Data_C_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40) << std::right << "STA_Info_Network_2" << ",\t";
+		Data_C_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40) << std::right << "STA_Info_Network_3" << ",\t";
+		Data_C_file	<< std::endl		<< "\t\t\t\t\t" << std::setw(40) << std::right << "STA_Info_Network_4" << ",\t";
 	}
 	Data_C_file	<< std::endl			<< "\t\t\t};"	<< std::endl		<< std::endl;
 
