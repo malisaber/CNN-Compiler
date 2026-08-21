@@ -928,7 +928,9 @@ void Code_Generator::Generate_Codes					(
 	// Generating the initialization functions, every thing shoud kept simple as fuck.
 	// copying the basic files
 	if (verbose > 0)
+	{
 		std::cout << "[6/7]\t\tCoppying Header and Source files" << std::endl;
+	}
 	
 	Copy_File(Mtr_fname, Out_fname);
 
@@ -939,20 +941,29 @@ void Code_Generator::Generate_Codes					(
 	Data_H_file.open(Out_fname / ("include")	/ ("Data.h"));
 	Data_C_file.open(Out_fname / ("src")		/ ("Data.cpp"));
 	if (verbose > 0)
+	{
 		std::cout << "[6/7]\t\tGenerating Main.cpp Source file:" << std::endl;
+	}
+
 	Generate_Main_P1(files_main);
 	
 
 	// Generate "Platform_Execute_Layer" function
 	if (verbose > 1)
+	{
 		std::cout << "[6/7]\t\tGenerating platform Convolutional Layer execution functions ..." << std::endl;
+	}
+
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		if (!CG_PEs[lvl].empty())
 			Generate_Platform_Execute_Layer_lvl(files_main, lvl);
 
 	// Generate "Platform_Peripheral_Layer" function
 	if (verbose > 1)
+	{
 		std::cout << "[6/7]\t\tGenerating platform Max Pooling   Layer execution functions ..." << std::endl;
+	}
+
 	for (size_t lvl = 0; lvl < CG_MPDRs.size(); lvl++)
 		if (!CG_MPDRs[lvl].empty())
 			Generate_Platform_Peripheral_Layer_lvl(DpndL, DataL, network, files_main, lvl);
@@ -969,7 +980,10 @@ void Code_Generator::Generate_Codes					(
 
 	// Generate "Platform_Execute" neccessary data block
 	if (verbose > 0)
+	{
 		std::cout << "[6/7]\t\tGenerating Data.h Header file:" << std::endl;
+	}
+	
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
 			if (!CG_PEs[lvl][bline].empty())
