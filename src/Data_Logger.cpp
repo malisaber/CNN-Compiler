@@ -272,8 +272,9 @@ size_t Data_Logger::Print_Generatable_Data_files	(
 		if (DATA[i.index()].DBT == DBT_DATA_IN)
 		{
 			file_out							<< std::setw(7)	<< ("D" + std::to_string(i.index()));
-			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i) << std::dec;
-			file_out << ",\t\tLayer ID: "		<< std::setw(2) << DATA[i.index()].Layer_ID << ", ";
+			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i);
+			file_out							<< std::dec		<< std::setfill(' ');
+			file_out << ",\t\tLayer ID: "		<< std::setw(2) << DATA[i.index()].Layer_ID;
 			file_out << ",\t\tIdx #BKCWHFF: ("	<< std::setw(2) << DATA[i.index()].Idxs.Batch_size;
 			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Kernel_size;
 			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Channel_size;
@@ -293,8 +294,9 @@ size_t Data_Logger::Print_Generatable_Data_files	(
 		if (DATA[i.index()].DBT == DBT_WGT)
 		{
 			file_out							<< std::setw(7)	<< ("D" + std::to_string(i.index()));
-			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i) << std::dec;
-			file_out << ",\t\tLayer ID: "		<< std::setw(2) << DATA[i.index()].Layer_ID << ", ";
+			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i);
+			file_out							<< std::dec		<< std::setfill(' ');
+			file_out << ",\t\tLayer ID: "		<< std::setw(2) << DATA[i.index()].Layer_ID;
 			file_out << ",\t\tIdx #BKCWHFF: ("	<< std::setw(2) << DATA[i.index()].Idxs.Batch_size;
 			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Kernel_size;
 			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Channel_size;
@@ -314,7 +316,8 @@ size_t Data_Logger::Print_Generatable_Data_files	(
 		if ((DATA[i.index()].DBT == DBT_IZero) || (DATA[i.index()].DBT == DBT_PZero))
 		{
 			file_out							<< std::setw(7)	<< ("D" + std::to_string(i.index()));
-			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i) << std::dec;
+			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i);
+			file_out							<< std::dec		<< std::setfill(' ');
 		}
 	}
 
@@ -327,8 +330,9 @@ size_t Data_Logger::Print_Generatable_Data_files	(
 		if (DATA[i.index()].DBT == DBT_DATA_OUT)
 		{
 			file_out							<< std::setw(7)	<< ("D" + std::to_string(i.index()));
-			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i) << std::dec;
-			file_out << ",\t\tLayer ID: "		<< std::setw(2) << DATA[i.index()].Layer_ID << ", ";
+			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i);
+			file_out							<< std::dec		<< std::setfill(' ');
+			file_out << ",\t\tLayer ID: "		<< std::setw(2) << DATA[i.index()].Layer_ID;
 			file_out << ",\t\tIdx #BKCWHFF: ("	<< std::setw(2) << DATA[i.index()].Idxs.Batch_size;
 			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Kernel_size;
 			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Channel_size;
