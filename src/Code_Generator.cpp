@@ -1435,8 +1435,7 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	files_out	<< "\tPSU_EC_reset_all	(PLANE_2);"												<< std::endl;
 	files_out	<< "\tPSU_EC_reset_all	(PLANE_3);"												<< std::endl;
 	files_out	<< "\tBline_Initiate_STA_ECs(\t\t\t\t Capacity[bline],"							<< std::endl;
-	files_out	<< "\t\t\t\t\t\t			 Control_word[bline],"								<< std::endl;
-	files_out	<< "\t\t\t\t\t\t		 All_Net_STA_info);"									<< std::endl << std::endl << std::endl;
+	files_out	<< "\t\t\t\t\t\t			 Control_word[bline]);"								<< std::endl << std::endl << std::endl;
 	
 
 	// Waiting for Completion of DMA transfers
