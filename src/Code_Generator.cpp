@@ -1452,8 +1452,8 @@ void Code_Generator::Generate_Platform_Execute_BseLine(
 	files_out	<< "\t	Plannar Processing Element Control"	 									<< std::endl;
 	files_out	<< "\t/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/*/ "		<< std::endl;
 	files_out	<< "\tBline_Initiate_PE_Start(\t\t\t Capacity[bline],"							<< std::endl;
-	files_out	<< "\t\t\t\t					 Control_word[bline]);"							<< std::endl << std::endl << std::endl;
-	//files_out	<< "\t\t\t\t						 STA_info[bline]);"							<< std::endl << std::endl << std::endl;
+	files_out	<< "\t\t\t\t					 Control_word[bline],"							<< std::endl;
+	files_out	<< "\t\t\t\t				 All_Net_STA_info);"								<< std::endl << std::endl << std::endl;
 
 
 	// Wait for Completion of this baseline 

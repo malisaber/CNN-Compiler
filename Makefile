@@ -9,6 +9,7 @@ JSON_URL ?= https://github.com/nlohmann/json/releases/download/v3.11.3/json.hpp
 SRC_DIR := src
 INC_DIR := include
 BUILD_DIR := build
+DUMP_DIR := dump
 
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
@@ -18,7 +19,7 @@ CXXFLAGS ?= -std=c++17 -O2 -Wall -Wextra -I$(INC_DIR)
 LDFLAGS ?=
 LDLIBS ?=
 
-.PHONY: all clean run deps check-tools cli11 json
+.PHONY: all clean run deps check-tools cli11 json soft-clean
 
 all: $(TARGET)
 
@@ -63,6 +64,10 @@ $(BUILD_DIR):
 
 clean:
 	rm -rf $(BUILD_DIR)
+	rm -rf $(DUMP_DIR)
+
+soft-clean:
+	rm -rf $(DUMP_DIR)
 
 run: $(TARGET)
 	./$(TARGET)
