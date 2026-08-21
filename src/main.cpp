@@ -21,7 +21,7 @@ int main											(
 	CLI::App app{"CNN Compiler for custom CNN accelerator"};
 
 	// Defaults (same as your original values)
-	size_t								verbose		=	0;
+	int									verbose		=	0;
 	size_t								report		=	0;
 	bool								help_report	=	false;
 	bool								rearrange	=	false;

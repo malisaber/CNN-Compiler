@@ -155,16 +155,16 @@ public:
 
 	// Scheduling the Dependency Nodes Assign execution levels to all nodes based on dependency satisfaction.
 	size_t Schedule_Nodes							(
-														size_t verbose);
+														int verbose);
 														//Data_Logger* DL);
 
 	// Thread Making, Build execution and peripheral threads.
 	bool Build_Threads								(
-														size_t verbose);
+														int verbose);
 
 	// Optimize execution threads ordering.
 	bool Optimizing_Execution_Threads				(
-														size_t verbose);
+														int verbose);
 
 	// Return total thread size across all levels.
 	size_t Thread_Size								();
@@ -181,7 +181,7 @@ public:
 	size_t Map										(
 														Data_Logger* DataL,
 														Hardware* HW,
-														size_t verbose);
+														int verbose);
 
 	//// print the mapped baseline info 
 	//size_t	print_bl_mapping_info					(
@@ -203,7 +203,7 @@ public:
 	// Allocate data blocks to vault addresses.
 	bool Allocte									(
 														Data_Logger*	DataL,
-														size_t verbose);
+														int verbose);
 
 	// Return required space counts and offsets for each data type.
 	bool Get_Required_Spaces						(

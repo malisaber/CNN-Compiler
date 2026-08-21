@@ -36,7 +36,7 @@ Compiler::~Compiler									()
 
 
 void	Compiler::Compile							(
-														size_t verbose, 
+														int verbose, 
 														bool rearrange)
 {
 	if (!Added_Lyr)			throw std::runtime_error("No Layers were added to the network;\nPlrase add some layers using ""Add_Layer_to_Notwork"" member.\n");
@@ -78,7 +78,7 @@ void	Compiler::Compile							(
 
 // Rearrenges the dataset and weights
 void	Compiler::Rearreng_Data						(
-														size_t verbose,
+														int verbose,
 														std::vector<std::filesystem::path>	Inps,
 														std::vector<std::filesystem::path>	Wgts)
 {
@@ -265,7 +265,7 @@ void	Compiler::Report							(
 
 // Builds the network and its dependencies
 void	Compiler::Build_Network						(
-														size_t verbose)
+														int verbose)
 {
 	bool bit;
 
@@ -278,7 +278,7 @@ void	Compiler::Build_Network						(
 
 // Schedules the dependencies
 void	Compiler::Schedule_Dependencies				(
-														size_t verbose)
+														int verbose)
 {
 	size_t tmp;
 
@@ -293,7 +293,7 @@ void	Compiler::Schedule_Dependencies				(
 
 // Builds Executing threads
 void	Compiler::Build_Threads						(
-														size_t verbose)
+														int verbose)
 {
 	bool bit;
 
@@ -310,7 +310,7 @@ void	Compiler::Build_Threads						(
 
 // Maps the Nodes on the actual Hardware
 void	Compiler::Map								(
-														size_t verbose)
+														int verbose)
 {
 	//bool bit;
 	size_t tmp;
@@ -329,7 +329,7 @@ void	Compiler::Map								(
 
 // Allocates the memory blocks
 void	Compiler::Allocate							(
-														size_t verbose)
+														int verbose)
 {
 	//bool bit;
 	size_t Icnt;	// Input	Data Block Count
@@ -359,7 +359,7 @@ void	Compiler::Allocate							(
 
 // Generats the code
 void	Compiler::Generate_Codes					(
-														size_t verbose)
+														int verbose)
 {
 	// Code Geneneration
 	if (verbose>0)	std::cout << "[6/7] Running Code Generator Engine ..." << std::endl;

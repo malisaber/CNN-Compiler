@@ -73,7 +73,7 @@ public:
 	void	Generate								(
 														Data_Logger* DL,
 														std::filesystem::path dram,
-														size_t verbose);
+														int verbose);
 
 
 private:

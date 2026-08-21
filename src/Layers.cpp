@@ -119,7 +119,7 @@ bool Input_Layer_2D::IsInput						() const
 bool Input_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
 														Dependency_Logger* DpndL,
-														size_t verbose)
+														int verbose)
 {
 	if (mapped)
 	{
@@ -272,7 +272,7 @@ bool Conv_MKMC_2D::IsConv							() const
 bool Conv_MKMC_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
 														Dependency_Logger* DpndL,
-														size_t verbose)
+														int verbose)
 {
 	if (mapped)
 	{
@@ -751,7 +751,7 @@ bool MPDR_MC_2D::IsMPDR								() const
 bool MPDR_MC_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
 														Dependency_Logger* DpndL,
-														size_t verbose)
+														int verbose)
 {
 	if (mapped)
 	{
@@ -907,7 +907,7 @@ bool Output_Layer_2D::IsOutput						() const
 bool Output_Layer_2D::Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
 														Dependency_Logger* DpndL,
-														size_t verbose)
+														int verbose)
 {
 	if (mapped)
 	{
@@ -1088,7 +1088,7 @@ size_t NETWORK::Add_Layer							(
 bool NETWORK::Build_Network							(
 														Data_Logger* DataL,
 														Dependency_Logger* DpndL,
-														size_t verbose)
+														int verbose)
 {
 	size_t OLCntr(0);
 

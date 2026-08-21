@@ -62,7 +62,7 @@ public:
 	virtual bool Map_Data_Blocks_and_Build_Dependencies(
 														Data_Logger* DataL,
 														Dependency_Logger* DpndL,
-														size_t verbose) = 0;
+														int verbose) = 0;
 
 	//	No Need To Call This Member
 	//	This function returns the scheduling info of the output of this layer:
@@ -104,7 +104,7 @@ public:
 	bool Map_Data_Blocks_and_Build_Dependencies		(
 														Data_Logger* DataL,
 														Dependency_Logger* DpndL,
-														size_t verbose) override;
+														int verbose) override;
 
 	//	This function returns the scheduling info of the output of this layer.
 	bool Get_output_scheduling_info					(
@@ -136,7 +136,7 @@ public:
 	bool Map_Data_Blocks_and_Build_Dependencies		(
 														Data_Logger* DataL,
 														Dependency_Logger* DpndL,
-														size_t verbose) override;
+														int verbose) override;
 	
 	//	This function returns the scheduling info of the output of this layer.
 	bool Get_output_scheduling_info					(
@@ -169,7 +169,7 @@ public:
 	bool Map_Data_Blocks_and_Build_Dependencies		(
 														Data_Logger* DataL,
 														Dependency_Logger* DpndL,
-														size_t verbose) override;
+														int verbose) override;
 
 	//	This function returns the scheduling info of the output of this layer.
 	bool Get_output_scheduling_info					(
@@ -201,7 +201,7 @@ public:
 	bool Map_Data_Blocks_and_Build_Dependencies		(
 														Data_Logger* DataL,
 														Dependency_Logger* DpndL,
-														size_t verbose) override;
+														int verbose) override;
 	
 	//	This function returns the scheduling info of the output of this layer.
 	bool Get_output_scheduling_info					(
@@ -244,7 +244,7 @@ public:
 	bool	Build_Network							(
 														Data_Logger* DataL,
 														Dependency_Logger* DpndL,
-														size_t verbose);
+														int verbose);
 
 	// Return maxes info for a given layer.
 	Conv_Layer_Info Get_Maxes_info					(

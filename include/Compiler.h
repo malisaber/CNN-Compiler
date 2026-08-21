@@ -49,12 +49,12 @@ public:
 
 	// Compile 
 	void	Compile									(
-														size_t verbose, 
+														int verbose, 
 														bool rearrange);
 
 	// Rearrenges the dataset and weights
 	void	Rearreng_Data							(
-														size_t verbose,
+														int verbose,
 														std::vector<std::filesystem::path>	Inps,
 														std::vector<std::filesystem::path>	Wgts);
 
@@ -99,27 +99,27 @@ public:
 private:
 	// Buils the network and its dependencies
 	void	Build_Network							(
-														size_t verbose);
+														int verbose);
 
 	// Schedules the dependencies
 	void	Schedule_Dependencies					(
-														size_t verbose);
+														int verbose);
 
 	// Building Executing threads
 	void	Build_Threads							(
-														size_t verbose);
+														int verbose);
 
 	// Maps the Nodes on the actual Hardware
 	void	Map										(
-														size_t verbose);
+														int verbose);
 
 	// Allocating the memory blocks
 	void	Allocate								(
-														size_t verbose);
+														int verbose);
 
 	// Generats the code
 	void	Generate_Codes							(
-														size_t verbose);
+														int verbose);
 
 	//// Initiating Data rearrengement engine
 	//void	DR_initiate								();

@@ -423,7 +423,7 @@ size_t Dependency_Logger::size						()
 // Schedule dependency nodes level-by-level until no further nodes are ready.
 // Computes spacing info and compiles reverse edges.
 size_t Dependency_Logger::Schedule_Nodes			(
-														size_t verbose)
+														int verbose)
 														//Data_Logger* DL)
 {
 	size_t tot(0);
@@ -488,7 +488,7 @@ size_t Dependency_Logger::Schedule_Nodes			(
 // Build execution and peripheral threads from scheduled nodes.
 // Groups Sch_Process nodes by similar weights, and Sch_Activation/Sch_MPDR by type.
 bool Dependency_Logger::Build_Threads				(
-														size_t verbose)
+														int verbose)
 {
 	//	Sch_Null,		Sch_Start,		Sch_Input,		Sch_Process,	Sch_PE_Store,	Sch_Accumulate,		
 	//	********,		*********,		*********,		***********,	************,	**************,	
@@ -630,7 +630,7 @@ bool Dependency_Logger::Build_Threads				(
 // Optimize execution threads by reordering nodes with sequential inputs.
 // Builds Execution_Threads_OPT per level.
 bool Dependency_Logger::Optimizing_Execution_Threads(
-														size_t verbose)
+														int verbose)
 {
 	verbose--;
 	//Doing for each levels
@@ -883,7 +883,7 @@ size_t Dependency_Logger::print_Optimized_Execution_Thread_info_file(
 size_t Dependency_Logger::Map						(
 														Data_Logger* DataL,
 														Hardware* HW,
-														size_t verbose)
+														int verbose)
 {
 	//std::ofstream file_out;
 	//file_out.open(mappr_Dump_Dir); 
@@ -1325,7 +1325,7 @@ size_t Dependency_Logger::Calculate_Data_Block_Timing(
 // Allocate data blocks into vault address space.
 bool Dependency_Logger::Allocte						(
 														Data_Logger* DataL,
-														size_t verbose)
+														int verbose)
 {
 	Calculate_Required_Spaces(DataL);
 	need_to_copy = 0;

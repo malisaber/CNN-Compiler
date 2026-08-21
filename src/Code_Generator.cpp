@@ -100,7 +100,7 @@ bool Code_Generator::Code_Wizard					(
 														NETWORK* network,
 														std::filesystem::path Mtr_fname,
 														std::filesystem::path Out_fname,
-														size_t verbose)
+														int verbose)
 {
 	if (!Extracted)
 		return false;
@@ -923,7 +923,7 @@ void Code_Generator::Generate_Codes					(
 														NETWORK* network,
 														std::filesystem::path Mtr_fname,
 														std::filesystem::path Out_fname,
-														size_t verbose)
+														int verbose)
 {
 	// Generating the initialization functions, every thing shoud kept simple as fuck.
 	// copying the basic files

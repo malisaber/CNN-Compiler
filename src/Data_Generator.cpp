@@ -79,7 +79,7 @@ void Data_Generator::load_Weight_files(
 void Data_Generator::Generate(
 	Data_Logger *DL,
 	std::filesystem::path dram,
-	size_t verbose)
+	int verbose)
 {
 	size_t total_files(0);
 	size_t Generated_files(0);

@@ -49,7 +49,7 @@ public:
 														NETWORK* network,
 														std::filesystem::path Mtr_fname,
 														std::filesystem::path Out_fname,
-														size_t verbose);
+														int verbose);
 
 	// Emit a spacing diagnostics report file.
 	void	Print_Spacing							(
@@ -139,7 +139,7 @@ private:
 														NETWORK* network,
 														std::filesystem::path Mtr_fname,
 														std::filesystem::path Out_fname,
-														size_t verbose);
+														int verbose);
 
 	// Copy template source files from srce to dest	(overwrite if present).
 	void	Copy_File								(
