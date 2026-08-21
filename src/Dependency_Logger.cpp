@@ -863,8 +863,8 @@ size_t Dependency_Logger::print_Optimized_Execution_Thread_info_file(
 				size_t vlt	 = Nodes[first.index()].Alc_Info.Allocated_Vault;
 				file_out	 << "\t\tThread: "	<< std::setw(4) <<  trds;
 				file_out	 << ",\tsize: "		<< std::setw(4) <<  this_size;
-				file_out	 << ",\tmapped( "	<< std::setw(2) <<  pln;
-				file_out	 << ","				<< std::setw(2) <<  vlt;
+				file_out	 << ",\tmapped( "	<< std::setw(3) <<  ("P" + pln);
+				file_out	 << ","				<< std::setw(3) <<  ("V" + vlt);
 				file_out	 << ")"				<< std::endl;
 				tot += this_size;
 			}
