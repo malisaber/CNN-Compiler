@@ -208,42 +208,42 @@ void	Compiler::Report							(
 	}
 	if ((report & 2) != 0)
 	{
-		std::cout << "Nodes (RS)				information report file:" 		<< std::endl;
+		std::cout << "Nodes (RS)                information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_file									(DP_Dump_dest / ("Nodes_Reshaped.txt"));
 	}
 	if ((report & 4) != 0)
 	{
-		std::cout << "Data Blocks				information report file:" 		<< std::endl;
+		std::cout << "Data Blocks               information report file:" 		<< std::endl;
 		Data_Log_Eng->print_file									(DA_Dump_dest / ("Data.txt"));
 	}
 	if ((report & 8) != 0)
 	{
-		std::cout << "Generatable Data files	information report file:" 		<< std::endl;
+		std::cout << "Generatable Data files    information report file:" 		<< std::endl;
 		Data_Log_Eng->Print_Generatable_Data_files					(DA_Dump_dest / ("Generatable_Data_files.txt"));
 	}
 	if ((report & 16) != 0)
 	{
-		std::cout << "Threads					information report file:" 		<< std::endl;
+		std::cout << "Threads                   information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_Thread_info_file						(DP_Dump_dest / ("Threads.txt"));
 	}
 	if ((report & 32) != 0)
 	{
-		std::cout << "Threads (OPT)				information report file:" 		<< std::endl;
+		std::cout << "Threads (OPT)             information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_Optimized_Execution_Thread_info_file	(DP_Dump_dest / ("Threads_opt.txt"));
 	}
 	if ((report & 64) != 0)
 	{
-		std::cout << "Mapping (RAW)				information report file:" 		<< std::endl;
+		std::cout << "Mapping (RAW)             information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / "Mapping_Raw.txt");
 	}
 	if ((report & 128) != 0)
 	{
-		std::cout << "Mapping					information report file:" 		<< std::endl;
+		std::cout << "Mapping                   information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / ("Mapping.txt"));
 	}
 	if ((report & 256) != 0)
 	{
-		std::cout << "Spacing					information report file:" 		<< std::endl;
+		std::cout << "Spacing                   information report file:" 		<< std::endl;
 		Code_Gen_Eng->Print_Spacing									(Data_Log_Eng, CG_Dump_dest);
 	}
 
