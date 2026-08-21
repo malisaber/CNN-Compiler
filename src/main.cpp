@@ -19,7 +19,7 @@ int main											(
 														char** argv)
 {
 	CLI::App app{"CNN Compiler for custom CNN accelerator"};
-
+ 
 	// Defaults (same as your original values)
 	int									verbose		=	0;
 	size_t								report		=	0;
