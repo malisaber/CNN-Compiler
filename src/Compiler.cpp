@@ -36,7 +36,8 @@ Compiler::~Compiler									()
 
 
 void	Compiler::Compile							(
-														size_t verbose)
+														size_t verbose, 
+														bool rearrange)
 {
 	if (!Added_Lyr)			throw std::runtime_error("No Layers were added to the network;\nPlrase add some layers using ""Add_Layer_to_Notwork"" member.\n");
 	if (!Added_Dir)			throw std::runtime_error("No Dump Directory were added;\nPlrase add a Dump directory using ""Add_Dump_Directory"" member.\n");
@@ -64,7 +65,10 @@ void	Compiler::Compile							(
 	
 	// Marking as compiled
 	Compiled = true;
-	Rearreng_Data(verbose, Inp_names, Wgt_names);
+	if (rearrange)
+		Rearreng_Data(verbose, Inp_names, Wgt_names);
+	else if (verbose > 0)
+		std::cout << "[7/7] Data Re-arrengement Engine was dissabled. Skipping ..." << std::endl;
 
 	// Informing the completion of the compilation
 	std::cout << "Compilation is Done!" << std::endl;
@@ -199,46 +203,51 @@ void	Compiler::Report							(
 	
 	if ((report & 1) != 0)
 	{
-		std::cout << "Nodes         information report file:" 		<< std::endl;
+		std::cout << "Nodes						information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_file									(DP_Dump_dest / "Nodes.txt");
 	}
 	if ((report & 2) != 0)
 	{
-		std::cout << "Nodes (RS)    information report file:" 		<< std::endl;
+		std::cout << "Nodes (RS)				information report file:" 		<< std::endl;
 		Dpnd_Log_Eng->print_file									(DP_Dump_dest / ("Nodes_Reshaped.txt"));
 	}
 	if ((report & 4) != 0)
 	{
-		std::cout << "Data Blocks   information report file:" 		<< std::endl;
-		Data_Log_Eng->print_file									(DA_Dump_dest / ("DATA.txt"));
+		std::cout << "Data Blocks				information report file:" 		<< std::endl;
+		Data_Log_Eng->print_file									(DA_Dump_dest / ("Data.txt"));
 	}
 	if ((report & 8) != 0)
 	{
-		std::cout << "Threads       information report file:" 		<< std::endl;
-		Dpnd_Log_Eng->print_Thread_info_file						(DP_Dump_dest / ("Threads.txt"));
+		std::cout << "Generatable Data files	information report file:" 		<< std::endl;
+		Data_Log_Eng->Print_Generatable_Data_files					(DA_Dump_dest / ("Generatable_Data_files.txt"));
 	}
 	if ((report & 16) != 0)
 	{
-		std::cout << "Threads (OPT) information report file:" 		<< std::endl;
-		Dpnd_Log_Eng->print_Optimized_Execution_Thread_info_file	(DP_Dump_dest / ("Threads_opt.txt"));
+		std::cout << "Threads					information report file:" 		<< std::endl;
+		Dpnd_Log_Eng->print_Thread_info_file						(DP_Dump_dest / ("Threads.txt"));
 	}
 	if ((report & 32) != 0)
 	{
-		std::cout << "Mapping (RAW) information report file:" 		<< std::endl;
-		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / "Mapping_Raw.txt");
+		std::cout << "Threads (OPT)				information report file:" 		<< std::endl;
+		Dpnd_Log_Eng->print_Optimized_Execution_Thread_info_file	(DP_Dump_dest / ("Threads_opt.txt"));
 	}
 	if ((report & 64) != 0)
 	{
-		std::cout << "Mapping       information report file:" 		<< std::endl;
-		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / ("Mapping.txt"));
+		std::cout << "Mapping (RAW)				information report file:" 		<< std::endl;
+		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / "Mapping_Raw.txt");
 	}
 	if ((report & 128) != 0)
 	{
-		std::cout << "Spacing       information report file:" 		<< std::endl;
+		std::cout << "Mapping					information report file:" 		<< std::endl;
+		Dpnd_Log_Eng->print_mapping_file							(DP_Dump_dest / ("Mapping.txt"));
+	}
+	if ((report & 256) != 0)
+	{
+		std::cout << "Spacing					information report file:" 		<< std::endl;
 		Code_Gen_Eng->Print_Spacing									(Data_Log_Eng, CG_Dump_dest);
 	}
 
-	if ((report & 255) != 0) 
+	if ((report & 511) != 0) 
 		std::cout << std::endl <<   "Files are Generated" 			<< std::endl;
 	
 }

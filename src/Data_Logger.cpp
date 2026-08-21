@@ -254,6 +254,99 @@ size_t Data_Logger::print_file						(
 }
 
 
+	// Dump all Generatable data blocks addressing into a text file	(appends .txt).
+// Returns number of data blocks written.
+size_t Data_Logger::Print_Generatable_Data_files	(
+														std::filesystem::path name)
+{
+	std::string a_line;
+
+	std::ofstream file_out;
+	file_out.open(name);
+
+	file_out << "" << std::endl;
+	file_out << "" << std::endl;
+	file_out << "Input Data Blocks:" << std::endl;
+	for (DBID_t i = DBID_t::Null(); i < DATA.size(); i++)
+	{
+		if (DATA[i.index()].DBT == DBT_DATA_IN)
+		{
+			file_out							<< std::setw(7)	<< ("D" + std::to_string(i.index()));
+			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i) << std::dec;
+			file_out << ",\t\tLayer ID: "		<< std::setw(2) << DATA[i.index()].Layer_ID << ", ";
+			file_out << ",\t\tIdx #BKCWHFF: ("	<< std::setw(2) << DATA[i.index()].Idxs.Batch_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Kernel_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Channel_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Width_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Height_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.FiltH_Size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.FiltW_Size << ")" << std::endl;
+		}
+	}
+
+
+	file_out << "" << std::endl;
+	file_out << "" << std::endl;
+	file_out << "Weight Data Blocks:" << std::endl;
+	for (DBID_t i = DBID_t::Null(); i < DATA.size(); i++)
+	{
+		if (DATA[i.index()].DBT == DBT_WGT)
+		{
+			file_out							<< std::setw(7)	<< ("D" + std::to_string(i.index()));
+			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i) << std::dec;
+			file_out << ",\t\tLayer ID: "		<< std::setw(2) << DATA[i.index()].Layer_ID << ", ";
+			file_out << ",\t\tIdx #BKCWHFF: ("	<< std::setw(2) << DATA[i.index()].Idxs.Batch_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Kernel_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Channel_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Width_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Height_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.FiltH_Size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.FiltW_Size << ")" << std::endl;
+		}
+	}
+
+
+	file_out << "" << std::endl;
+	file_out << "" << std::endl;
+	file_out << "Zero Data Blocks:" << std::endl;
+	for (DBID_t i = DBID_t::Null(); i < DATA.size(); i++)
+	{
+		if ((DATA[i.index()].DBT == DBT_IZero) || (DATA[i.index()].DBT == DBT_PZero))
+		{
+			file_out							<< std::setw(7)	<< ("D" + std::to_string(i.index()));
+			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i) << std::dec;
+		}
+	}
+
+
+	file_out << "" << std::endl;
+	file_out << "" << std::endl;
+	file_out << "Output Data Blocks:" << std::endl;
+	for (DBID_t i = DBID_t::Null(); i < DATA.size(); i++)
+	{
+		if (DATA[i.index()].DBT == DBT_DATA_OUT)
+		{
+			file_out							<< std::setw(7)	<< ("D" + std::to_string(i.index()));
+			file_out << ":\t\tEadd: 0x"			<< std::setw(8) << std::setfill('0') << std::hex << GET_EA(i) << std::dec;
+			file_out << ",\t\tLayer ID: "		<< std::setw(2) << DATA[i.index()].Layer_ID << ", ";
+			file_out << ",\t\tIdx #BKCWHFF: ("	<< std::setw(2) << DATA[i.index()].Idxs.Batch_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Kernel_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Channel_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Width_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.Height_size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.FiltH_Size;
+			file_out << ", "					<< std::setw(2) << DATA[i.index()].Idxs.FiltW_Size << ")" << std::endl;
+		}
+	}
+
+
+	
+
+	file_out.close();
+	return DATA.size();
+}
+
+
 // Return number of data blocks stored (including null).
 size_t Data_Logger::size							()
 {

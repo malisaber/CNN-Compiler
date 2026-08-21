@@ -81,6 +81,10 @@ public:
 	size_t	print_file								(
 														std::filesystem::path name);
 	
+	// Dump all Generatable data blocks addressing into a text file	(appends .txt).
+	size_t	Print_Generatable_Data_files			(
+														std::filesystem::path name);
+	
 	// Return number of data blocks stored	(including null).
 	size_t	size									();
 	

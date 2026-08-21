@@ -49,7 +49,8 @@ public:
 
 	// Compile 
 	void	Compile									(
-														size_t verbose);
+														size_t verbose, 
+														bool rearrange);
 
 	// Rearrenges the dataset and weights
 	void	Rearreng_Data							(
