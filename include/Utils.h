@@ -248,7 +248,19 @@ struct	Mapping_Result
 	uint16_t vault;
 };
 
-
+struct	Compressable_ES_info
+{
+	bool ES					= false;
+	bool ES_node_count		= false;
+	bool ES_PZmax			= false;
+	//bool ES_max_vlt			= false;
+	bool ES_Control_word	= false;
+	bool ES_Ivals			= false;
+	bool ES_UPA_Inp			= false;
+	bool ES_UPA_Wgt			= false;
+	bool ES_UPA_Out			= false;
+	bool ES_UPA_Acc			= false;
+};
 
 
 

@@ -26,7 +26,7 @@ class Code_Generator
 
 	std::vector<Ord_Address> Ordering_Index;									// Index from scheduling node ID to ordering address	(lvl/bline/node/pos).
 	std::vector<std::vector<std::vector<CG_PE_Node>>>		CG_PEs;				// Extracted processing element execution descriptors per level/baseline.
-	std::vector<std::vector<bool>>							CG_PEs_Cmp;			// 
+	std::vector<std::vector<Compressable_ES_info>>			CG_PEs_Cmp;			// 
 	std::vector<std::vector<std::vector<CG_MPDR_Node>>>		CG_MPDRs;			// Extracted MPDR execution descriptors per level/baseline.
 	std::vector<std::vector<bool>>							CG_MPDRs_Cmp;		// 
 	std::vector<std::vector<std::vector<Ordering_Node>>>	Ordering;			// Scheduling order per level/baseline/node captured from Dependency_Logger.

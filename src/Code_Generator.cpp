@@ -70,9 +70,9 @@ bool Code_Generator::Extract_PE_Execution_Info		(
 			if (Ordering[lvl][baseline].size() > 0)
 			{
 				CG_PEs			[lvl]			.push_back({});
-				CG_PEs_Cmp		[lvl]			.push_back(false);
+				CG_PEs_Cmp		[lvl]			.push_back({});
 				CG_MPDRs		[lvl]			.push_back({});
-				CG_MPDRs_Cmp	[lvl]			.push_back(false);
+				CG_MPDRs_Cmp	[lvl]			.push_back({});
 				CG_PEs			[lvl][baseline]	.reserve(Ava_Planes * Ava_Vaults);
 				CG_MPDRs		[lvl][baseline]	.reserve(Ava_Planes * Ava_Vaults);
 			}
@@ -950,7 +950,18 @@ void Code_Generator::Generate_Codes					(
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
 			if (!CG_PEs[lvl][bline].empty())
-				std::cout << "lvl: " << lvl << ", bl: " << bline << ", compressable: " << CG_PEs_Cmp[lvl][bline] << std::endl;
+				std::cout	<<	"lvl: " << lvl << ", bl: " << bline << 
+								", compressable: ("	<<	CG_PEs_Cmp[lvl][bline].ES 				<<
+								", "				<<	CG_PEs_Cmp[lvl][bline].ES_node_count	<<
+								", "				<<	CG_PEs_Cmp[lvl][bline].ES_PZmax			<<
+								", "				<<	CG_PEs_Cmp[lvl][bline].ES_Control_word	<<
+								", "				<<	CG_PEs_Cmp[lvl][bline].ES_Ivals			<<
+								", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Inp		<<
+								", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Out		<<
+								", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Acc		<<
+								", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Wgt		<<
+								")"					<<	std::endl;
+
 
 
 
@@ -2867,7 +2878,6 @@ bool	Code_Generator::check_compressablity		(
 
 				
 				// check the compresability
-				bool ES = true;
 				if (bline == 1)
 				{
 					for (size_t idx =0; idx < 64; idx++)
@@ -2886,19 +2896,49 @@ bool	Code_Generator::check_compressablity		(
 
 				if (bline > 1)
 				{
-					ES			&=	(prev_node_count				== node_count			);
-					ES			&=	(prev_PZmax						== PZmax				);
 					//ES		&=	(prev_max_vlt					== max_vlt				);
+					bool ES_node_ = true;	
+					bool ES_PZmax = true;	
+					bool ES_Contr = true;	
+					bool ES_Ivals = true;	
+					bool ES_UPA_I = true;
+					bool ES_UPA_O = true;
+					bool ES_UPA_A = true;
+					bool ES_UPA_W = true;
+
+					ES_node_			&=	(prev_node_count				== node_count			);
+					ES_PZmax			&=	(prev_PZmax						== PZmax				);
 					for (size_t idx =0; idx < 64; idx++)
 					{
-						ES		&=	(ival_Control_word	[idx]		==	(Control_word	[idx]		- prev_Control_word	[idx]));
-						ES		&=	(ival_Ivals			[idx]		==	(Ivals			[idx]		- prev_Ivals		[idx]));
-						ES		&=	(ival_UPA_Inp		[idx]		==	(UPA_Inp		[idx]		- prev_UPA_Inp		[idx]));
-						ES		&=	(ival_UPA_Out		[idx]		==	(UPA_Out		[idx]		- prev_UPA_Out		[idx]));
-						ES		&=	(ival_UPA_Acc		[idx]		==	(UPA_Acc		[idx]		- prev_UPA_Acc		[idx]));
+						ES_Contr		&=	(ival_Control_word	[idx]		==	(Control_word	[idx]		- prev_Control_word	[idx]));
+						ES_Ivals		&=	(ival_Ivals			[idx]		==	(Ivals			[idx]		- prev_Ivals		[idx]));
+						ES_UPA_I		&=	(ival_UPA_Inp		[idx]		==	(UPA_Inp		[idx]		- prev_UPA_Inp		[idx]));
+						ES_UPA_O		&=	(ival_UPA_Out		[idx]		==	(UPA_Out		[idx]		- prev_UPA_Out		[idx]));
+						ES_UPA_A		&=	(ival_UPA_Acc		[idx]		==	(UPA_Acc		[idx]		- prev_UPA_Acc		[idx]));
 						for (size_t k=0; k<9; k++)
-							ES	&=	(ival_UPA_Wgt		[idx][k]	==	(UPA_Wgt		[idx][k]	- prev_UPA_Wgt		[idx][k]));
+							ES_UPA_W	&=	(ival_UPA_Wgt		[idx][k]	==	(UPA_Wgt		[idx][k]	- prev_UPA_Wgt		[idx][k]));
 					}
+					CG_PEs_Cmp[lvl][bline].ES_node_count	= ES_node_;
+					CG_PEs_Cmp[lvl][bline].ES_PZmax			= ES_PZmax;
+					CG_PEs_Cmp[lvl][bline].ES_Control_word	= ES_Contr;
+					CG_PEs_Cmp[lvl][bline].ES_Ivals			= ES_Ivals;
+					CG_PEs_Cmp[lvl][bline].ES_UPA_Inp		= ES_UPA_I;
+					CG_PEs_Cmp[lvl][bline].ES_UPA_Out		= ES_UPA_O;
+					CG_PEs_Cmp[lvl][bline].ES_UPA_Acc		= ES_UPA_A;
+					CG_PEs_Cmp[lvl][bline].ES_UPA_Wgt		= ES_UPA_W;
+					CG_PEs_Cmp[lvl][bline].ES 				= ES_node_	&& ES_PZmax	&& ES_Contr	&& ES_Ivals	&& ES_UPA_I	&& ES_UPA_O	&& ES_UPA_A	&& ES_UPA_W;
+				}
+				else
+				{
+					CG_PEs_Cmp[lvl][bline].ES_node_count	= true;
+					CG_PEs_Cmp[lvl][bline].ES_PZmax			= true;
+					CG_PEs_Cmp[lvl][bline].ES_Control_word	= true;
+					CG_PEs_Cmp[lvl][bline].ES_Ivals			= true;
+					CG_PEs_Cmp[lvl][bline].ES_UPA_Inp		= true;
+					CG_PEs_Cmp[lvl][bline].ES_UPA_Out		= true;
+					CG_PEs_Cmp[lvl][bline].ES_UPA_Acc		= true;
+					CG_PEs_Cmp[lvl][bline].ES_UPA_Wgt		= true;
+					CG_PEs_Cmp[lvl][bline].ES 				= true;
 				}
 
 
@@ -2917,8 +2957,7 @@ bool	Code_Generator::check_compressablity		(
 					for (size_t k=0; k<9; k++)
 						prev_UPA_Wgt	[idx][k]	= UPA_Wgt		[idx][k];
 				}
-				CG_PEs_Cmp[lvl][bline] = ES;
-				compressable &= ES;
+				compressable &= CG_PEs_Cmp[lvl][bline].ES;
 			}
 		}
 	}
