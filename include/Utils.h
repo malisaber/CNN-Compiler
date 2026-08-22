@@ -14,7 +14,7 @@
 
 constexpr auto USE_CHATGPT_CODE		= true;
 constexpr auto PRINT_DBT_INTERNAL	= false;
-
+constexpr auto compress_data		= true;
 
 
 

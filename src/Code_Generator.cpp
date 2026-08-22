@@ -13,6 +13,9 @@ Code_Generator::Code_Generator						()
 {
 	Ordering.clear();
 	CG_PEs.clear();
+	CG_PEs_Cmp.clear();
+	CG_MPDRs.clear();
+	CG_MPDRs_Cmp.clear();
 	Ordering_Index.clear();
 
 	Imported = false;
@@ -38,8 +41,10 @@ bool Code_Generator::Extract_PE_Execution_Info		(
 {
 	DpndL->Get_Ordering_Info(Ordering);
 	Imported = true;
-	CG_PEs  .reserve(Ordering.size());
-	CG_MPDRs.reserve(Ordering.size());
+	CG_PEs  	.reserve(Ordering.size());
+	CG_PEs_Cmp  .reserve(Ordering.size());
+	CG_MPDRs	.reserve(Ordering.size());
+	CG_MPDRs_Cmp.reserve(Ordering.size());
 	Ordering_Index.reserve(DpndL->size());
 	for (size_t i = 0; i < DpndL->size(); i++)
 		Ordering_Index.push_back(Ord_Address_NULL);
@@ -49,10 +54,14 @@ bool Code_Generator::Extract_PE_Execution_Info		(
 	for (size_t lvl = 0; lvl < Ordering.size(); lvl++)
 	{
 		// initiate the CG_PEs and CG_MPDRs
-		CG_PEs  .push_back({});
-		CG_MPDRs.push_back({});
-		CG_PEs[lvl]  .reserve(Ordering[lvl].size());
-		CG_MPDRs[lvl].reserve(Ordering[lvl].size());
+		CG_PEs  			.push_back({});
+		CG_PEs_Cmp  		.push_back({});
+		CG_MPDRs			.push_back({});
+		CG_MPDRs_Cmp		.push_back({});
+		CG_PEs		[lvl]	.reserve(Ordering[lvl].size());
+		CG_PEs_Cmp	[lvl]	.reserve(Ordering[lvl].size());
+		CG_MPDRs	[lvl]	.reserve(Ordering[lvl].size());
+		CG_MPDRs_Cmp[lvl]	.reserve(Ordering[lvl].size());
 		
 		// loop on each baseline
 		for (size_t baseline = 0; baseline < Ordering[lvl].size(); baseline++)
@@ -60,10 +69,12 @@ bool Code_Generator::Extract_PE_Execution_Info		(
 			// initiate again
 			if (Ordering[lvl][baseline].size() > 0)
 			{
-				CG_PEs[lvl]  .push_back({});
-				CG_MPDRs[lvl].push_back({});
-				CG_PEs[lvl][baseline]  .reserve(Ava_Planes * Ava_Vaults);
-				CG_MPDRs[lvl][baseline].reserve(Ava_Planes * Ava_Vaults);
+				CG_PEs			[lvl]			.push_back({});
+				CG_PEs_Cmp		[lvl]			.push_back(false);
+				CG_MPDRs		[lvl]			.push_back({});
+				CG_MPDRs_Cmp	[lvl]			.push_back(false);
+				CG_PEs			[lvl][baseline]	.reserve(Ava_Planes * Ava_Vaults);
+				CG_MPDRs		[lvl][baseline]	.reserve(Ava_Planes * Ava_Vaults);
 			}
 			else
 				continue;
@@ -932,6 +943,15 @@ void Code_Generator::Generate_Codes					(
 		std::cout << "[6/7]\t\tCoppying Header and Source files" << std::endl;
 	}
 	
+
+	
+
+	std::cout << "******** Compressable: " << check_compressablity(DataL) << std::endl;
+		
+
+
+
+
 	Copy_File(Mtr_fname, Out_fname);
 
 
@@ -984,6 +1004,7 @@ void Code_Generator::Generate_Codes					(
 		std::cout << "[6/7]\t\tGenerating Data.h Header file:" << std::endl;
 	}
 	
+
 	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
 		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
 			if (!CG_PEs[lvl][bline].empty())
@@ -1753,10 +1774,10 @@ void Code_Generator::Generage_Data_Blocks_Exe_lvl_bline(
 
 
 	// Assertion -> ZDB count per vault 
-	if (PZmax >= (size_t)(1 << 10))
+	if (PZmax >= ((size_t)(1 << 10)-1))
 	{
-		std::cout << "\tE: Number of Zero Data Blocks per vault can not be more than 1022!";
-		throw("\tE: Number of Zero Data Blocks per vault can not be more than 1022!");
+		std::cout << "\tE: Number of Zero Data Blocks per vault per baseline can not be more than 1024!";
+		throw("\tE: Number of Zero Data Blocks per vault per baseline can not be more than 1024!");
 		return;
 	}
 
@@ -2729,3 +2750,175 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 }
 
 
+// check the compresability
+bool	Code_Generator::check_compressablity		(
+														Data_Logger* DataL)
+{
+	bool compressable(true);
+
+	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
+	{
+		size_t prev_node_count		(0);
+		size_t prev_PZmax			(0);
+		size_t prev_max_vlt			(0);
+		size_t prev_Control_word	[64];
+		size_t prev_Ivals			[64];
+		size_t prev_UPA_Inp			[64];
+		size_t prev_UPA_Wgt			[64][9];
+		size_t prev_UPA_Out			[64];
+		size_t prev_UPA_Acc			[64];
+
+		size_t ival_Control_word	[64];
+		size_t ival_Ivals			[64];
+		size_t ival_UPA_Inp			[64];
+		size_t ival_UPA_Wgt			[64][9];
+		size_t ival_UPA_Out			[64];
+		size_t ival_UPA_Acc			[64];
+
+		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
+		{
+			if (!CG_PEs[lvl][bline].empty())
+			{
+				// initialization, node_count
+				size_t node_count = CG_PEs[lvl][bline].size();
+
+
+				// initialization, Zero Data Block Array
+				size_t PZmax(0);
+				size_t max_vlt(0);
+				std::vector<DBID_t> PZeros[Ava_Vaults];
+				for (size_t node = 0; node < CG_PEs[lvl][bline].size(); node++)
+					for (size_t idx = 0; idx < CG_PEs[lvl][bline][node].Inputs_ID.size(); idx++)
+						if (DataL->Get_Type_of_DBID(CG_PEs[lvl][bline][node].Inputs_ID[idx]) == DBT_PZero)
+							PZeros[DataL->Get_Vault_of_DBID(CG_PEs[lvl][bline][node].Inputs_ID[idx])].push_back(CG_PEs[lvl][bline][node].Inputs_ID[idx]);
+				for (size_t vlt = 0; vlt < Ava_Vaults; vlt++)
+				{
+					PZmax = std::max(PZmax, PZeros[vlt].size());
+					max_vlt += (PZeros[vlt].size() > 0);
+				}
+			
+			
+				// Control Word
+				size_t Control_word[64];
+				for (size_t node = 0; node < node_count; node++)
+				{
+					size_t cnt		= CG_PEs[lvl][bline][node].Output_ID.size();
+					size_t cnf_sel		= 0;
+					size_t cnt_sel		= 0;
+					size_t STA_sel		= 2 * (CG_PEs[lvl][bline][node].Acum_DBID.size() != 0);
+					size_t pln			= CG_PEs[lvl][bline][node].Plane;
+					size_t vlt			= CG_PEs[lvl][bline][node].Vault;
+					Control_word[node]	= (cnt << 20) + (STA_sel << 16) + (cnf_sel << 12) + (cnt_sel << 8) + (pln << 4) + vlt;
+				}
+			
+			
+				// Intervals
+				size_t Ivals[64];
+				for (size_t node = 0; node < node_count; node++)
+				{
+					size_t Inp_Ival	= CG_PEs[lvl][bline][node].Inp_Seqnc;
+					size_t Wgt_Ival	= 0;
+					size_t Out_Ival	= CG_PEs[lvl][bline][node].Out_Seqnc;
+					size_t Acc_Ival	= CG_PEs[lvl][bline][node].Acc_Seqnc;
+					Ivals[node]		= (Inp_Ival << 24) + (Wgt_Ival << 16) + (Out_Ival << 8) + Acc_Ival;
+				}
+			
+			
+				// Input Base Address
+				size_t UPA_Inp[64];
+				for (size_t node = 0; node < node_count; node++)
+				{
+					UPA_Inp [node] = DataL->GET_EA(CG_PEs[lvl][bline][node].Inputs_ID[0]);
+				}
+			
+			
+				// Weights Base Address
+				size_t UPA_Wgt[64][9];
+				for (size_t node = 0; node < node_count; node++)
+				{
+					for (size_t idx = 0; idx < 9; idx++)
+						UPA_Wgt[node][idx] = DataL->GET_EA(CG_PEs[lvl][bline][node].Weigth_ID[idx]);
+				}
+			
+			
+				// Output Base Address
+				size_t UPA_Out[64];
+				for (size_t node = 0; node < node_count; node++)
+				{
+					UPA_Out[node] = DataL->GET_EA(CG_PEs[lvl][bline][node].Output_ID[0]);
+				}
+			
+			
+				// Accumulate Base Address
+				size_t UPA_Acc[64];
+				for (size_t node = 0; node < node_count; node++)
+				{
+					UPA_Acc[node] = DataL->GET_EA(CG_PEs[lvl][bline][node].Acum_DBID[0]);
+				}
+			
+				// TODO: After that i check its implementation
+				// building the trasfer array, if there were some zero blocks
+				//DMA_max_thread = max_vlt;
+				//Zero_Block_Write_addr_lvl_i_bl_j_DMA_k = DataL->GET_EA(PZeros[vlt][idx])
+				//DMA_ZDB_Control_lvl_
+
+				
+				// check the compresability
+				bool ES = true;
+				if (bline == 1)
+				{
+					for (size_t idx =0; idx < 64; idx++)
+					{
+						ival_Control_word	[idx]		=	(Control_word	[idx]		-	prev_Control_word	[idx]);
+						ival_Ivals			[idx]		=	(Ivals			[idx]		-	prev_Ivals			[idx]);
+						ival_UPA_Inp		[idx]		=	(UPA_Inp		[idx]		-	prev_UPA_Inp		[idx]);
+						ival_UPA_Out		[idx]		=	(UPA_Out		[idx]		-	prev_UPA_Out		[idx]);
+						ival_UPA_Acc		[idx]		=	(UPA_Acc		[idx]		-	prev_UPA_Acc		[idx]);
+						for (size_t k=0; k<9; k++)
+							ival_UPA_Wgt	[idx][k]	=	(UPA_Wgt		[idx][k]	-	prev_UPA_Wgt		[idx][k]);
+					}
+				}
+
+				
+
+				if (bline > 1)
+				{
+					ES			&=	(prev_node_count				== node_count			);
+					ES			&=	(prev_PZmax						== PZmax				);
+					//ES		&=	(prev_max_vlt					== max_vlt				);
+					for (size_t idx =0; idx < 64; idx++)
+					{
+						ES		&=	(ival_Control_word	[idx]		==	(Control_word	[idx]		- prev_Control_word	[idx]));
+						ES		&=	(ival_Ivals			[idx]		==	(Ivals			[idx]		- prev_Ivals		[idx]));
+						ES		&=	(ival_UPA_Inp		[idx]		==	(UPA_Inp		[idx]		- prev_UPA_Inp		[idx]));
+						ES		&=	(ival_UPA_Out		[idx]		==	(UPA_Out		[idx]		- prev_UPA_Out		[idx]));
+						ES		&=	(ival_UPA_Acc		[idx]		==	(UPA_Acc		[idx]		- prev_UPA_Acc		[idx]));
+						for (size_t k=0; k<9; k++)
+							ES	&=	(ival_UPA_Wgt		[idx][k]	==	(UPA_Wgt		[idx][k]	- prev_UPA_Wgt		[idx][k]));
+					}
+				}
+
+
+
+				
+				prev_node_count						= node_count	;
+				prev_PZmax							= PZmax			;
+				//prev_max_vlt						= max_vlt		;
+				for (size_t idx =0; idx < 64; idx++)
+				{
+					prev_Control_word	[idx]		= Control_word	[idx];
+					prev_Ivals			[idx]		= Ivals			[idx];
+					prev_UPA_Inp		[idx]		= UPA_Inp		[idx];
+					prev_UPA_Out		[idx]		= UPA_Out		[idx];
+					prev_UPA_Acc		[idx]		= UPA_Acc		[idx];
+					for (size_t k=0; k<9; k++)
+						prev_UPA_Wgt	[idx][k]	= UPA_Wgt		[idx][k];
+				}
+				CG_PEs_Cmp[lvl][bline] = ES;
+				compressable &= ES;
+			}
+		}
+	}
+
+	return compressable;
+}

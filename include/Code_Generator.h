@@ -17,17 +17,19 @@
 
 class Code_Generator
 {
-	bool Imported;														// True once ordering info has been imported from Dependency_Logger.
-	bool Extracted;														// True once PE/MPDR execution info has been extracted.
-	bool Modified;														// True once extracted info has been modified/normalized for generation.
+	bool Imported;																// True once ordering info has been imported from Dependency_Logger.
+	bool Extracted;																// True once PE/MPDR execution info has been extracted.
+	bool Modified;																// True once extracted info has been modified/normalized for generation.
 
-	std::ofstream Data_H_file;											// header of Datafile
-	std::ofstream Data_C_file;											// Cpp	 of Datafile
+	std::ofstream Data_H_file;													// header of Datafile
+	std::ofstream Data_C_file;													// Cpp	 of Datafile
 
-	std::vector<Ord_Address> Ordering_Index;							// Index from scheduling node ID to ordering address	(lvl/bline/node/pos).
-	std::vector<std::vector<std::vector<CG_PE_Node>>>		CG_PEs;		// Extracted processing element execution descriptors per level/baseline.
-	std::vector<std::vector<std::vector<CG_MPDR_Node>>>		CG_MPDRs;	// Extracted MPDR execution descriptors per level/baseline.
-	std::vector<std::vector<std::vector<Ordering_Node>>>	Ordering;	// Scheduling order per level/baseline/node captured from Dependency_Logger.
+	std::vector<Ord_Address> Ordering_Index;									// Index from scheduling node ID to ordering address	(lvl/bline/node/pos).
+	std::vector<std::vector<std::vector<CG_PE_Node>>>		CG_PEs;				// Extracted processing element execution descriptors per level/baseline.
+	std::vector<std::vector<bool>>							CG_PEs_Cmp;			// 
+	std::vector<std::vector<std::vector<CG_MPDR_Node>>>		CG_MPDRs;			// Extracted MPDR execution descriptors per level/baseline.
+	std::vector<std::vector<bool>>							CG_MPDRs_Cmp;		// 
+	std::vector<std::vector<std::vector<Ordering_Node>>>	Ordering;			// Scheduling order per level/baseline/node captured from Dependency_Logger.
 	
 public:
 
@@ -198,6 +200,10 @@ private:
 
 	// add per config datablocks
 	void	Generate_per_Config_Data_Blocks			();
-			
+	
+	// check the compresability
+	bool	check_compressablity					(
+														Data_Logger* DataL);
+
 };
 
