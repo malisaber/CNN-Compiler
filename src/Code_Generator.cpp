@@ -947,7 +947,10 @@ void Code_Generator::Generate_Codes					(
 	
 
 	std::cout << "******** Compressable: " << check_compressablity(DataL) << std::endl;
-		
+	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
+		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
+			if (!CG_PEs[lvl][bline].empty())
+				std::cout << "lvl: " << lvl << ", bl: " << bline << ", compressable: " << CG_PEs_Cmp[lvl][bline] << std::endl;
 
 
 
