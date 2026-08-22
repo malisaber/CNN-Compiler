@@ -946,21 +946,22 @@ void Code_Generator::Generate_Codes					(
 
 	
 
-	std::cout << "******** Compressable: " << check_compressablity(DataL) << std::endl;
-	for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
-		for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
-			if (!CG_PEs[lvl][bline].empty())
-				std::cout	<<	"lvl: " << lvl << ", bl: " << bline << 
-								", compressable: ("	<<	CG_PEs_Cmp[lvl][bline].ES 				<<
-								", "				<<	CG_PEs_Cmp[lvl][bline].ES_node_count	<<
-								", "				<<	CG_PEs_Cmp[lvl][bline].ES_PZmax			<<
-								", "				<<	CG_PEs_Cmp[lvl][bline].ES_Control_word	<<
-								", "				<<	CG_PEs_Cmp[lvl][bline].ES_Ivals			<<
-								", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Inp		<<
-								", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Out		<<
-								", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Acc		<<
-								", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Wgt		<<
-								")"					<<	std::endl;
+	//std::cout << "******** Compressable: " << check_compressablity(DataL) << std::endl;
+	//for (size_t lvl = 0; lvl < CG_PEs.size(); lvl++)
+	//	for (size_t bline = 0; bline < CG_PEs[lvl].size(); bline++)
+	//		if (!CG_PEs[lvl][bline].empty())
+	//			std::cout	<<	"lvl: "				<<	std::setw(2) << lvl <<
+	//							", bl: "			<<	std::setw(2) << bline << 
+	//							", compressable: ("	<<	CG_PEs_Cmp[lvl][bline].ES 				<<
+	//							", "				<<	CG_PEs_Cmp[lvl][bline].ES_node_count	<<
+	//							", "				<<	CG_PEs_Cmp[lvl][bline].ES_PZmax			<<
+	//							", "				<<	CG_PEs_Cmp[lvl][bline].ES_Control_word	<<
+	//							", "				<<	CG_PEs_Cmp[lvl][bline].ES_Ivals			<<
+	//							", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Inp		<<
+	//							", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Out		<<
+	//							", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Acc		<<
+	//							", "				<<	CG_PEs_Cmp[lvl][bline].ES_UPA_Wgt		<<
+	//							")"					<<	std::endl;
 
 
 
