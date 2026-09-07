@@ -2657,7 +2657,7 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
 	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_1";
-	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "" << "\t=\t0x" << std::hex<< std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(28)	<< "" << "\t=\t0x" << std::hex<< std::setw(8) << std::setfill('0') << tmp << ";";
 	Data_C_file << std::endl			<< std::endl;
 
 
@@ -2682,7 +2682,7 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
 	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_2";
-	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "" << "\t=\t0x" << std::hex<< std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(28)	<< "" << "\t=\t0x" << std::hex<< std::setw(8) << std::setfill('0') << tmp << ";";
 	Data_C_file << std::endl			<< std::endl;
 
 
@@ -2707,7 +2707,7 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
 	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_3";
-	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "" << "\t=\t0x" << std::hex<< std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(28)	<< "" << "\t=\t0x" << std::hex<< std::setw(8) << std::setfill('0') << tmp << ";";
 	Data_C_file << std::endl			<< std::endl;
 
 
@@ -2732,7 +2732,7 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	Data_C_file << std::dec;
 	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "const unsigned int";
 	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_4";
-	Data_C_file << std::setfill(' ')	<< std::left	<< std::setw(28)	<< "" << "\t=\t0x" << std::hex<< std::setw(8) << std::setfill('0') << tmp << ";";
+	Data_C_file << std::setfill(' ')	<< std::right	<< std::setw(28)	<< "" << "\t=\t0x" << std::hex<< std::setw(8) << std::setfill('0') << tmp << ";";
 	Data_C_file << std::endl			<< std::endl;
 
 	
