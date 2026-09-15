@@ -6,9 +6,12 @@
 
 /*******	PE CONTROL	*******/
 #define	C_UPA_Status_pos						0
-#define	C_Update_WFM_pos						3
-#define	C_Update_IFM_pos						4
+#define	C_Update_WFM_pos						2
+#define	C_Update_IFM_pos						3
+#define	C_Start_PE_pos							4
 #define	C_Pause_UPA_pos							5
+#define	C_Pause_STA_pos							6
+#define	C_Pause_PE_pos							7
 #define	C_Update_Store_Base_Address_pos			8
 #define	C_Update_load_Base_Address_pos			9
 #define	C_Store_Row_pos							10	//	store internal Buffer
@@ -18,11 +21,10 @@
 #define	C_PEout_Accumulation_Enable_pos			14	//	Accumulate with PE output
 #define	C_Buffer_Accumulation_Enable_pos		15	//	Accumulate with Internal Buffer
 #define	C_Load_Row_pos							16	//	preload internal Buffer
-#define	C_Pause_STA_pos							17
-#define	C_ACK_STA_pos							18
-#define	C_AUTOMATIC_STA_pos						19
-#define	C_Start_PE_pos							27
-#define	C_Pause_PE_pos							28
+#define	C_ACK_STA_pos							17
+#define	C_AUTOMATIC_STA_pos						18
+#define	C_SEMI_AUTOMATIC_STA_pos				19
+#define	C_AUTOMATIC_STA_CNTR_pos				20
 
 
 

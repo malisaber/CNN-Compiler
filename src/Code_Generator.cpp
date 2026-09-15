@@ -2647,7 +2647,8 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	tmp |= (1 <<  C_PEout_Accumulation_Enable_pos	);
 	tmp |= (0 <<  C_Buffer_Accumulation_Enable_pos	);
 	tmp |= (0 <<  C_Load_Row_pos					);
-	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
+	tmp |= (0 <<  C_AUTOMATIC_STA_pos				);
+	tmp |= (1 <<  C_SEMI_AUTOMATIC_STA_pos			);
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
 	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_1";
@@ -2672,7 +2673,8 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	tmp |= (1 <<  C_PEout_Accumulation_Enable_pos	);
 	tmp |= (0 <<  C_Buffer_Accumulation_Enable_pos	);
 	tmp |= (0 <<  C_Load_Row_pos					);
-	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
+	tmp |= (0 <<  C_AUTOMATIC_STA_pos				);
+	tmp |= (1 <<  C_SEMI_AUTOMATIC_STA_pos			);
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
 	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_2";
@@ -2697,7 +2699,8 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	tmp |= (1 <<  C_PEout_Accumulation_Enable_pos	);
 	tmp |= (1 <<  C_Buffer_Accumulation_Enable_pos	);
 	tmp |= (1 <<  C_Load_Row_pos					);
-	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
+	tmp |= (0 <<  C_AUTOMATIC_STA_pos				);
+	tmp |= (1 <<  C_SEMI_AUTOMATIC_STA_pos			);
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
 	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_3";
@@ -2722,7 +2725,8 @@ void	Code_Generator::Generate_per_Config_Data_Blocks()
 	tmp |= (1 <<  C_PEout_Accumulation_Enable_pos	);
 	tmp |= (1 <<  C_Buffer_Accumulation_Enable_pos	);
 	tmp |= (1 <<  C_Load_Row_pos					);
-	tmp |= (1 <<  C_AUTOMATIC_STA_pos				);
+	tmp |= (0 <<  C_AUTOMATIC_STA_pos				);
+	tmp |= (1 <<  C_SEMI_AUTOMATIC_STA_pos			);
 	Data_H_file << std::dec;
 	Data_H_file << std::setfill(' ')	<< std::left	<< std::setw(36)	<< "extern const unsigned int";
 	Data_H_file << std::setfill(' ')	<< std::right	<< std::setw(32)	<< "STA_Info_Network_4";
