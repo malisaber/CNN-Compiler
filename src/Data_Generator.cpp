@@ -91,16 +91,16 @@ void Data_Generator::Generate(
 
 	// Generate input files:
 	for (size_t i = 0; i < Inps_lid.size(); i++)
-		Generate_IDF(DL, i, dram, total_files, Generated_files, --verbose);
+		Generate_IDF(DL, i, dram, total_files, Generated_files, verbose);
 
 	// Generate Weight files:
 	for (size_t i = 0; i < Wgts_lid.size(); i++)
-		Generate_WDF(DL, i, dram, total_files, Generated_files, --verbose);
+		Generate_WDF(DL, i, dram, total_files, Generated_files, verbose);
 
 	// Generte Zero files
-	Generate_ZDF(DL, dram, total_files, Generated_files, --verbose);
+	Generate_ZDF(DL, dram, total_files, Generated_files, verbose);
 
-	if (verbose > 1)
+	if (verbose > 0)
 	{
 		std::cout	<< '\r' << "[7/7]\t\t["
     				<< std::string(50, '=')
